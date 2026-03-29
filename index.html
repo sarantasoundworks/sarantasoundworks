@@ -23,6 +23,36 @@
   --disp:    'Syne', sans-serif;
 }
 html { scroll-behavior: smooth; }
+/* Body ayarını merkezi hale getirelim */
+body {
+  background: var(--bg);
+  color: var(--text);
+  /* İçeriği dikeyde dizmek ve yatayda ortalamak için */
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  min-height: 100vh;
+}
+
+/* Tüm içeriği sarmalayacak ana kapsayıcı */
+.page-container {
+  width: 100%;
+  max-width: 1300px; /* Reklamlar için kenarlarda yer açar */
+  margin: 0 auto;
+  background: var(--bg); /* Arka plan rengi */
+  /* İsteğe bağlı: Kenarları belli etmek için ince bir çizgi */
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+
+/* Mobilde (küçük ekranlarda) kenarlara yapışmaması için */
+@media (max-width: 1300px) {
+  .page-container {
+    border: none;
+    max-width: 100%;
+  }
+}
 body { background: var(--bg); color: var(--text); font-family: var(--mono); font-size: 13px; line-height: 1.6; overflow-x: hidden; }
 ::-webkit-scrollbar { width: 3px; } ::-webkit-scrollbar-track { background: var(--bg2); } ::-webkit-scrollbar-thumb { background: var(--border2); }
 
@@ -140,7 +170,7 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
 </style>
 </head>
 <body>
-
+<div class="page-container">
 <nav>
   <a href="index.html" class="nav-logo">Saranta<em>/</em>Soundworks</a>
   <ul class="nav-links">
@@ -298,7 +328,7 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
 <!-- FOOTER -->
 <footer>
   <div class="foot-logo">Saranta<em>_</em>Soundworks</div>
-  <div class="foot-copy">© 2025 Burak Balta — All rights reserved</div>
+  <div class="foot-copy">© 2025 Burak Balta — All rights reserved <a href="privacy.html" style="color:var(--dim); margin-left:15px; text-decoration:none;">Privacy Policy</a></div></div>
   <div class="foot-links">
     <a href="#">GitHub</a>
     <a href="#">SoundCloud</a>
@@ -306,6 +336,6 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
     <a href="tools.html">Suite</a>
   </div>
 </footer>
-
+</div>
 </body>
 </html>
