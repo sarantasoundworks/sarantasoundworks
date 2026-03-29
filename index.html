@@ -53,6 +53,7 @@ body {
     max-width: 100%;
   }
 }
+
 body { background: var(--bg); color: var(--text); font-family: var(--mono); font-size: 13px; line-height: 1.6; overflow-x: hidden; }
 ::-webkit-scrollbar { width: 3px; } ::-webkit-scrollbar-track { background: var(--bg2); } ::-webkit-scrollbar-thumb { background: var(--border2); }
 
@@ -167,6 +168,37 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
   .cta-banner { grid-template-columns: 1fr; padding: 48px 24px; }
   footer { padding: 24px; flex-direction: column; gap: 12px; }
 }
+
+/* Ekran 768px'den küçükse bu kurallar devreye girer */
+@media (max-width: 768px) {
+  
+  /* 1. Sayfayı sarmalayan kutunun kenar boşluklarını sıfırlayalım */
+  .page-container {
+    width: 100%;
+    border: none;
+    padding: 0 15px; /* İçeriğin ekran kenarına yapışmaması için */
+  }
+
+  /* 2. Navigasyon (Menü) kısmını alt alta alalım */
+  nav {
+    flex-direction: column;
+    height: auto;
+    padding: 20px 0;
+    gap: 15px;
+  }
+
+  /* 3. Yan yana duran Grid (Izgara) yapılarını tek sütun yapalım */
+  .contact-grid {
+    grid-template-columns: 1fr; /* 2 sütun yerine 1 sütun */
+    gap: 40px;
+  }
+
+  /* 4. Başlık fontlarını biraz küçültelim ki ekrana sığsın */
+  .hero-title {
+    font-size: 2.5rem; /* Eskiden çok büyükse mobilde 2.5rem idealdir */
+  }
+}
+
 </style>
 </head>
 <body>
@@ -306,21 +338,33 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
       <div class="contact-sub">// Links</div>
       <ul class="clinks">
         <li><span class="clink-k">Email</span><a href="mailto:sarantaband@gmail.com">sarantaband@gmail.com</a></li>
-        <li><span class="clink-k">GitHub</span><a href="#" target="_blank">github.com/sarantasoundworks</a></li>
-        <li><span class="clink-k">SoundCloud</span><a href="#" target="_blank">https://soundcloud.com/saranta-596980414</a></li>
-        <li><span class="clink-k">Spotify</span><a href="#" target="_blank">https://open.spotify.com/intl-tr/artist/6l97qlvDhzQlezBQWjhp3e?si=F3Y-xXRbTvqm7SFkdmLNnA</a></li>
-        <li><span class="clink-k">Instagram</span><a href="#" target="_blank">instagram.com/sarantasoundworks</a></li>
+        <li><span class="clink-k">GitHub</span><a href="https://github.com/sarantasoundworks" target="_blank">sarantasoundworks</a></li>
+        <li><span class="clink-k">SoundCloud</span><a href="https://soundcloud.com/saranta-596980414" target="_blank">soundcloud.com/saranta</a></li>
+        <li><span class="clink-k">Spotify</span><a href="https://open.spotify.com/intl-tr/artist/6l97qlvDhzQlezBQWjhp3e?si=F3Y-xXRbTvqm7SFkdmLNnA" target="_blank">Listen on Spotify</a></li>
+        <li><span class="clink-k">Instagram</span><a href="https://instagram.com/sarantasoundworks" target="_blank">@sarantasoundworks</a></li>
         <li><span class="clink-k">Location</span><a href="#">Kırklareli, Turkey</a></li>
       </ul>
     </div>
     <div>
       <div class="contact-sub">// Message</div>
-      <div class="form">
-        <div><label class="flabel">Name</label><input class="finput" type="text" placeholder="Your name"></div>
-        <div><label class="flabel">Email</label><input class="finput" type="email" placeholder="your@email.com"></div>
-        <div><label class="flabel">Message</label><textarea class="finput" placeholder="Mixing consult, collab, or just to say hi..."></textarea></div>
-        <button class="btn btn-primary" style="align-self:flex-start;">Send →</button>
-      </div>
+      <form name="contact" method="POST" data-netlify="true" class="form">
+  <input type="hidden" name="form-name" value="contact" />
+  
+  <div>
+    <label class="flabel">Name</label>
+    <input class="finput" type="text" name="name" placeholder="Your name" required>
+  </div>
+  <div>
+    <label class="flabel">Email</label>
+    <input class="finput" type="email" name="email" placeholder="your@email.com" required>
+  </div>
+  <div>
+    <label class="flabel">Message</label>
+    <textarea class="finput" name="message" placeholder="Mixing consult, collab, or just to say hi..." required></textarea>
+  </div>
+  
+  <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Send →</button>
+</form>
     </div>
   </div>
 </section>
