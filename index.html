@@ -349,20 +349,26 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
       <div class="contact-sub">// Message</div>
       <form name="contact" method="POST" data-netlify="true" class="form">
   <input type="hidden" name="form-name" value="contact" />
-  
+
   <div>
     <label class="flabel">Name</label>
     <input class="finput" type="text" name="name" placeholder="Your name" required>
   </div>
+  
   <div>
     <label class="flabel">Email</label>
     <input class="finput" type="email" name="email" placeholder="your@email.com" required>
   </div>
+  
   <div>
     <label class="flabel">Message</label>
     <textarea class="finput" name="message" placeholder="Mixing consult, collab, or just to say hi..." required></textarea>
   </div>
-  
+
+  <div style="display:none">
+    <label>Don't fill this if you're human: <input name="bot-field" /></label>
+  </div>
+
   <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Send →</button>
 </form>
     </div>
