@@ -28,4 +28,4 @@ Pure HTML/CSS/JS — no frameworks, no build step. Fonts: Space Mono + Syne. Hos
 
 ---
 
-*© 2025 Burak Balta — All rights reserved*
+*© 2026 Burak Balta — All rights reserved*
