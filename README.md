@@ -1,16 +1,31 @@
-## Hi there 👋
+# Saranta Soundworks — Personal Website
 
-<!--
-**sarantasoundworks/sarantasoundworks** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Personal website for **Saranta Soundworks**, the audio development and metal music production project of Burak Balta.
 
-Here are some ideas to get you started:
+> 🚧 Still under active development.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+---
+
+## Pages
+
+- **`index.html`** — Main landing page. About, music embeds (Spotify + SoundCloud), and a link to the Mastering Suite.
+- **`tools.html`** — Embeds the Saranta Mastering Suite, a browser-based audio processing chain built with the Web Audio API.
+- **`tips.html`** — A structured mixing guide based on the Saranta Method. Drums section complete; Bass, Guitars, Vocals, Synths, Orchestral, Post FX, and Mastering coming soon.
+
+---
+
+## Stack
+
+Pure HTML/CSS/JS — no frameworks, no build step. Fonts: Space Mono + Syne. Hosted on Netlify.
+
+---
+
+## Links
+
+- [SoundCloud](https://soundcloud.com/saranta-596980414)
+- [Spotify](https://open.spotify.com/intl-tr/artist/6l97qlvDhzQlezBQWjhp3e)
+- [Instagram](https://instagram.com/sarantasoundworks)
+
+---
+
+*© 2025 Burak Balta — All rights reserved*
