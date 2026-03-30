@@ -51,45 +51,39 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--border2); }
 
 @media (max-width: 900px) {
-  /* 1. Logoyu ve Butonu Alt Alta Almak İçin */
   nav {
+    /* 1. Blok yapısını ve hizalamayı dikey yapıyoruz */
     display: flex;
-    flex-direction: column; /* Yataydan dikeye çevirir */
-    align-items: center;    /* Ortalar */
-    justify-content: center; /* Dikeyde ortalar */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    /* 2. Sabit yüksekliği iptal edip içeriğe göre uzamasını sağlıyoruz */
+    height: auto !important; 
+    min-height: 120px;       /* Minimum bir yükseklik değeri */
+    padding: 30px 20px;      /* İçerideki boşluğu artırarak siyah bloğu büyütüyoruz */
+    gap: 20px;               /* Logo ve buton arasındaki mesafe */
     
-    /* 2. Yukarıda Boşluk Bırakmak İçin */
-    height: auto;           /* Sabit yüksekliği kaldırır */
-    padding: 30px 20px;     /* Yukarı-Aşağı 30px, Sağ-Sol 20px boşluk */
-    gap: 15px;              /* Logo ile Buton arasına boşluk koyar */
-    
-    position: relative;     /* Sticky'yi mobilde kapatmak isterseniz */
+    /* Arka planın tam oturması için */
+    background: rgba(7, 7, 13, 0.98); 
     border-bottom: 1px solid var(--border);
   }
 
-  /* Nav linklerini gizleyen mevcut kuralınızın (zaten varsa kalsın) */
   .nav-links {
-    display: none;
+    display: none; /* Menü linklerini mobilde gizli tutuyoruz */
   }
 
-  /* Buton stilini mobilde daha düzgün hale getirmek için (Font küçültme isteğinizi buraya ekledim) */
   .nav-tool-btn {
-    font-size: 7px;           /* Daha küçük font */
-    padding: 6px 14px;        /* İç boşluk */
-    letter-spacing: 0.5px;    /* Harf aralığı */
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    width: auto;              /* Genişliği metne göre ayarlar */
-    white-space: nowrap;      /* Metnin kırılmasını engeller */
+    font-size: 7.5px;        /* Fontu biraz daha küçülttük */
+    padding: 8px 16px;       /* Butonun siyah blok içinde dengeli durması için */
+    width: fit-content;      /* Genişliği sadece metin kadar olsun */
   }
 
-  /* Hero bölümünü (Başlığı) biraz aşağı kaydırmak için */
+  /* Navigasyon büyüdüğü için altındaki içeriğin (Hero) üst üste binmemesi için */
   .hero {
-    padding-top: 150px;       /* Mevcut 100px-120px'i artırdık */
+    padding-top: 180px !important; 
   }
 }
-
 /* NAV */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
