@@ -50,33 +50,43 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg2); }
 ::-webkit-scrollbar-thumb { background: var(--border2); }
 
-@media (max-width: 600px) {
-  /* Navigasyon padding'ini daraltarak butona yer açıyoruz */
+@media (max-width: 900px) {
+  /* 1. Logoyu ve Butonu Alt Alta Almak İçin */
   nav {
-    padding: 0 10px; 
+    display: flex;
+    flex-direction: column; /* Yataydan dikeye çevirir */
+    align-items: center;    /* Ortalar */
+    justify-content: center; /* Dikeyde ortalar */
+    
+    /* 2. Yukarıda Boşluk Bırakmak İçin */
+    height: auto;           /* Sabit yüksekliği kaldırır */
+    padding: 30px 20px;     /* Yukarı-Aşağı 30px, Sağ-Sol 20px boşluk */
+    gap: 15px;              /* Logo ile Buton arasına boşluk koyar */
+    
+    position: relative;     /* Sticky'yi mobilde kapatmak isterseniz */
+    border-bottom: 1px solid var(--border);
   }
 
-  /* Buton metnini küçültüp iç boşluğunu azaltıyoruz */
+  /* Nav linklerini gizleyen mevcut kuralınızın (zaten varsa kalsın) */
+  .nav-links {
+    display: none;
+  }
+
+  /* Buton stilini mobilde daha düzgün hale getirmek için (Font küçültme isteğinizi buraya ekledim) */
   .nav-tool-btn {
-    padding: 6px 10px;
-    font-size: 8px;
-    letter-spacing: 1px;
-    white-space: nowrap; /* Metnin alt satıra kaymasını engeller */
+    font-size: 7px;           /* Daha küçük font */
+    padding: 6px 14px;        /* İç boşluk */
+    letter-spacing: 0.5px;    /* Harf aralığı */
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    width: auto;              /* Genişliği metne göre ayarlar */
+    white-space: nowrap;      /* Metnin kırılmasını engeller */
   }
 
-  /* Logo kısmını biraz daraltarak alanı optimize ediyoruz */
-  .nav-logo {
-    font-size: 11px;
-    letter-spacing: 1px;
-  }
-}
-
-@media (max-width: 400px) {
-  /* Çok dar ekranlarda butondaki "Launch" kelimesini gizleyebilir 
-     veya sadece ikonu/kısa metni bırakabiliriz */
-  .nav-tool-btn {
-    content: "MASTERING ↗"; /* CSS ile metin değişimi (opsiyonel) */
-    padding: 5px 8px;
+  /* Hero bölümünü (Başlığı) biraz aşağı kaydırmak için */
+  .hero {
+    padding-top: 150px;       /* Mevcut 100px-120px'i artırdık */
   }
 }
 
