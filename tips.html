@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tips for Heavy Music — Saranta Soundworks</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #07070d;
+  --bg2:     #0c0c14;
+  --bg3:     #111118;
+  --bg4:     #1a1a28;
+  --border:  #1e1e2e;
+  --border2: #2a2a3a;
+  --accent:  #00ff88;
+  --accent3: #4488ff;
+  --accent4: #ff4466;
+  --text:    #e8e8f0;
+  --dim:     #666680;
+  --dim2:    #2a2a3a;
+  --mono:    'Space Mono', monospace;
+  --disp:    'Syne', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+@media (max-width: 1200px) { .page-container { border: none; max-width: 100%; } }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 48px;
+  background: rgba(7,7,13,0.96); border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+.nav-logo { font-family: var(--disp); font-weight: 800; font-size: 13px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; text-decoration: none; }
+.nav-logo em { color: var(--accent3); font-style: normal; }
+.nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+.nav-links a { font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); text-decoration: none; padding: 5px 12px; border-radius: 2px; border: 1px solid transparent; transition: all 0.15s; }
+.nav-links a:hover { color: var(--text); border-color: var(--border2); background: var(--bg4); }
+.nav-tool-btn { font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; background: rgba(0,255,136,0.08); border: 1px solid var(--accent); color: var(--accent); text-decoration: none; padding: 6px 16px; border-radius: 2px; transition: background 0.15s; }
+.nav-tool-btn:hover { background: rgba(0,255,136,0.18); }
+
+/* HERO */
+.hero { min-height: 28vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 120px 64px 56px; position: relative; overflow: hidden; }
+.grid-bg { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(0,255,136,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,136,0.02) 1px, transparent 1px); background-size: 40px 40px; }
+.grid-bg::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 5% 95%, rgba(0,255,136,0.06) 0%, transparent 65%), radial-gradient(ellipse 40% 35% at 90% 10%, rgba(68,136,255,0.04) 0%, transparent 65%); }
+.hero-eyebrow { position: relative; display: flex; align-items: center; gap: 10px; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+.hero-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--accent); opacity: 0.5; }
+.hero-title { font-family: var(--disp); font-size: clamp(48px, 8vw, 108px); font-weight: 800; line-height: 0.88; letter-spacing: -0.02em; text-transform: uppercase; color: var(--text); position: relative; margin-bottom: 24px; }
+.hero-title .hl { color: var(--accent); text-shadow: 0 0 40px rgba(0,255,136,0.2); }
+.hero-sub { max-width: 500px; color: var(--dim); font-size: 12px; line-height: 2; position: relative; }
+
+/* SECTION NAV / TOPBAR */
+.section-topbar {
+  position: sticky; top: 48px; z-index: 100;
+  background: rgba(12,12,20,0.97); border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; gap: 0;
+  padding: 0 64px;
+  overflow-x: auto;
+}
+.section-topbar::-webkit-scrollbar { display: none; }
+.topbar-item {
+  font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--dim); text-decoration: none;
+  padding: 14px 18px; border-bottom: 2px solid transparent;
+  transition: all 0.15s; white-space: nowrap; display: flex; align-items: center; gap: 8px;
+}
+.topbar-item:hover { color: var(--text); border-bottom-color: var(--border2); }
+.topbar-item.active { color: var(--accent); border-bottom-color: var(--accent); }
+.topbar-item .tb-num { font-size: 8px; color: var(--dim2); font-weight: 400; }
+.topbar-sep { color: var(--dim2); font-size: 11px; flex-shrink: 0; padding: 0 4px; }
+
+/* TIPS SECTIONS */
+.tips-section { padding: 80px 64px; border-bottom: 1px solid var(--border); }
+.tips-section:nth-child(odd) { background: var(--bg); }
+.tips-section:nth-child(even) { background: var(--bg2); }
+
+.sec-eyebrow { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.sec-eyebrow::after { content: ''; width: 16px; height: 1px; background: var(--accent); opacity: 0.5; }
+.sec-eyebrow.blue { color: var(--accent3); }
+.sec-eyebrow.blue::after { background: var(--accent3); }
+.sec-eyebrow.red { color: var(--accent4); }
+.sec-eyebrow.red::after { background: var(--accent4); }
+
+.sec-title { font-family: var(--disp); font-size: clamp(26px, 3.5vw, 42px); font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; color: var(--text); margin-bottom: 12px; line-height: 1.05; }
+.sec-desc { color: var(--dim); font-size: 12px; line-height: 2; max-width: 640px; margin-bottom: 52px; }
+
+/* SUBSECTION CARDS */
+.subsections { display: flex; flex-direction: column; gap: 32px; }
+.subsec {
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  background: var(--bg3);
+  overflow: hidden;
+}
+.subsec-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg4);
+}
+.subsec-num { font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 2px; color: var(--dim2); flex-shrink: 0; }
+.subsec-title { font-family: var(--disp); font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text); }
+.subsec-title em { color: var(--accent); font-style: normal; }
+.subsec-title.blue em { color: var(--accent3); }
+.subsec-title.red em { color: var(--accent4); }
+.subsec-body { padding: 28px; display: flex; flex-direction: column; gap: 24px; }
+
+/* TIP ROWS */
+.tip-group { display: flex; flex-direction: column; gap: 10px; }
+.tip-group-label { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: #555570; margin-bottom: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.tips-list { display: flex; flex-direction: column; gap: 0; }
+.tip-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  min-height: 44px;
+}
+.tip-row:last-child { border-bottom: none; }
+.tip-key {
+  display: flex; align-items: flex-start;
+  padding: 12px 16px 12px 0;
+  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: #8888aa; font-family: var(--mono);
+  border-right: 1px solid var(--border);
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+.tip-val {
+  padding: 12px 0 12px 16px;
+  font-size: 12px; color: var(--dim); line-height: 1.8;
+}
+.tip-val strong { color: var(--text); }
+.tip-val .tag-inline {
+  display: inline-block; font-family: var(--disp); font-size: 8px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 7px;
+  border: 1px solid var(--border2); color: var(--dim); border-radius: 2px; margin-left: 6px;
+}
+.tip-val .val-accent { color: var(--accent); }
+.tip-val .val-blue { color: var(--accent3); }
+.tip-val .val-red { color: var(--accent4); }
+
+/* PLAIN PROSE BLOCKS */
+.tip-prose { font-size: 12px; color: var(--dim); line-height: 2; }
+.tip-prose strong { color: var(--text); }
+
+/* COMING SOON */
+.coming-soon-block {
+  border: 1px dashed var(--border2); border-radius: 3px;
+  padding: 56px 32px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 14px; text-align: center;
+  background: var(--bg3);
+}
+.cs-icon { font-size: 28px; opacity: 0.15; }
+.cs-label { font-family: var(--disp); font-size: 11px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; color: var(--dim2); }
+.cs-hint { font-size: 9px; color: var(--dim2); font-style: italic; letter-spacing: 0.5px; }
+
+/* FOOTER */
+footer { padding: 22px 64px; border-top: 1px solid var(--border); background: var(--bg2); display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.foot-logo { font-family: var(--disp); font-weight: 800; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); }
+.foot-logo em { color: var(--accent3); font-style: normal; }
+.foot-copy { font-size: 9px; color: var(--dim2); letter-spacing: 1px; }
+.foot-links { display: flex; gap: 16px; }
+.foot-links a { font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.15s; }
+.foot-links a:hover { color: var(--accent); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 24px 40px; }
+  .tips-section { padding: 56px 24px; }
+  .section-topbar { padding: 0 16px; }
+  .topbar-item { padding: 12px 12px; font-size: 8px; }
+  .tip-row { grid-template-columns: 140px 1fr; }
+  .subsec-body { padding: 20px; }
+  footer { padding: 24px; flex-direction: column; gap: 12px; }
+}
+@media (max-width: 600px) {
+  .tip-row { grid-template-columns: 1fr; }
+  .tip-key { border-right: none; border-bottom: 1px solid var(--border); padding: 10px 0 6px; }
+  .tip-val { padding: 8px 0 10px; }
+}
+</style>
+</head>
+<body>
+<div class="page-container">
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Saranta<em>/</em>Soundworks</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#music">Music</a></li>
+    <li><a href="tips.html" style="color:var(--accent);">Tips</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="tools.html" class="nav-tool-btn">Launch Mastering Suite ↗</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="grid-bg"></div>
+  <div class="hero-eyebrow">The Saranta Method</div>
+  <h1 class="hero-title">
+    Tips for<br>
+    <span class="hl">Heavy</span><br>
+    Music
+  </h1>
+  <p class="hero-sub">
+    A breakdown of my mixing approach for extreme metal — drums, bass, guitars, vocals, synths, orchestral elements, post FX, and mastering. Bölüm bölüm, teknik detaylarıyla.
+  </p>
+</section>
+
+<!-- SECTION TOPBAR -->
+<nav class="section-topbar" id="tips-topbar">
+  <a href="#drums" class="topbar-item active"><span class="tb-num">01</span> Drums</a>
+  <span class="topbar-sep">/</span>
+  <a href="#bass" class="topbar-item"><span class="tb-num">02</span> Bass</a>
+  <span class="topbar-sep">/</span>
+  <a href="#guitars" class="topbar-item"><span class="tb-num">03</span> Guitars</a>
+  <span class="topbar-sep">/</span>
+  <a href="#vocals" class="topbar-item"><span class="tb-num">04</span> Vocals</a>
+  <span class="topbar-sep">/</span>
+  <a href="#synths" class="topbar-item"><span class="tb-num">05</span> Synths</a>
+  <span class="topbar-sep">/</span>
+  <a href="#orchestral" class="topbar-item"><span class="tb-num">06</span> Orchestral</a>
+  <span class="topbar-sep">/</span>
+  <a href="#postfx" class="topbar-item"><span class="tb-num">07</span> Post FX</a>
+  <span class="topbar-sep">/</span>
+  <a href="#mastering" class="topbar-item"><span class="tb-num">08</span> Mastering</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 01 DRUMS -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="tips-section" id="drums">
+  <div class="sec-eyebrow">01 — The Saranta Method</div>
+  <h2 class="sec-title">Drums</h2>
+  <p class="sec-desc">In modern heavy music genres — Deathcore, Thall, Black Metal — the drum kit is the sonic anchor that defines the mix's energy. Here's the full processing chain, instrument by instrument.</p>
+
+  <div class="subsections">
+
+    <!-- SNARE -->
+    <div class="subsec">
+      <div class="subsec-header">
+        <span class="subsec-num">01.1</span>
+        <div class="subsec-title">Sculpting the Modern <em>Snare</em></div>
+      </div>
+      <div class="subsec-body">
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Channel Strip EQ — The Foundation</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">Low-End Weight</div>
+              <div class="tip-val"><strong class="val-accent">+shelf @ 200 Hz</strong> — Subtle low-shelf boost for thump and authority, without interfering with the sub frequencies. Solidifies the fundamental weight.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Clear the Boxiness</div>
+              <div class="tip-val"><strong class="val-red">Aggressive scoop @ 500–700 Hz</strong> — Most critical cut. Removes the boxy/muddy resonance and creates essential air for guitars and vocals to breathe.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Presence & Snap</div>
+              <div class="tip-val"><strong class="val-accent">+boost @ 2–3 kHz</strong> — Gentle wide boost enhances the stick hit snap, keeping the snare at the front even in dense arrangements.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Dynamics & Punch</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">Ratio</div>
+              <div class="tip-val"><strong>4:1</strong> — The sweet spot for control and movement.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Attack</div>
+              <div class="tip-val"><strong>Fast</strong> — Catches the peak, brings the snare forward.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Release</div>
+              <div class="tip-val"><strong>0.5s</strong> — Natural decay, allows the drum to breathe between hits.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Gain Reduction</div>
+              <div class="tip-val">Don't be afraid to push up to <strong class="val-accent">6 dB GR</strong> for a stable, rock-solid dynamic.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Harmonic Enrichment — Parallel Clipping</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">Technique</div>
+              <div class="tip-val">Blend a <strong>heavily distorted version</strong> of the snare with the dry signal. Adds harmonic saturation and thickness without destroying the original transient. Result: a snare that sounds massive and "expensive."</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Space & Air — Reverb</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">Type</div>
+              <div class="tip-val"><strong>Short but dense plate or room reverb</strong> — Adds width and an airy tail. The snare feels three-dimensional without washing out the punch.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Secret Weapon — Sample Triggering</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">When to use</div>
+              <div class="tip-val">If the raw recording lacks consistency for professional metal production. Layer a carefully selected sample beneath the original — not to replace the performance, but to reinforce weak frequencies and provide hit-to-the-face consistency.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- KICK -->
+    <div class="subsec">
+      <div class="subsec-header">
+        <span class="subsec-num">01.2</span>
+        <div class="subsec-title">Engineering the <em>Kick Drum</em> for Maximum Impact</div>
+      </div>
+      <div class="subsec-body">
+
+        <div class="tip-group">
+          <div class="tip-group-label">// EQ Blueprint</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">Sub Weight</div>
+              <div class="tip-val"><strong class="val-accent">+shelf @ 50 Hz</strong> — Anchors the track. Physical thump you feel in your chest; gives the mix its necessary scale.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Control Mud</div>
+              <div class="tip-val"><strong class="val-red">Surgical cut @ 200–250 Hz</strong> — Prevents the kick from masking the bass guitar, tightens the overall low-end. Eliminates the "boxy/muddy" feeling.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Mid-Range Scoop</div>
+              <div class="tip-val"><strong class="val-red">Significant cut @ 500 Hz</strong> — Clears out the "papery" or cheap sound, makes room for the low-mids of the guitars.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Define the Click</div>
+              <div class="tip-val"><strong class="val-accent">Boost @ 5 kHz & 8 kHz</strong> — Emphasizes the beater attack. Every fast double-bass note stays audible and sharp.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Dynamics & Consistency</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">Ratio</div>
+              <div class="tip-val"><strong>4:1</strong> — Firm control over the peaks.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Attack</div>
+              <div class="tip-val"><strong>Medium</strong> — Allows the initial click to pass through before the compressor clamps down, preserving the punch.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Release</div>
+              <div class="tip-val"><strong>0.5s</strong> — Compressor recovers in time for the next hit even in fast sections.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Gain Reduction</div>
+              <div class="tip-val">Aim for <strong class="val-accent">3–6 dB GR</strong> for a steady, powerful performance.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Layering & Triggering</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">Technique</div>
+              <div class="tip-val">Layer a high-quality sample with the original kick to enhance tonal characteristics. Ensures low-end consistency throughout the entire song regardless of tempo or complexity.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TOMS -->
+    <div class="subsec">
+      <div class="subsec-header">
+        <span class="subsec-num">01.3</span>
+        <div class="subsec-title">Sculpting Thunderous <em>Toms</em></div>
+      </div>
+      <div class="subsec-body">
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Rack Toms — Clarity & Snap</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">EQ</div>
+              <div class="tip-val"><strong class="val-accent">+100 Hz</strong> for weight · <strong class="val-red">cut 500 Hz</strong> boxiness · <strong class="val-accent">+3 kHz</strong> attack definition · <strong>+8–10 kHz high-shelf</strong> for air if dull</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Compression</div>
+              <div class="tip-val">Ratio <strong>3:1</strong> · Slow Attack · <strong>0.5s</strong> Release · <strong>Soft Knee</strong> for a more musical, natural response</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Transient Shaping</div>
+              <div class="tip-val">Boost the initial attack to make rack toms "pop" and cut through the dense guitar wall. Almost always essential.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Floor Toms — Power & Aggression</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">EQ</div>
+              <div class="tip-val"><strong class="val-accent">+100 Hz</strong> low-end thud · <strong class="val-red">cut 500–700 Hz</strong> mud · <strong class="val-accent">+5 kHz</strong> click · <strong>+10 kHz high-shelf</strong> for crispness</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Compression</div>
+              <div class="tip-val">Ratio <strong>5:1</strong> · Medium Attack · <strong>0.2s</strong> Release · <strong>Hard Knee</strong> — aggressive, controlled low-end</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Transient Shaping</div>
+              <div class="tip-val">Emphasize the attack for a percussive edge that feels both deep and sharp.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SHELLS BUS -->
+    <div class="subsec">
+      <div class="subsec-header">
+        <span class="subsec-num">01.4</span>
+        <div class="subsec-title">Glue & Impact — <em>Shells Bus</em></div>
+      </div>
+      <div class="subsec-body">
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Peak Control — Soft Clipping</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">Purpose</div>
+              <div class="tip-val">Before hitting the compressor, use a <strong>Clipper</strong> to shave off the fastest transients by just a few dB. Increases perceived loudness, prevents pumping artifacts, and makes the bus compressor work smoothly.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Bus Compression — Cohesion</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">Ratio</div>
+              <div class="tip-val"><strong>2:1</strong> — Gentle, transparent glue.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Attack</div>
+              <div class="tip-val"><strong>Slow</strong> — Lets the initial punch of snare and kick pass through before gain reduction kicks in.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Release</div>
+              <div class="tip-val"><strong>Auto</strong> — Compressor recovers naturally according to the tempo and feel of the song.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Gain Reduction</div>
+              <div class="tip-val">Maximum <strong class="val-accent">2 dB GR</strong> — The goal is cohesion, not squash.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Sidechain HPF — Precision</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">SC HPF</div>
+              <div class="tip-val"><strong class="val-accent">60–70 Hz</strong> — Prevents the massive kick energy from over-triggering the compressor. Low-end stays huge and uncompressed while the compressor focuses on gluing the snap and body of snare and toms.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CYMBALS -->
+    <div class="subsec">
+      <div class="subsec-header">
+        <span class="subsec-num">01.5</span>
+        <div class="subsec-title">Cymbal Definition & <em>Silky High-End</em></div>
+      </div>
+      <div class="subsec-body">
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Overheads — Stereo Image & Body</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">HPF</div>
+              <div class="tip-val"><strong class="val-red">100 Hz HPF</strong> — Eliminates low-end rumble; leaves space for kick and snare fundamentals.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Mid Cleaning</div>
+              <div class="tip-val"><strong class="val-red">Surgical cuts @ 300 Hz & 700 Hz</strong> — Removes boxy/honky resonances that mask guitar clarity and snare snap.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Individual Cymbals — Precision & Shimmer</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">Surgical Filter</div>
+              <div class="tip-val"><strong class="val-red">Steeper 200 Hz HPF</strong> + cut at 500 Hz — Removes papery/muddy textures.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Manage Harshness</div>
+              <div class="tip-val"><strong class="val-red">Narrow cut @ 3 kHz</strong> — If the stick-hit is too pokey. Prevents brittle-sounding cymbals.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Add Air</div>
+              <div class="tip-val"><strong class="val-accent">Subtle high-shelf boost @ 12 kHz</strong> — That professional, expensive-sounding shimmer.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Advanced Control — The De-esser Trick</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">Technique</div>
+              <div class="tip-val">For naturally bright or aggressive cymbals in fast, constant-wash sections: use a <strong>De-esser</strong> targeting the specific high-mid harshness frequency. Dynamically tames the piercing sounds without losing overall brightness and energy.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ROOM AMBIENCE -->
+    <div class="subsec">
+      <div class="subsec-header">
+        <span class="subsec-num">01.6</span>
+        <div class="subsec-title">Sculpting Massive <em>Drum Ambience</em></div>
+      </div>
+      <div class="subsec-body">
+
+        <div class="tip-group">
+          <div class="tip-group-label">// The Mono "Crush" Channel — Grit & Character</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">HPF</div>
+              <div class="tip-val"><strong class="val-red">100 Hz HPF</strong> — Keeps sub-frequencies clean while retaining the low-mid thump.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Dynamics</div>
+              <div class="tip-val"><strong>British Mode or Distressor/LMC-style compressor</strong> with extreme settings — Flatten the transients, pull out the sustain.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Saturation</div>
+              <div class="tip-val">Apply a <strong>Saturator</strong> after compression for a distorted, gritty texture. Blend subtly with the main mix to provide attitude without overwhelming clarity.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-group-label">// The Stereo Room — Depth & Width</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">EQ</div>
+              <div class="tip-val"><strong class="val-red">150 Hz HPF</strong> · surgical cuts <strong class="val-red">@ 400 Hz & 1 kHz</strong> (honky resonances) · cut <strong class="val-red">@ 8 kHz</strong> to prevent brittle cymbals</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">Compression</div>
+              <div class="tip-val">Ratio <strong>5:1</strong> · Fast Attack · Fast Release — Compressor reacts quickly, making the room sound larger than life while keeping timing tight.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Parallel Blending & Gain Staging</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">The Balance</div>
+              <div class="tip-val">The <strong>mono crush channel</strong> provides weight and harmonic richness. The <strong>stereo room</strong> provides space. Balanced correctly: massive, three-dimensional, aggressive.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DRUM BUS -->
+    <div class="subsec">
+      <div class="subsec-header">
+        <span class="subsec-num">01.7</span>
+        <div class="subsec-title">Final Glue & Harmonic Character — <em>Drum Bus</em></div>
+      </div>
+      <div class="subsec-body">
+
+        <div class="tip-group">
+          <div class="tip-group-label">// Chain Order</div>
+          <div class="tips-list">
+            <div class="tip-row">
+              <div class="tip-key">1. Soft Clipper</div>
+              <div class="tip-val">Transparently shave off the poking transients. Allows the following compressor to work efficiently without overreacting; results in louder, more consistent drums.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">2. Analog VCA</div>
+              <div class="tip-val">Vintage-style VCA compressor for harmonic warmth. Ratio <strong>4:1</strong> · Attack <strong>3 ms</strong> · Release <strong>0.05s</strong> · <strong>Hard Knee</strong>. Aggressive and tight response.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">3. SC HPF + Stereo Link</div>
+              <div class="tip-val">Sidechain HPF ignores sub-bass. <strong class="val-accent">60% Stereo Link (L/R)</strong> — left and right breathe independently for a wider, more dynamic stereo image.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">4. Feedback Mode</div>
+              <div class="tip-val"><strong>Feedback (Old) compression style</strong> — Smoother, more musical. Bases gain reduction on the output signal. Combined with medium detection filter: drums feel heavy and saturated rather than just compressed.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-key">5. Brickwall Limiter</div>
+              <div class="tip-val">Final safety net. Ceiling at <strong class="val-accent">−1 dBFS</strong>. Catches stray peaks, ensures the signal never clips, allows maximum perceived loudness at a professional level.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /subsections -->
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 02 BASS -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="tips-section" id="bass">
+  <div class="sec-eyebrow blue">02 — The Saranta Method</div>
+  <h2 class="sec-title">Bass</h2>
+  <p class="sec-desc">Coming soon — DI blending, mid-scooping, parallel saturation, and low-end integration with the kick.</p>
+  <div class="coming-soon-block">
+    <div class="cs-icon">⚡</div>
+    <div class="cs-label">Section in Progress</div>
+    <div class="cs-hint">Bass tips will be added here soon.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 03 GUITARS -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="tips-section" id="guitars">
+  <div class="sec-eyebrow blue">03 — The Saranta Method</div>
+  <h2 class="sec-title">Guitars</h2>
+  <p class="sec-desc">Coming soon — high-gain tone carving, mid-scooping, stereo quad-tracking, re-amping, and mix bus glue.</p>
+  <div class="coming-soon-block">
+    <div class="cs-icon">🎸</div>
+    <div class="cs-label">Section in Progress</div>
+    <div class="cs-hint">Guitar tips will be added here soon.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 04 VOCALS -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="tips-section" id="vocals">
+  <div class="sec-eyebrow">04 — The Saranta Method</div>
+  <h2 class="sec-title">Vocals</h2>
+  <p class="sec-desc">Coming soon — extreme vocal processing, de-essing, parallel distortion, and depth in dense arrangements.</p>
+  <div class="coming-soon-block">
+    <div class="cs-icon">🎤</div>
+    <div class="cs-label">Section in Progress</div>
+    <div class="cs-hint">Vocal tips will be added here soon.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 05 SYNTHS -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="tips-section" id="synths">
+  <div class="sec-eyebrow blue">05 — The Saranta Method</div>
+  <h2 class="sec-title">Synths</h2>
+  <p class="sec-desc">Coming soon — layering pads, sidechaining, frequency stacking with guitars, and creating space in dense mixes.</p>
+  <div class="coming-soon-block">
+    <div class="cs-icon">🔊</div>
+    <div class="cs-label">Section in Progress</div>
+    <div class="cs-hint">Synth tips will be added here soon.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 06 ORCHESTRAL -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="tips-section" id="orchestral">
+  <div class="sec-eyebrow">06 — The Saranta Method</div>
+  <h2 class="sec-title">Orchestral Elements</h2>
+  <p class="sec-desc">Coming soon — string integration, brass layering, reverb matching room acoustics, and gluing symphonic layers with a heavy rhythm section.</p>
+  <div class="coming-soon-block">
+    <div class="cs-icon">🎻</div>
+    <div class="cs-label">Section in Progress</div>
+    <div class="cs-hint">Orchestral tips will be added here soon.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 07 POST FX -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="tips-section" id="postfx">
+  <div class="sec-eyebrow blue">07 — The Saranta Method</div>
+  <h2 class="sec-title">Post FX</h2>
+  <p class="sec-desc">Coming soon — mix bus effects, parallel processing chains, creative automation, and cinematic sound design for heavy music.</p>
+  <div class="coming-soon-block">
+    <div class="cs-icon">🌀</div>
+    <div class="cs-label">Section in Progress</div>
+    <div class="cs-hint">Post FX tips will be added here soon.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 08 MASTERING -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="tips-section" id="mastering">
+  <div class="sec-eyebrow red">08 — The Saranta Method</div>
+  <h2 class="sec-title">Mastering</h2>
+  <p class="sec-desc">Coming soon — linear phase EQ, multiband compression, stereo field maximizing, loudness targets for streaming, and brickwall limiting for extreme metal.</p>
+  <div class="coming-soon-block">
+    <div class="cs-icon">📊</div>
+    <div class="cs-label">Section in Progress</div>
+    <div class="cs-hint">Mastering tips will be added here soon.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">Saranta<em>_</em>Soundworks</div>
+  <div class="foot-copy">© 2025 Burak Balta — All rights reserved</div>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="tools.html">Mastering Suite</a>
+    <a href="https://github.com/sarantasoundworks" target="_blank">GitHub</a>
+    <a href="https://soundcloud.com/saranta-596980414" target="_blank">SoundCloud</a>
+  </div>
+</footer>
+
+</div><!-- /page-container -->
+
+<script>
+// Active topbar item on scroll
+const sections = document.querySelectorAll('.tips-section[id]');
+const topbarItems = document.querySelectorAll('.topbar-item');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      topbarItems.forEach(item => {
+        item.classList.toggle('active', item.getAttribute('href') === `#${id}`);
+      });
+    }
+  });
+}, { rootMargin: '-48px 0px -60% 0px', threshold: 0 });
+
+sections.forEach(sec => observer.observe(sec));
+</script>
+
+</body>
+</html>
