@@ -50,6 +50,36 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg2); }
 ::-webkit-scrollbar-thumb { background: var(--border2); }
 
+@media (max-width: 600px) {
+  /* Navigasyon padding'ini daraltarak butona yer açıyoruz */
+  nav {
+    padding: 0 10px; 
+  }
+
+  /* Buton metnini küçültüp iç boşluğunu azaltıyoruz */
+  .nav-tool-btn {
+    padding: 6px 10px;
+    font-size: 8px;
+    letter-spacing: 1px;
+    white-space: nowrap; /* Metnin alt satıra kaymasını engeller */
+  }
+
+  /* Logo kısmını biraz daraltarak alanı optimize ediyoruz */
+  .nav-logo {
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 400px) {
+  /* Çok dar ekranlarda butondaki "Launch" kelimesini gizleyebilir 
+     veya sadece ikonu/kısa metni bırakabiliriz */
+  .nav-tool-btn {
+    content: "MASTERING ↗"; /* CSS ile metin değişimi (opsiyonel) */
+    padding: 5px 8px;
+  }
+}
+
 /* NAV */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
@@ -237,7 +267,7 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
     Music
   </h1>
   <p class="hero-sub">
-    A breakdown of my mixing approach for extreme metal — drums, bass, guitars, vocals, synths, orchestral elements, post FX, and mastering. Bölüm bölüm, teknik detaylarıyla.
+    A breakdown of my mixing approach for extreme metal — drums, bass, guitars, vocals, synths, orchestral elements, post FX, mix and mastering. 
   </p>
 </section>
 
