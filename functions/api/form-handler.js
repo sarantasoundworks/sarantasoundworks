@@ -9,7 +9,7 @@ export async function onRequestPost(context) {
     // 1. Turnstile Doğrulaması (Güvenlik için)
     const ip = context.request.headers.get('CF-Connecting-IP');
     const formData = new FormData();
-    formData.append('secret', 'TURNSTILE_SECRET_KEY_BURAYA'); // Cloudflare'den aldığın Secret Key
+    formData.append('secret', '0x4AAAAAACydKW-8xQmp9Q0dDid_i9B-D88'); // Cloudflare'den aldığın Secret Key
     formData.append('response', token);
     formData.append('remoteip', ip);
 
