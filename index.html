@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Saranta Soundworks — Free Browser Audio Mastering Tools</title>
@@ -422,30 +423,44 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
     </div>
     <div>
       <div class="contact-sub">// Message</div>
-      <form name="contact" method="POST" data-netlify="true" class="form">
-  <input type="hidden" name="form-name" value="contact" />
+      <section class="contact" id="contact">
+  <div class="sec-eyebrow">Contact</div>
+  <h2 class="sec-title">Get in Touch</h2>
+  <div class="contact-grid">
+    <div>
+      <div class="contact-sub">// Links</div>
+      <ul class="clinks">
+        <li><span class="clink-k">Email</span><a href="mailto:contact@sarantasoundworks.com">contact@sarantasoundworks.com</a></li>
+        <li><span class="clink-k">GitHub</span><a href="https://github.com/sarantasoundworks" target="_blank">sarantasoundworks</a></li>
+        <li><span class="clink-k">Instagram</span><a href="https://instagram.com/sarantasoundworks" target="_blank">@sarantasoundworks</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="contact-sub">// Message</div>
+      
+      <form action="https://sarantasoundworks.sarantaband.workers.dev" method="POST" class="form">
+        <div>
+          <label class="flabel">Full Name</label>
+          <input class="finput" type="text" name="name" placeholder="Your name" required>
+        </div>
+        
+        <div>
+          <label class="flabel">Email Address</label>
+          <input class="finput" type="email" name="email" placeholder="your@email.com" required>
+        </div>
+        
+        <div>
+          <label class="flabel">Message</label>
+          <textarea class="finput" name="message" placeholder="Mixing consult, collab, or just to say hi..." required></textarea>
+        </div>
 
-  <div>
-    <label class="flabel">Name</label>
-    <input class="finput" type="text" name="name" placeholder="Your name" required>
-  </div>
-  
-  <div>
-    <label class="flabel">Email</label>
-    <input class="finput" type="email" name="email" placeholder="your@email.com" required>
-  </div>
-  
-  <div>
-    <label class="flabel">Message</label>
-    <textarea class="finput" name="message" placeholder="Mixing consult, collab, or just to say hi..." required></textarea>
-  </div>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAACydKTSgQ15gBtl9" data-theme="dark"></div>
 
-  <div style="display:none">
-    <label>Don't fill this if you're human: <input name="bot-field" /></label>
+        <button type="submit" class="btn btn-primary" style="align-self:flex-start; margin-top: 10px;">Send →</button>
+      </form>
+      </div>
   </div>
-
-  <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Send →</button>
-</form>
+</section>
     </div>
   </div>
 </section>
