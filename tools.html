@@ -520,6 +520,117 @@ html, body { height: 100%; overflow: hidden; background: #07070d; font-family: '
     transition: all 0.2s;
   }
 #panel-eq .band-type:hover { border-color: var(--band-color); color: var(--band-color); }
+
+/* ── EQ CONTROLS BAR ── */
+#panel-eq .eq-controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  background: var(--surface2);
+  flex-wrap: wrap;
+}
+#panel-eq .eq-ctrl-sep {
+  width: 1px; height: 20px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* ── DYNAMIC EQ ── */
+#panel-eq .dyn-toggle-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  padding: 2px 5px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  line-height: 1.4;
+  width: 100%;
+  margin-top: 2px;
+}
+#panel-eq .dyn-toggle-btn:hover { border-color: var(--band-color); color: var(--band-color); }
+#panel-eq .dyn-toggle-btn.dyn-active {
+  border-color: var(--band-color);
+  color: var(--band-color);
+  background: color-mix(in srgb, var(--band-color) 10%, transparent);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--band-color) 20%, transparent);
+}
+#panel-eq .dyn-panel {
+  display: none;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  padding-top: 4px;
+  border-top: 1px solid color-mix(in srgb, var(--band-color) 25%, transparent);
+  margin-top: 2px;
+}
+#panel-eq .dyn-panel.visible { display: flex; }
+#panel-eq .dyn-row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+}
+#panel-eq .dyn-pLabel {
+  font-family: 'Syne', sans-serif;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--band-color);
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  width: 22px;
+}
+/* dyn scrub inherits .band-scrub style, uses band-color */
+#panel-eq .dyn-scrub {
+  flex: 1;
+  min-width: 0;
+  font-size: 9px;
+  padding: 2px 3px;
+  border-color: color-mix(in srgb, var(--band-color) 30%, transparent);
+  color: var(--band-color);
+}
+#panel-eq .dyn-scrub:hover { border-color: var(--band-color); color: var(--band-color); }
+#panel-eq .dyn-scrub.dragging { border-color: var(--band-color); color: var(--band-color); background: color-mix(in srgb, var(--band-color) 10%, transparent); }
+#panel-eq .dyn-auto-btn {
+  font-family: 'Syne', sans-serif;
+  font-size: 7px;
+  font-weight: 700;
+  padding: 2px 4px;
+  border: 1px solid color-mix(in srgb, var(--band-color) 35%, transparent);
+  border-radius: 2px;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+#panel-eq .dyn-auto-btn.auto-active { border-color: var(--band-color); color: var(--band-color); background: color-mix(in srgb, var(--band-color) 10%, transparent); }
+#panel-eq .dyn-auto-btn:hover { border-color: var(--band-color); color: var(--band-color); }
+#panel-eq .dyn-gr-bar-wrap {
+  width: 100%;
+  height: 3px;
+  background: color-mix(in srgb, var(--band-color) 15%, transparent);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+#panel-eq .dyn-gr-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--band-color);
+  border-radius: 2px;
+  transition: width 0.05s linear;
+}
 #panel-eq .slope-btn {
     font-family: 'Space Mono', monospace;
     font-size: 8px;
@@ -3351,6 +3462,119 @@ html, body { height: 100%; overflow: hidden; background: #07070d; font-family: '
     color: var(--text-dim);
     line-height: 1.5;
   }
+
+/* ═══ CLIPPER — SUITE DARK THEME ═══ */
+#panel-clipper {
+  --cl-accent:  #00ff88;
+  --cl-accent2: #ff4455;
+  --cl-accent3: #4488ff;
+  --cl-amber:   #ffaa33;
+  --cl-bg:      #07070d;
+  --cl-surface: #0c0c14;
+  --cl-surface2:#111118;
+  --cl-border:  #1e1e2e;
+  --cl-text:    #c0c0d0;
+  --cl-dim:     #444466;
+}
+#panel-clipper { margin:0; padding:0; background:var(--cl-bg); color:var(--cl-text); font-family:'Space Mono',monospace; min-height:100%; overflow-x:hidden; }
+#panel-clipper .cl-app { max-width:1100px; margin:0 auto; padding:16px; }
+#panel-clipper .cl-panel { background:var(--cl-surface); border:1px solid var(--cl-border); border-radius:4px; overflow:hidden; }
+
+/* header */
+#panel-clipper .cl-header { display:flex; align-items:center; justify-content:space-between; padding:8px 16px; background:var(--cl-surface2); border-bottom:1px solid var(--cl-border); }
+#panel-clipper .cl-title { font-family:'Syne',sans-serif; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--cl-dim); }
+#panel-clipper .cl-title em { color:var(--cl-amber); font-style:normal; }
+#panel-clipper .cl-header-right { display:flex; align-items:center; gap:8px; }
+#panel-clipper .cl-bypass-btn { font-family:'Syne',sans-serif; font-size:9px; font-weight:700; letter-spacing:1px; padding:3px 10px; border:1px solid var(--cl-border); border-radius:2px; background:transparent; color:var(--cl-dim); cursor:pointer; transition:all .15s; }
+#panel-clipper .cl-bypass-btn.on { border-color:var(--cl-accent); color:var(--cl-accent); background:rgba(0,255,136,.06); }
+/* bypass toggle switch */
+#panel-clipper .cl-bypass-toggle {
+  display:flex; align-items:center; gap:7px; cursor:pointer;
+  user-select:none; padding:2px 0;
+}
+#panel-clipper .cl-toggle-track {
+  width:32px; height:17px; border-radius:9px;
+  background:#1a1a28; border:1px solid var(--cl-border);
+  position:relative; transition:background .2s, border-color .2s;
+  flex-shrink:0;
+}
+#panel-clipper .cl-toggle-track.on {
+  background:rgba(0,255,136,.12); border-color:var(--cl-accent);
+}
+#panel-clipper .cl-toggle-thumb {
+  position:absolute; top:2px; left:2px;
+  width:11px; height:11px; border-radius:50%;
+  background:#2a2a3a; transition:transform .2s, background .2s;
+  pointer-events:none;
+}
+#panel-clipper .cl-toggle-track.on .cl-toggle-thumb {
+  transform:translateX(15px); background:var(--cl-accent);
+  box-shadow:0 0 5px var(--cl-accent);
+}
+#panel-clipper .cl-toggle-label {
+  font-family:'Syne',sans-serif; font-size:9px; font-weight:700;
+  letter-spacing:1px; color:var(--cl-dim); transition:color .2s;
+  min-width:72px; display:inline-block;
+}
+#panel-clipper .cl-toggle-label.on { color:var(--cl-accent); }
+#panel-clipper .cl-tog-btn { font-family:'Space Mono',monospace; font-size:9px; padding:3px 8px; border:1px solid var(--cl-border); border-radius:2px; background:transparent; color:var(--cl-dim); cursor:pointer; transition:all .12s; }
+#panel-clipper .cl-tog-btn:hover { border-color:var(--cl-amber); color:var(--cl-amber); }
+#panel-clipper .cl-tog-btn.active { border-color:var(--cl-amber); color:var(--cl-amber); background:rgba(255,170,51,.08); }
+
+/* body */
+#panel-clipper .cl-body { display:flex; align-items:stretch; }
+#panel-clipper .cl-vu-col { display:flex; flex-direction:column; align-items:center; padding:10px 6px; gap:5px; width:36px; flex-shrink:0; background:var(--cl-surface2); border-right:1px solid var(--cl-border); }
+#panel-clipper .cl-vu-col.right { border-right:none; border-left:1px solid var(--cl-border); }
+#panel-clipper .cl-vu-label { font-family:'Syne',sans-serif; font-size:6px; font-weight:700; letter-spacing:1.5px; color:var(--cl-dim); text-transform:uppercase; }
+#panel-clipper .cl-vu-bar { display:flex; flex-direction:column-reverse; gap:1.5px; flex:1; width:8px; }
+#panel-clipper .cl-vu-seg { flex:1; border-radius:1px; background:#12121e; }
+#panel-clipper .cl-vu-seg.lit    { background:var(--cl-accent); box-shadow:0 0 2px var(--cl-accent); }
+#panel-clipper .cl-vu-seg.lit-hi { background:var(--cl-amber); }
+#panel-clipper .cl-vu-seg.lit-cl { background:var(--cl-accent2); box-shadow:0 0 3px var(--cl-accent2); }
+
+/* center waveform */
+#panel-clipper .cl-center { flex:1; display:flex; flex-direction:column; }
+#panel-clipper .cl-wave-wrap { position:relative; background:#04040a; flex:1; min-height:260px; overflow:hidden; cursor:ns-resize; }
+#panel-clipper #clipper_waveCanvas { display:block; position:absolute; inset:0; width:100%; height:100%; }
+#panel-clipper .cl-thr-badge {
+  position:absolute; left:10px;
+  font-family:'Syne',sans-serif; font-size:8px; font-weight:700;
+  color:var(--cl-amber); letter-spacing:.5px;
+  background:rgba(7,7,13,.82); padding:2px 6px; border-radius:2px;
+  pointer-events:none; white-space:nowrap;
+  top:50%; transform:translateY(-50%);
+}
+#panel-clipper .cl-gr-overlay { position:absolute; top:7px; right:10px; pointer-events:none; font-family:'Space Mono',monospace; font-size:9px; color:var(--cl-accent2); }
+
+/* bottom controls — comp style */
+#panel-clipper .cl-controls-row { display:flex; gap:0; border-top:1px solid var(--cl-border); }
+#panel-clipper .cl-ctrl-group { flex:1; padding:14px 12px; border-right:1px solid var(--cl-border); display:flex; flex-direction:column; align-items:center; gap:6px; }
+#panel-clipper .cl-ctrl-group:last-child { border-right:none; }
+#panel-clipper .cl-ctrl-label { font-family:'Syne',sans-serif; font-size:9px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--cl-dim); white-space:nowrap; }
+#panel-clipper .cl-ctrl-val { font-family:'Space Mono',monospace; font-size:13px; font-weight:700; color:var(--cl-amber); min-height:18px; text-align:center; white-space:nowrap; }
+#panel-clipper .cl-ctrl-knob {
+  width:44px; height:44px; border-radius:50%;
+  background:#0e0e12; border:2px solid var(--cl-border);
+  position:relative; cursor:ns-resize; transition:border-color .2s; flex-shrink:0;
+}
+#panel-clipper .cl-ctrl-knob:hover  { border-color:var(--kc, var(--cl-amber)); }
+#panel-clipper .cl-ctrl-knob.active { border-color:var(--kc, var(--cl-amber)); box-shadow:0 0 12px color-mix(in srgb, var(--kc, var(--cl-amber)) 35%, transparent); }
+#panel-clipper .cl-knob-dot { width:3px; height:12px; background:var(--cl-amber); border-radius:2px; position:absolute; top:calc(50% - 12px); left:50%; margin-left:-1.5px; transform-origin:center bottom; }
+
+/* hide legacy */
+#panel-clipper .clipper-main { display:none; }
+#panel-clipper .thr-scrub { display:none; }
+#panel-clipper .thr-hint { display:none; }
+#panel-clipper #clipper_valThreshold { display:none; }
+#panel-clipper .gr-bar-wrap { display:none; }
+#panel-clipper .clip-led { display:none; }
+#panel-clipper .gr-db-val { display:none; }
+#panel-clipper .cl-gr-row { display:none; }
+@media (max-width:700px) {
+  #panel-clipper .cl-controls-row { flex-wrap:wrap; }
+  #panel-clipper .cl-vu-col { width:26px; }
+}
+
 </style>
 </head>
 <body>
@@ -3476,10 +3700,6 @@ html, body { height: 100%; overflow: hidden; background: #07070d; font-family: '
 
         </div>
         <div style="display:flex; align-items:center; gap:16px;">
-          <div class="bypass-toggle" id="eq_bypassToggle">
-            <div class="toggle-switch on" id="eq_eqToggle"></div>
-            <span id="eq_bypassLabel">EQ ON</span>
-          </div>
         </div>
       </div>
       <div style="position:relative;">
@@ -3489,21 +3709,10 @@ html, body { height: 100%; overflow: hidden; background: #07070d; font-family: '
       </div>
       <div class="freq-labels" id="eq_freqLabels"></div>
       <div class="bands-container" id="eq_bandsContainer"></div>
-    </div>
 
-    <!-- TRANSPORT PANEL -->
-    <div class="panel">
-      <div class="transport">
-        <div class="transport-seek">
-          <span class="time-label" id="eq_timeLabel">0:00 / 0:00</span>
-          <div class="seek-track-wrap">
-            <div class="seek-track-bg"></div>
-            <div class="seek-track-fill" id="eq_seekFill"></div>
-            <input type="range" id="eq_seekBar" min="0" max="100" step="0.1" value="0" disabled>
-          </div>
-        </div>
-        <div class="transport-top">
-        <button class="btn primary" id="eq_playBtn" disabled>▶ PLAY</button>
+      <!-- EQ CONTROLS BAR — visible always (not inside transport) -->
+      <div class="eq-controls-bar">
+        <!-- OUT KNOB -->
         <div class="out-group">
           <div class="knob-wrap">
             <div class="knob-label">OUT</div>
@@ -3516,14 +3725,23 @@ html, body { height: 100%; overflow: hidden; background: #07070d; font-family: '
           </div>
           <button class="autogain-btn" id="eq_autoGainBtn" title="LUFS-matched gain compensation">GAIN MATCH</button>
         </div>
-        <div class="spacer"></div>
+
+        <div class="eq-ctrl-sep"></div>
+
+        <!-- OS -->
         <div class="os-btns">
           <span class="os-label">OS</span>
           <button class="os-btn active" data-rate="none" id="eq_os-none">1x</button>
           <button class="os-btn" data-rate="2x"  id="eq_os-2x">2x</button>
           <button class="os-btn" data-rate="4x"  id="eq_os-4x">4x</button>
         </div>
+
+        <!-- WARMTH -->
         <button class="warmth-btn" id="eq_warmthBtn">WARMTH</button>
+
+        <div class="eq-ctrl-sep"></div>
+
+        <!-- AUTO EQ -->
         <div class="autoeq-wrap">
           <span class="autoeq-label">AUTO EQ</span>
           <select class="autoeq-select" id="eq_genreSelect">
@@ -3535,14 +3753,39 @@ html, body { height: 100%; overflow: hidden; background: #07070d; font-family: '
             <option value="metal">Metal</option>
             <option value="jazz">Jazz</option>
             <option value="classical">Classical</option>
-            <option value="rnb">R&B / Soul</option>
+            <option value="rnb">R&amp;B / Soul</option>
             <option value="acoustic">Acoustic / Folk</option>
             <option value="lofi">Lo-Fi</option>
           </select>
           <button class="autoeq-btn" id="eq_autoEqBtn">APPLY</button>
         </div>
+
+        <div style="flex:1;"></div>
+
+        <!-- RESET / BYPASS -->
         <button class="btn" id="eq_resetBtn">RESET EQ</button>
-        <button class="btn danger" id="eq_exportBtn" disabled>↓ EXPORT WAV</button>
+        <div class="bypass-toggle" id="eq_bypassToggle" style="margin-left:6px;">
+          <div class="toggle-switch on" id="eq_eqToggle"></div>
+          <span id="eq_bypassLabel">EQ ON</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- keep transport panel (hidden by suite CSS, but needed for JS hooks) -->
+    <div class="panel" style="display:none!important;">
+      <div class="transport">
+        <div class="transport-seek">
+          <span class="time-label" id="eq_timeLabel">0:00 / 0:00</span>
+          <div class="seek-track-wrap">
+            <div class="seek-track-bg"></div>
+            <div class="seek-track-fill" id="eq_seekFill"></div>
+            <input type="range" id="eq_seekBar" min="0" max="100" step="0.1" value="0" disabled>
+          </div>
+        </div>
+        <div class="transport-top">
+          <button class="btn primary" id="eq_playBtn" disabled>▶ PLAY</button>
+          <button class="btn danger" id="eq_exportBtn" disabled>↓ EXPORT WAV</button>
         </div>
       </div>
     </div>
@@ -4681,7 +4924,6 @@ html, body { height: 100%; overflow: hidden; background: #07070d; font-family: '
 </div>
 
 
-
 <!-- EXPORT OVERLAY -->
 <div class="export-overlay" id="lufs_exportOverlay">
   <div class="export-overlay-box">
@@ -4696,19 +4938,142 @@ html, body { height: 100%; overflow: hidden; background: #07070d; font-family: '
 
 
       </div>
+      <div class="plugin-panel" id="panel-clipper" data-key="clipper">
+  <div class="cl-app">
+
+    <!-- Hidden legacy elements for JS compatibility -->
+    <div style="display:none">
+      <div id="clipper_bypassToggle"><div class="toggle-switch on" id="clipper_toggle"></div><span id="clipper_bypassLabel">CLIP ON</span></div>
+      <div class="gr-bar-wrap"><div class="gr-bar-track"><div class="gr-bar-fill" id="clipper_grFill"></div></div><span class="gr-db-val" id="clipper_grDbVal">0.0 dB</span><span class="clip-led" id="clipper_clipLed"></span></div>
+      <span id="clipper_valThreshold">−6.0</span>
+      <div id="clipper_thrScrub"><span class="thr-scrub-arrows">▲▼</span><span class="thr-scrub-label">DRAG</span></div>
+      <div id="clipper_valCeiling2">0.0 dB</div><div id="clipper_valKnee2">50%</div>
+      <input type="range" id="clipper_ceilingSlider" min="-12" max="0" step="0.1" value="0">
+      <input type="range" id="clipper_kneeSlider" min="0" max="100" step="1" value="50">
+      <span id="clipper_valCeiling">0.0 dB</span><span id="clipper_valKnee">50%</span>
+      <button id="clipper_modeHard">HARD</button>
+      <button id="clipper_modeSoft" class="active">SOFT</button>
+      <button id="clipper_modeAnalog">ANALOG</button>
+      <button class="os-btn active" data-os="2">2</button>
+      <span id="clipper_valOS">2×</span>
+      <div class="clipper-main"><div class="clipper-viz-col"><div class="transfer-wrap"></div><div class="waveform-wrap"></div></div><div class="clipper-ctrl-col"></div></div>
     </div>
-  </div>
+
+    <!-- CLIPPER PANEL - SUITE STYLE -->
+    <div class="cl-panel">
+
+      <!-- Header -->
+      <div class="cl-header">
+        <span class="cl-title">SOFT <em>CLIPPER</em></span>
+        <div class="cl-header-right">
+          <div style="display:flex;gap:4px;">
+            <button class="cl-tog-btn" id="pcz_modeHard" onclick="pancz_setMode('hard')">HARD</button>
+            <button class="cl-tog-btn active" id="pcz_modeSoft" onclick="pancz_setMode('soft')">SOFT</button>
+            <button class="cl-tog-btn" id="pcz_modeAnalog" onclick="pancz_setMode('analog')">ANALOG</button>
+          </div>
+          <div style="display:flex;gap:4px;">
+            <button class="cl-tog-btn os-btn" data-os="1" onclick="pancz_setOS(1,this)">1×</button>
+            <button class="cl-tog-btn os-btn" data-os="2" onclick="pancz_setOS(2,this)">2×</button>
+            <button class="cl-tog-btn os-btn active" data-os="4" onclick="pancz_setOS(4,this)">4×</button>
+          </div>
+          <label class="cl-bypass-toggle" id="pcz_bypassToggle" onclick="pancz_toggleBypass()">
+            <div class="cl-toggle-track on" id="pcz_toggleTrack">
+              <div class="cl-toggle-thumb" id="pcz_toggleThumb"></div>
+            </div>
+            <span class="cl-toggle-label on" id="pcz_toggleLabel">CLIPPER ON</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Body: left VU | waveform | right VU -->
+      <div class="cl-body">
+
+        <!-- LEFT VU -->
+        <div class="cl-vu-col">
+          <span class="cl-vu-label">IN</span>
+          <div class="cl-vu-bar" id="pcz_vuIn"></div>
+        </div>
+
+        <!-- CENTER: waveform — threshold drag here -->
+        <div class="cl-center">
+          <div class="cl-wave-wrap" id="pcz_waveWrap">
+            <canvas id="clipper_waveCanvas"></canvas>
+            <div class="cl-thr-badge" id="pcz_thrBadge">−6.0 dB</div>
+            <div class="cl-gr-overlay" id="pcz_grLabel"></div>
+          </div>
+        </div>
+
+        <!-- RIGHT VU -->
+        <div class="cl-vu-col right">
+          <span class="cl-vu-label">OUT</span>
+          <div class="cl-vu-bar" id="pcz_vuOut"></div>
+        </div>
+
+      </div><!-- /cl-body -->
+
+      <!-- Bottom controls row — comp-style knobs -->
+      <div class="cl-controls-row">
+
+        <div class="cl-ctrl-group">
+          <div class="cl-ctrl-label">INPUT</div>
+          <div class="cl-ctrl-knob" id="pcz_knob_input" data-min="0" data-max="2" data-val="1" data-default="1" style="--kc:var(--cl-accent)">
+            <div class="cl-knob-dot" style="background:var(--cl-accent)"></div>
+          </div>
+          <div class="cl-ctrl-val" id="pcz_val_input" style="color:var(--cl-accent)">0 dB</div>
+        </div>
+
+        <div class="cl-ctrl-group">
+          <div class="cl-ctrl-label">KNEE</div>
+          <div class="cl-ctrl-knob" id="pcz_knob_knee" data-min="0" data-max="100" data-val="50" data-default="50" style="--kc:var(--cl-amber)">
+            <div class="cl-knob-dot"></div>
+          </div>
+          <div class="cl-ctrl-val" id="pcz_val_knee">50%</div>
+        </div>
+
+        <div class="cl-ctrl-group">
+          <div class="cl-ctrl-label">MIX</div>
+          <div class="cl-ctrl-knob" id="pcz_knob_mix" data-min="0" data-max="100" data-val="100" data-default="100" style="--kc:var(--cl-accent3)">
+            <div class="cl-knob-dot" style="background:var(--cl-accent3)"></div>
+          </div>
+          <div class="cl-ctrl-val" id="pcz_val_mix" style="color:var(--cl-accent3)">100%</div>
+        </div>
+
+        <div class="cl-ctrl-group">
+          <div class="cl-ctrl-label">OUTPUT</div>
+          <div class="cl-ctrl-knob" id="pcz_knob_output" data-min="0" data-max="2" data-val="1" data-default="1" style="--kc:var(--cl-accent)">
+            <div class="cl-knob-dot" style="background:var(--cl-accent)"></div>
+          </div>
+          <div class="cl-ctrl-val" id="pcz_val_output" style="color:var(--cl-accent)">0 dB</div>
+        </div>
+
+      </div><!-- /cl-controls-row -->
+
+      <!-- Hidden canvas + legacy compat elements -->
+      <canvas id="clipper_transferCanvas" style="display:none;"></canvas>
+
+    </div><!-- /cl-panel -->
+
+  </div><!-- /cl-app -->
 </div>
+
+
+
 
 <script>
 
-var _ctx=null,_buf=null,_src=null,_masterGain=null,_currentFile=null;
+var _ctx=null,_buf=null,_src=null,_masterGain=null,_currentFile=null,_chainHead=null;
 var _isPlaying=false,_playOffset=0,_playCtxTime=0,_seekRaf=null;
-var _chainOrder=['eq','tape','comp','imager','lufs'];
-var _bypassed=new Set();
+var _chainOrder = ['eq','tape','comp','imager','clipper','lufs'];
+var _bypassed=new Set(['tape','comp','imager','clipper','lufs']);
 var _plugins={};
-var PM={eq:{label:'EQ Studio',color:'#00ff88'},tape:{label:'Tape Saturator',color:'#ff8844'},comp:{label:'Mst Comp',color:'#4488ff'},imager:{label:'Stereo Imager',color:'#ff44aa'},lufs:{label:'LUFS Meter',color:'#ffcc00'}};
-var _activeKey='eq';
+var PM = {
+  eq:{label:'EQ Studio',color:'#00ff88'},
+  tape:{label:'Tape Saturator',color:'#ff8844'},
+  comp:{label:'Mst Comp',color:'#4488ff'},
+  imager:{label:'Stereo Imager',color:'#ff44aa'},
+  clipper:{label:'Soft Clipper',color:'#ffaa33'},
+  lufs:{label:'LUFS Meter',color:'#ffcc00'}
+};var _activeKey='eq';
 
 
 // === HOISTED PLUGIN STATE (needed before plugin code runs) ===
@@ -5780,6 +6145,35 @@ function eq_buildBandUI() {
       <select class="band-type" id="type-${i}" onchange="eq_onType(${i}, this.value)">
         ${(i === 7 ? ['peaking','lowshelf','highshelf','silkshelf','lowpass','highpass','notch'] : eq_TYPES).map(t => `<option value="${t}" ${t===b.type?'selected':''}>${t === 'silkshelf' ? 'SILKSHELF' : t.toUpperCase()}</option>`).join('')}
       </select>
+      <button class="dyn-toggle-btn" id="dyn-btn-${i}" onclick="eq_toggleDynEq(${i})">DYN EQ</button>
+      <div class="dyn-panel" id="dyn-panel-${i}">
+        <div class="dyn-row">
+          <span class="dyn-pLabel">THR</span>
+          <div class="band-scrub dyn-scrub" id="dyn-thr-${i}" data-dynband="${i}" data-dyntype="thr" title="Drag up/down · threshold dBFS">
+            <span class="scrub-arrow">&#9650;</span>
+            <span id="dyn-thr-val-${i}">-24dB</span>
+            <span class="scrub-arrow">&#9660;</span>
+          </div>
+          <button class="dyn-auto-btn" id="dyn-auto-${i}" onclick="eq_dynAutoThreshold(${i})" title="Auto-detect threshold">AUTO</button>
+        </div>
+        <div class="dyn-row">
+          <span class="dyn-pLabel">ATK</span>
+          <div class="band-scrub dyn-scrub" id="dyn-atk-${i}" data-dynband="${i}" data-dyntype="atk" title="Drag up/down · attack ms">
+            <span class="scrub-arrow">&#9650;</span>
+            <span id="dyn-atk-val-${i}">20ms</span>
+            <span class="scrub-arrow">&#9660;</span>
+          </div>
+        </div>
+        <div class="dyn-row">
+          <span class="dyn-pLabel">REL</span>
+          <div class="band-scrub dyn-scrub" id="dyn-rel-${i}" data-dynband="${i}" data-dyntype="rel" title="Drag up/down · release ms">
+            <span class="scrub-arrow">&#9650;</span>
+            <span id="dyn-rel-val-${i}">150ms</span>
+            <span class="scrub-arrow">&#9660;</span>
+          </div>
+        </div>
+        <div class="dyn-gr-bar-wrap"><div class="dyn-gr-bar" id="dyn-gr-${i}"></div></div>
+      </div>
     `;
     container.appendChild(card);
   });
@@ -6556,9 +6950,9 @@ document.getElementById('eq_warmthBtn').addEventListener('click', function() {
 });
 
 // ─── OVERSAMPLING ─────────────────────────────────────────────────────────
-document.querySelectorAll('.os-btn').forEach(btn => {
+document.querySelectorAll('#panel-eq .os-btn').forEach(btn => {
   btn.addEventListener('click', function() {
-    document.querySelectorAll('.os-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#panel-eq .os-btn').forEach(b => b.classList.remove('active'));
     this.classList.add('active');
     eq_oversampleRate = this.dataset.rate;
     eq_updateSatNode();
@@ -7521,6 +7915,338 @@ function eq_init() {
 }
 
 eq_init();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DYNAMIC EQ ENGINE
+// ─────────────────────────────────────────────────────────────────────────
+// Her band için bağımsız sidechain RMS detector + gain computer.
+// Attack/release envelope follower, threshold, auto threshold.
+// Gerçek zamanlı: ScriptProcessorNode (256 sample) tabanlı.
+// ═══════════════════════════════════════════════════════════════════════════
+
+var eq_dynState = Array.from({length:8}, (_,i) => ({
+  enabled: false,          // DYN EQ on/off
+  thr: -24,                // threshold dBFS
+  atk: 20,                 // attack ms
+  rel: 150,                // release ms
+  autoThr: false,          // auto threshold mode
+  envDb: -80,              // current envelope (dBFS)
+  gr: 0,                   // current gain reduction dB
+  // analysers for sidechain (one per band, tuned to band freq)
+  analyser: null,
+  scpNode: null,
+  bandFilter: null,        // sidechain bandpass filter
+}));
+
+// Build per-band sidechain after audio init
+function eq_dynBuildSidechain(i) {
+  if (!eq_audioCtx) return;
+  var s = eq_dynState[i];
+  // Cleanup old nodes
+  try { if (s.bandFilter) s.bandFilter.disconnect(); } catch(e){}
+  try { if (s.analyser) s.analyser.disconnect(); } catch(e){}
+
+  if (!s.enabled) return;
+
+  var b = eq_bands[i];
+  // Bandpass sidechain filter centered at band frequency
+  s.bandFilter = eq_audioCtx.createBiquadFilter();
+  s.bandFilter.type = 'bandpass';
+  s.bandFilter.frequency.value = Math.min(20000, Math.max(20, b.freq));
+  s.bandFilter.Q.value = Math.max(0.5, b.q || 1.0);
+
+  s.analyser = eq_audioCtx.createAnalyser();
+  s.analyser.fftSize = 512;
+  s.analyser.smoothingTimeConstant = 0;
+
+  // Tap from masterGainNode (post-EQ signal)
+  if (eq_masterGainNode) {
+    try {
+      eq_masterGainNode.connect(s.bandFilter);
+      s.bandFilter.connect(s.analyser);
+    } catch(e) {}
+  }
+}
+
+function eq_dynRebuildAll() {
+  eq_dynState.forEach((_,i) => eq_dynBuildSidechain(i));
+}
+
+// Called on audio init/rebuild — re-tap sidechains
+var eq_dynRafId = null;
+var eq_dynLastTap = 0;
+
+function eq_dynTick(now) {
+  eq_dynRafId = requestAnimationFrame(eq_dynTick);
+  if (!eq_audioCtx) return;
+
+  var sr = eq_audioCtx.sampleRate;
+
+  eq_dynState.forEach((s, i) => {
+    if (!s.enabled) { s.gr = 0; s.envDb = -80; eq_updateDynGRBar(i, 0); return; }
+
+    var b = eq_bands[i];
+
+    // Update sidechain filter freq/Q if band changed
+    if (s.bandFilter) {
+      s.bandFilter.frequency.value = Math.min(20000, Math.max(20, b.freq));
+      s.bandFilter.Q.value = Math.max(0.5, b.q || 1.0);
+    } else {
+      eq_dynBuildSidechain(i);
+      return;
+    }
+
+    // RMS from sidechain analyser
+    var buf = new Float32Array(s.analyser.fftSize);
+    s.analyser.getFloatTimeDomainData(buf);
+    var sumSq = 0;
+    for (var k = 0; k < buf.length; k++) sumSq += buf[k] * buf[k];
+    var rms = Math.sqrt(sumSq / buf.length);
+    var inDb = rms > 1e-7 ? 20 * Math.log10(rms) : -80;
+
+    // Envelope follower (attack / release)
+    var dtMs = (1000 / 60); // ~60fps
+    var atkCoeff = Math.exp(-Math.log(9) / (Math.max(1, s.atk) / dtMs));
+    var relCoeff = Math.exp(-Math.log(9) / (Math.max(1, s.rel) / dtMs));
+
+    if (inDb > s.envDb) {
+      s.envDb = atkCoeff * s.envDb + (1 - atkCoeff) * inDb;
+    } else {
+      s.envDb = relCoeff * s.envDb + (1 - relCoeff) * inDb;
+    }
+
+    // Auto threshold: slowly tracks 6dB above long-term average
+    if (s.autoThr) {
+      var autoTarget = s.envDb + 6;
+      s.thr = s.thr * 0.9995 + autoTarget * 0.0005;
+      s.thr = Math.max(-60, Math.min(-3, s.thr));
+      // Update slider + label UI
+      var sliderEl = document.getElementById('dyn-thr-' + i);
+      var valEl    = document.getElementById('dyn-thr-val-' + i);
+      if (sliderEl) sliderEl.value = s.thr.toFixed(1);
+      if (valEl)    valEl.textContent = s.thr.toFixed(0) + 'dB';
+    }
+
+    // Gain reduction: above threshold → reduce gain proportionally
+    var excess = s.envDb - s.thr;
+    var targetGr = excess > 0 ? Math.min(excess * 0.8, 12) : 0; // max 12dB GR
+    // Smooth GR changes (attack/release already in env, but smooth the GR display)
+    s.gr = s.gr * 0.85 + targetGr * 0.15;
+
+    // Apply GR to filter gain (modulate the actual EQ band gain)
+    eq_dynApplyGR(i, s.gr);
+    eq_updateDynGRBar(i, s.gr);
+  });
+}
+
+function eq_dynApplyGR(i, gr) {
+  // Dynamic EQ: reduce (or boost for upward) band gain by gr
+  // Simple downward compression: attenuate positive gain bands, boost cuts
+  if (!eq_filters[i]) return;
+  var b = eq_bands[i];
+  if (!b.enabled) return;
+  var defs = eq_poleDefsForBand(b);
+  eq_filters[i].forEach((f, pi) => {
+    var d = defs[pi];
+    if (!d) return;
+    // Apply GR: reduce the effective gain by gr dB
+    var effectiveGain = (d.gain || 0) - gr * (b.gain >= 0 ? 1 : -1);
+    try { f.gain.value = effectiveGain; } catch(e){}
+  });
+}
+
+function eq_updateDynGRBar(i, gr) {
+  var bar = document.getElementById('dyn-gr-' + i);
+  if (bar) bar.style.width = Math.min(100, (gr / 12) * 100) + '%';
+}
+
+// Toggle DYN EQ on/off for a band
+function eq_toggleDynEq(i) {
+  var s = eq_dynState[i];
+  s.enabled = !s.enabled;
+  var btn = document.getElementById('dyn-btn-' + i);
+  var panel = document.getElementById('dyn-panel-' + i);
+  if (btn)   btn.classList.toggle('dyn-active', s.enabled);
+  if (panel) panel.classList.toggle('visible', s.enabled);
+  if (s.enabled) {
+    eq_dynBuildSidechain(i);
+    // Init scrub listeners for this band's dyn controls
+    ['dyn-thr-','dyn-atk-','dyn-rel-'].forEach(function(pfx) {
+      var el = document.getElementById(pfx + i);
+      if (el) {
+        el.removeEventListener('mousedown', eq_dynScrubStart);
+        el.removeEventListener('touchstart', eq_dynScrubStart);
+        el.removeEventListener('dblclick', eq_dynScrubReset);
+        el.addEventListener('mousedown', eq_dynScrubStart);
+        el.addEventListener('touchstart', eq_dynScrubStart, { passive: false });
+        el.addEventListener('dblclick', eq_dynScrubReset);
+      }
+    });
+  } else {
+    // Restore original gain
+    s.gr = 0;
+    eq_syncFilters();
+    eq_drawEQ();
+    try { if (s.bandFilter) s.bandFilter.disconnect(); } catch(e){}
+    try { if (s.analyser)   s.analyser.disconnect();   } catch(e){}
+  }
+}
+
+// Update a dyn param from scrub drag
+function eq_dynParam(i, param, rawVal) {
+  var s = eq_dynState[i];
+  var v = parseFloat(rawVal);
+  if (param === 'thr') {
+    s.thr = Math.max(-60, Math.min(0, v));
+    var el = document.getElementById('dyn-thr-val-' + i);
+    if (el) el.textContent = s.thr.toFixed(0) + 'dB';
+    s.autoThr = false;
+    var ab = document.getElementById('dyn-auto-' + i);
+    if (ab) ab.classList.remove('auto-active');
+  } else if (param === 'atk') {
+    s.atk = Math.max(1, Math.min(200, v));
+    var el = document.getElementById('dyn-atk-val-' + i);
+    if (el) el.textContent = Math.round(s.atk) + 'ms';
+  } else if (param === 'rel') {
+    s.rel = Math.max(20, Math.min(1000, v));
+    var el = document.getElementById('dyn-rel-val-' + i);
+    if (el) el.textContent = Math.round(s.rel) + 'ms';
+  }
+}
+
+// Scrub drag system for DYN EQ controls
+var eq_dynActiveScrub = null;
+
+function eq_dynInitScrubListeners() {
+  document.querySelectorAll('.dyn-scrub').forEach(function(el) {
+    el.addEventListener('mousedown', eq_dynScrubStart);
+    el.addEventListener('touchstart', eq_dynScrubStart, { passive: false });
+    el.addEventListener('dblclick', eq_dynScrubReset);
+  });
+}
+
+function eq_dynScrubReset(e) {
+  var i    = parseInt(e.currentTarget.dataset.dynband);
+  var type = e.currentTarget.dataset.dyntype;
+  if (type === 'thr') eq_dynParam(i, 'thr', -24);
+  else if (type === 'atk') eq_dynParam(i, 'atk', 20);
+  else if (type === 'rel') eq_dynParam(i, 'rel', 150);
+}
+
+function eq_dynScrubStart(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  var el   = e.currentTarget;
+  var i    = parseInt(el.dataset.dynband);
+  var type = el.dataset.dyntype;
+  var startY = e.touches ? e.touches[0].clientY : e.clientY;
+  var s = eq_dynState[i];
+  var startVal = type === 'thr' ? s.thr : type === 'atk' ? s.atk : s.rel;
+
+  eq_dynActiveScrub = { i, type, startY, startVal, el };
+  el.classList.add('dragging');
+
+  var onMove = function(ev) {
+    var clientY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+    var dy = startY - clientY; // up = positive
+    var newVal;
+    if (type === 'thr') {
+      // 1px = 0.5 dB
+      newVal = startVal + dy * 0.5;
+    } else if (type === 'atk') {
+      // 1px = 1ms
+      newVal = startVal + dy * 1;
+    } else {
+      // 1px = 5ms
+      newVal = startVal + dy * 5;
+    }
+    eq_dynParam(i, type, newVal);
+  };
+
+  var onUp = function() {
+    if (eq_dynActiveScrub) eq_dynActiveScrub.el.classList.remove('dragging');
+    eq_dynActiveScrub = null;
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+    document.removeEventListener('touchmove', onMove);
+    document.removeEventListener('touchend', onUp);
+  };
+
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onUp);
+  document.addEventListener('touchmove', onMove, { passive: false });
+  document.addEventListener('touchend', onUp);
+}
+
+// Auto threshold: measure current RMS of band region + 6dB headroom
+function eq_dynAutoThreshold(i) {
+  var s = eq_dynState[i];
+  s.autoThr = !s.autoThr;
+  var btn = document.getElementById('dyn-auto-' + i);
+  if (btn) btn.classList.toggle('auto-active', s.autoThr);
+  if (!s.autoThr) return;
+
+  // Immediate estimate from audio buffer if available
+  if (eq_audioBuffer && eq_audioCtx) {
+    var b = eq_bands[i];
+    // Measure RMS of the band region using offline measurement
+    eq_dynMeasureBandRMS(i).then(rmsDb => {
+      s.thr = Math.max(-60, Math.min(-3, rmsDb + 4));
+      var sliderEl = document.getElementById('dyn-thr-' + i);
+      var valEl    = document.getElementById('dyn-thr-val-' + i);
+      if (sliderEl) sliderEl.value = s.thr.toFixed(1);
+      if (valEl)    valEl.textContent = s.thr.toFixed(0) + 'dB';
+      eq_showToast('AUTO THR B' + (i+1) + ': ' + s.thr.toFixed(0) + ' dB');
+    });
+  }
+}
+
+async function eq_dynMeasureBandRMS(i) {
+  if (!eq_audioBuffer || !eq_audioCtx) return -30;
+  var b = eq_bands[i];
+  var dur = Math.min(10, eq_audioBuffer.duration);
+  var s0  = Math.round(Math.max(0, (eq_audioBuffer.duration - dur) / 2) * eq_audioBuffer.sampleRate);
+  var frames = Math.round(dur * eq_audioBuffer.sampleRate);
+  var nCh = eq_audioBuffer.numberOfChannels;
+  var sumSq = 0, cnt = 0;
+
+  // Offline band-limited RMS via simple IIR approximation
+  // Use biquad bandpass coefficients to filter samples
+  var sr = eq_audioBuffer.sampleRate;
+  var w0 = 2 * Math.PI * Math.min(20000, Math.max(20, b.freq)) / sr;
+  var Q  = Math.max(0.5, b.q || 1.0);
+  var al = Math.sin(w0) / (2 * Q);
+  var bpB0 = al, bpB1 = 0, bpB2 = -al;
+  var bpA0 = 1 + al, bpA1 = -2 * Math.cos(w0), bpA2 = 1 - al;
+  bpB0 /= bpA0; bpB1 /= bpA0; bpB2 /= bpA0;
+  bpA1 /= bpA0; bpA2 /= bpA0;
+
+  for (var ch = 0; ch < nCh; ch++) {
+    var d = eq_audioBuffer.getChannelData(ch);
+    var x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+    var STEP = 4; // downsample for speed
+    for (var k = s0; k < s0 + frames; k += STEP) {
+      var x0 = d[k] || 0;
+      var y0 = bpB0 * x0 + bpB1 * x1 + bpB2 * x2 - bpA1 * y1 - bpA2 * y2;
+      x2 = x1; x1 = x0; y2 = y1; y1 = y0;
+      sumSq += y0 * y0; cnt++;
+      if (cnt % 10000 === 0) await new Promise(r => setTimeout(r, 0));
+    }
+  }
+  var rms = cnt > 0 ? Math.sqrt(sumSq / cnt) : 1e-7;
+  return rms > 1e-7 ? 20 * Math.log10(rms) : -60;
+}
+
+// Hook into existing rebuildFilters to re-tap sidechains
+var _eq_origRebuildFilters = eq_rebuildFilters;
+eq_rebuildFilters = function() {
+  _eq_origRebuildFilters();
+  // Re-tap sidechain after chain rebuild
+  setTimeout(eq_dynRebuildAll, 0);
+};
+
+// Start DYN tick loop
+eq_dynRafId = requestAnimationFrame(eq_dynTick);
 
 // ═══ TAPE ═══
 
@@ -12686,16 +13412,19 @@ async function suite_loadFile(file){
 }
 function suite_rewireChain(){
   if(!_ctx||!_masterGain)return;
+  // Ensure a stable head node exists — _src always connects here regardless of bypass state
+  if(!_chainHead){_chainHead=_ctx.createGain();_chainHead.gain.value=1;}
   try{_masterGain.disconnect();}catch(e){}
   _chainOrder.forEach(function(k){var p=_plugins[k];if(!p)return;try{if(p.outputNode)p.outputNode.disconnect();}catch(e){}try{if(p.bypassNode)p.bypassNode.disconnect();}catch(e){};});
-  var prev=null;
+  try{_chainHead.disconnect();}catch(e){}
+  var prev=_chainHead;
   for(var ci=0;ci<_chainOrder.length;ci++){
     var k=_chainOrder[ci],p=_plugins[k];
     if(!p||!p.inputNode||!p.outputNode)continue;
-    if(_bypassed.has(k)){if(!p.bypassNode)p.bypassNode=_ctx.createGain();if(prev)prev.connect(p.bypassNode);prev=p.bypassNode;}
-    else{if(prev)prev.connect(p.inputNode);prev=p.outputNode;}
+    if(_bypassed.has(k)){if(!p.bypassNode)p.bypassNode=_ctx.createGain();prev.connect(p.bypassNode);prev=p.bypassNode;}
+    else{prev.connect(p.inputNode);prev=p.outputNode;}
   }
-  if(prev)prev.connect(_masterGain);_masterGain.connect(_ctx.destination);
+  prev.connect(_masterGain);_masterGain.connect(_ctx.destination);
   suite_renderChain();
 }
 function suite_togglePlay(){if(_isPlaying)suite_pause();else suite_play(_playOffset);}
@@ -12704,9 +13433,9 @@ async function suite_play(offset){
   suite_stop();
   if(_ctx.state==='suspended')await _ctx.resume();
   _src=_ctx.createBufferSource();_src.buffer=_buf;
-  var fk=null;
-  for(var pi2=0;pi2<_chainOrder.length;pi2++){var pk=_chainOrder[pi2];if(!_bypassed.has(pk)&&_plugins[pk]&&_plugins[pk].inputNode){fk=pk;break;}}
-  _src.connect(fk?_plugins[fk].inputNode:_masterGain);
+  // Always connect through _chainHead so bypass toggles never cut audio
+  if(!_chainHead){_chainHead=_ctx.createGain();_chainHead.gain.value=1;suite_rewireChain();}
+  _src.connect(_chainHead);
   var off=Math.min(offset||0,_buf.duration);
   _src.start(0,off);_playCtxTime=_ctx.currentTime;_playOffset=off;_isPlaying=true;
   if(typeof imager_isPlaying!=='undefined')imager_isPlaying=true;
@@ -12840,6 +13569,12 @@ function suite_switchPlugin(key){
   if (key === 'imager' && typeof imager_resizeCanvases === 'function') {
     setTimeout(function(){ try { imager_resizeCanvases(); } catch(e) {} }, 50);
   }
+  if (key === 'clipper') {
+    setTimeout(function() {
+      clipper_drawTransferCurve();
+      clipper_drawWaveform();
+    }, 50);
+  }
   if (key === 'lufs') {
     setTimeout(function(){
       try { lufs_drawTickCanvas(); } catch(e) {}
@@ -12903,7 +13638,7 @@ function suite_toggleBypass(key){
 function suite_removeFile(){
   suite_stop();
   if(_ctx){try{_ctx.close();}catch(e){}_ctx=null;}
-  _buf=null;_currentFile=null;_src=null;_masterGain=null;_plugins={};
+  _buf=null;_currentFile=null;_src=null;_masterGain=null;_plugins={};_chainHead=null;
   // Reset LUFS
   if(typeof lufs_resetAll==='function')try{lufs_resetAll(true);}catch(e){}
   lufs_audioBuffer=null;lufs_analysisResult=null;
@@ -13059,6 +13794,8 @@ async function suite_doExport(){
 }
 
 document.addEventListener('DOMContentLoaded',function(){
+  // Sync internal plugin bypass states with initial _bypassed set
+  tape_state.bypass = true;   // tape starts bypassed
   suite_renderChain();
   var dz=document.getElementById('dropZone'),fi=document.getElementById('fileInput');
   dz.addEventListener('click',function(){fi.click();});
@@ -13081,11 +13818,1249 @@ document.addEventListener('DOMContentLoaded',function(){
   window.startExport = suite_openExportFromLUFS; // LUFS platform export button
 });
 
+// ============================================================
+// CLIPPER MODULE - MASTERING CHAIN CLIPPER PLUGIN
+// ============================================================
+
+// Clipper state variables
+var clipper_state = {
+  enabled: true,
+  threshold: -6,      // dBFS, signals above this are clipped
+  ceiling: 0,         // dBFS, max output level
+  knee: 0.5,          // 0..1, 0=hard, 1=very soft
+  mode: 'soft',       // 'hard', 'soft', 'analog'
+  oversample: '4x',   // '1x','2x','4x'
+  // internal nodes
+  waveShaper: null,
+  inputGain: null,
+  outputGain: null,
+  ctx: null,
+  clipAmount: 0,      // peak reduction in dB for meter
+};
+
+// Generate waveshaper curve based on threshold, ceiling, knee, mode
+//
+// DSP design notes:
+//   8192-point table for smoother interpolation, less quantisation noise.
+//   All modes guarantee C1-continuity at the threshold knee (no slope
+//   discontinuity -> no harsh harmonic bursts).
+//   soft  : tanh-based; drive scales with how far above threshold the
+//           signal is, knee blends the transition region.
+//   hard  : Hermite-polynomial hard-limiter (brick-wall but bandlimited).
+//   analog: asymmetric tanh with 2nd-order bias for tube-like even harmonics.
+//   Unity gain is preserved below threshold in every mode.
+//   Ceiling is applied as a final hard limit after the shaping function.
+//
+function clipper_generateCurve() {
+  var threshLin = Math.pow(10, clipper_state.threshold / 20);
+  var ceilLin   = Math.pow(10, clipper_state.ceiling  / 20);
+  var knee      = clipper_state.knee;   // 0 = tight, 1 = very smooth
+  var mode      = clipper_state.mode;
+  var n         = 8192;
+  var curve     = new Float32Array(n);
+
+  // Width of the soft-knee transition zone around threshold (in linear amp)
+  var kneeWidth = threshLin * knee * 0.5;
+
+  for (var i = 0; i < n; i++) {
+    var x    = (i * 2) / n - 1;   // -1 ... +1  (WaveShaperNode maps here)
+    var absX = Math.abs(x);
+    var sign = x < 0 ? -1 : 1;
+    var out;
+
+    if (mode === 'hard') {
+      // Hard mode: Hermite spline transition into brick-wall ceiling
+      var lo = threshLin - kneeWidth;
+      var hi = threshLin + kneeWidth;
+      if (absX <= lo) {
+        out = x;
+      } else if (absX < hi && kneeWidth > 0) {
+        var t = (absX - lo) / (2 * kneeWidth);
+        var blend = t * t * (3 - 2 * t);   // smoothstep
+        out = sign * (lo + (ceilLin - lo) * blend);
+      } else {
+        out = sign * ceilLin;
+      }
+
+    } else if (mode === 'soft') {
+      // Soft mode: tanh-based with variable drive
+      // Below threshold: strict unity gain (no colouring of clean signal)
+      if (absX <= threshLin) {
+        out = x;
+      } else {
+        var over  = (absX - threshLin) / Math.max(1 - threshLin, 0.001);
+        // drive in [1,8]: higher knee -> more compression, less saturation
+        var drive = 1 + over * (8 - 7 * knee);
+        // tanh(drive*x)/tanh(drive) gives unity at threshold, saturates above
+        var shaped = Math.tanh(drive * (absX / threshLin)) /
+                     Math.tanh(drive) * threshLin;
+        var alpha  = Math.min(1, over / Math.max(knee * 0.5 + 0.01, 0.01));
+        out = sign * (absX * (1 - alpha) + shaped * alpha);
+      }
+
+    } else {
+      // Analog mode: asymmetric tanh (tube-like even harmonics)
+      var bias    = 0.07 * knee;
+      var driveA  = 1.5 + knee * 3.5;
+      var xBiased = x + bias;
+      var tanhOut = Math.tanh(driveA * xBiased) / Math.tanh(driveA);
+      // Remove DC offset
+      tanhOut -= Math.tanh(driveA * bias) / Math.tanh(driveA);
+      if (absX <= threshLin) {
+        var blend2 = absX / threshLin;
+        out = x * (1 - blend2 * 0.15) + tanhOut * (blend2 * 0.15);
+      } else {
+        var over2  = Math.min(1, (absX - threshLin) / Math.max(1 - threshLin, 0.001));
+        out = x * (1 - over2) + tanhOut * over2;
+      }
+    }
+
+    // Brick-wall ceiling guarantee
+    out = Math.max(-ceilLin, Math.min(ceilLin, out));
+    curve[i] = out;
+  }
+  return curve;
+}
+
+// Update the waveshaper curve when parameters change
+function clipper_updateCurve() {
+  if (!clipper_state.waveShaper) return;
+  var curve = clipper_generateCurve();
+  var os = clipper_state.oversample === '1x' ? 'none' : clipper_state.oversample;
+  clipper_state.waveShaper.curve = curve;
+  clipper_state.waveShaper.oversample = os;
+  // Keep dry-path identity shaper in sync so latency stays matched
+  if (clipper_state.dryShaper) {
+    clipper_state.dryShaper.oversample = os;
+  }
+}
+
+// Update the clipping meter display
+function clipper_updateMeter(grPercent, grDB) {
+  // Legacy hidden elements
+  var fill0 = document.getElementById('clipper_grFill');
+  if (fill0) fill0.style.width = Math.min(100, grPercent * 100) + '%';
+  // New UI elements
+  var fill = document.getElementById('pcz_grFill');
+  if (fill) fill.style.width = Math.min(100, grPercent * 100) + '%';
+  var led = document.getElementById('pcz_clipLed');
+  if (led) led.classList.toggle('active', grPercent > 0.01);
+  var dbTxt = (grDB !== undefined && isFinite(grDB) && grDB < 0) ? grDB.toFixed(1) + ' dB' : '0.0 dB';
+  var dbEl = document.getElementById('pcz_grDb');
+  if (dbEl) dbEl.textContent = dbTxt;
+  var dbEl0 = document.getElementById('clipper_grDbVal');
+  if (dbEl0) dbEl0.textContent = dbTxt;
+  // GR overlay label
+  var grLabel = document.getElementById('pcz_grLabel');
+  if (grLabel) grLabel.textContent = grPercent > 0.01 ? dbTxt : '';
+}
+
+// ── Transfer curve canvas ─────────────────────────────────────────────────────
+var clipper_transferCtx = null;
+var clipper_transferAnimId = null;
+var clipper_waveCtx2 = null;
+var clipper_analyserNode = null;  // set by initClipper if available
+var clipper_waveData = null;
+
+function clipper_drawTransferCurve() {
+  var canvas = document.getElementById('clipper_transferCanvas');
+  if (!canvas) return;
+  var W = canvas.parentElement.offsetWidth || 500;
+  var H = canvas.parentElement.offsetHeight || 280;
+  if (canvas.width !== W || canvas.height !== H) { canvas.width = W; canvas.height = H; }
+  var ctx = canvas.getContext('2d');
+
+  // Background
+  ctx.fillStyle = '#0a0a0e';
+  ctx.fillRect(0, 0, W, H);
+
+  var PAD = 28;
+  var plotW = W - PAD * 2;
+  var plotH = H - PAD * 2;
+
+  // Grid lines (dB) – input axis = bottom, output axis = left
+  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+  ctx.lineWidth = 1;
+  ctx.fillStyle = 'rgba(102,102,128,0.5)';
+  ctx.font = '7px Space Mono';
+
+  var dbTicks = [-60, -48, -36, -24, -18, -12, -6, 0];
+  dbTicks.forEach(function(db) {
+    var xFrac = (db + 60) / 60;
+    var yFrac = 1 - (db + 60) / 60;
+    var xPx = PAD + xFrac * plotW;
+    var yPx = PAD + yFrac * plotH;
+    // vertical (input)
+    ctx.beginPath(); ctx.moveTo(xPx, PAD); ctx.lineTo(xPx, PAD + plotH); ctx.stroke();
+    // horizontal (output)
+    ctx.beginPath(); ctx.moveTo(PAD, yPx); ctx.lineTo(PAD + plotW, yPx); ctx.stroke();
+    // labels
+    if (db !== -60) {
+      ctx.textAlign = 'center';
+      ctx.fillText(db, xPx, PAD + plotH + 14);
+      ctx.textAlign = 'right';
+      ctx.fillText(db, PAD - 4, yPx + 3);
+    }
+  });
+
+  // Axis labels
+  ctx.fillStyle = 'rgba(102,102,128,0.6)';
+  ctx.font = '7px Syne';
+  ctx.textAlign = 'center';
+  ctx.fillText('INPUT (dBFS)', PAD + plotW / 2, H - 2);
+  ctx.save();
+  ctx.translate(8, PAD + plotH / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('OUTPUT (dBFS)', 0, 0);
+  ctx.restore();
+
+  // 1:1 unity reference line
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+  ctx.setLineDash([4, 4]);
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(PAD, PAD + plotH);
+  ctx.lineTo(PAD + plotW, PAD);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // ── Transfer curve — matches clipper_generateCurve() exactly ──
+  var threshLin = Math.pow(10, clipper_state.threshold / 20);
+  var ceilLin   = Math.pow(10, clipper_state.ceiling / 20);
+  var knee      = clipper_state.knee;
+  var mode      = clipper_state.mode;
+  var kneeWidth = threshLin * knee * 0.5;
+
+  function _vizCurve(inLin) {
+    var absX = Math.abs(inLin);
+    var sign = inLin < 0 ? -1 : 1;
+    var out;
+    if (mode === 'hard') {
+      var lo = threshLin - kneeWidth;
+      var hi = threshLin + kneeWidth;
+      if (absX <= lo) { out = inLin; }
+      else if (absX < hi && kneeWidth > 0) {
+        var t2 = (absX - lo) / (2 * kneeWidth);
+        out = sign * (lo + (ceilLin - lo) * t2 * t2 * (3 - 2 * t2));
+      } else { out = sign * ceilLin; }
+    } else if (mode === 'soft') {
+      if (absX <= threshLin) {
+        out = inLin;
+      } else {
+        var over  = (absX - threshLin) / Math.max(1 - threshLin, 0.001);
+        var drive = 1 + over * (8 - 7 * knee);
+        var shaped = Math.tanh(drive * (absX / threshLin)) / Math.tanh(drive) * threshLin;
+        var alpha  = Math.min(1, over / Math.max(knee * 0.5 + 0.01, 0.01));
+        out = sign * (absX * (1 - alpha) + shaped * alpha);
+      }
+    } else { // analog
+      var bias    = 0.07 * knee;
+      var driveA  = 1.5 + knee * 3.5;
+      var tanhOut = Math.tanh(driveA * (inLin + bias)) / Math.tanh(driveA);
+      tanhOut -= Math.tanh(driveA * bias) / Math.tanh(driveA);
+      if (absX <= threshLin) {
+        var b2 = absX / threshLin;
+        out = inLin * (1 - b2 * 0.15) + tanhOut * (b2 * 0.15);
+      } else {
+        var ov2 = Math.min(1, (absX - threshLin) / Math.max(1 - threshLin, 0.001));
+        out = inLin * (1 - ov2) + tanhOut * ov2;
+      }
+    }
+    return Math.max(-ceilLin, Math.min(ceilLin, out));
+  }
+
+  // Gradient fill under curve
+  var grd = ctx.createLinearGradient(PAD, PAD, PAD + plotW, PAD + plotH);
+  grd.addColorStop(0, 'rgba(255,170,51,0.12)');
+  grd.addColorStop(1, 'rgba(255,170,51,0.02)');
+
+  ctx.beginPath();
+  ctx.moveTo(PAD, PAD + plotH);
+  for (var i = 0; i <= plotW; i++) {
+    var inLin = Math.pow(10, (-60 + (i / plotW) * 60) / 20);
+    var outLin = _vizCurve(inLin);
+    var outDB = outLin > 0 ? 20 * Math.log10(outLin) : -60;
+    outDB = Math.max(-60, Math.min(0, outDB));
+    var xPx = PAD + i;
+    var yPx = PAD + (1 - (outDB + 60) / 60) * plotH;
+    if (i === 0) ctx.lineTo(xPx, yPx);
+    else ctx.lineTo(xPx, yPx);
+  }
+  ctx.lineTo(PAD + plotW, PAD + plotH);
+  ctx.closePath();
+  ctx.fillStyle = grd;
+  ctx.fill();
+
+  // Curve line
+  ctx.strokeStyle = '#ffaa33';
+  ctx.lineWidth = 2;
+  ctx.shadowColor = 'rgba(255,170,51,0.4)';
+  ctx.shadowBlur = 6;
+  ctx.beginPath();
+  for (var i2 = 0; i2 <= plotW; i2++) {
+    var inLin2 = Math.pow(10, (-60 + (i2 / plotW) * 60) / 20);
+    var out2 = _vizCurve(inLin2);
+    var outDB2 = out2 > 0 ? 20 * Math.log10(out2) : -60;
+    outDB2 = Math.max(-60, Math.min(0, outDB2));
+    var xp = PAD + i2;
+    var yp = PAD + (1 - (outDB2 + 60) / 60) * plotH;
+    if (i2 === 0) ctx.moveTo(xp, yp); else ctx.lineTo(xp, yp);
+  }
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+
+  // ── Threshold vertical line (draggable indicator) ──
+  var thrXFrac = (clipper_state.threshold + 60) / 60;
+  var thrXPx = PAD + thrXFrac * plotW;
+  ctx.strokeStyle = 'rgba(255,170,51,0.7)';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath();
+  ctx.moveTo(thrXPx, PAD);
+  ctx.lineTo(thrXPx, PAD + plotH);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Threshold label
+  ctx.fillStyle = 'rgba(255,170,51,0.85)';
+  ctx.font = '700 8px Syne';
+  ctx.textAlign = 'left';
+  var labelX = thrXPx + 4;
+  if (thrXFrac > 0.85) { labelX = thrXPx - 52; ctx.textAlign = 'left'; }
+  ctx.fillText('THR ' + clipper_state.threshold.toFixed(1) + 'dB', labelX, PAD + 12);
+
+  // Threshold drag handle (circle on the line)
+  ctx.beginPath();
+  ctx.arc(thrXPx, PAD + plotH / 2, 5, 0, Math.PI * 2);
+  ctx.fillStyle = '#ffaa33';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // ── Ceiling horizontal line ──
+  var ceilYFrac = 1 - (clipper_state.ceiling + 60) / 60;
+  var ceilYPx = PAD + ceilYFrac * plotH;
+  ctx.strokeStyle = 'rgba(255,68,102,0.5)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3, 6]);
+  ctx.beginPath();
+  ctx.moveTo(PAD, ceilYPx);
+  ctx.lineTo(PAD + plotW, ceilYPx);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  if (clipper_state.ceiling < 0) {
+    ctx.fillStyle = 'rgba(255,68,102,0.7)';
+    ctx.font = '8px Space Mono';
+    ctx.textAlign = 'right';
+    ctx.fillText('CEIL ' + clipper_state.ceiling.toFixed(1) + 'dB', PAD + plotW - 4, ceilYPx - 3);
+  }
+}
+
+// ── Scrolling spectrogram-style waveform (single-sided, left→right) ─────────
+// Circular buffer for one full screen width of peak values
+var _wfBuf      = null;   // Float32Array, length = canvas pixel width
+var _wfWritePos = 0;      // next column to write
+var _wfSmooth   = 0;      // smoothed peak for envelope
+
+function clipper_drawWaveform() {
+  var canvas = document.getElementById('clipper_waveCanvas');
+  if (!canvas) return;
+  var wrap = canvas.parentElement;
+  var W = wrap ? (wrap.offsetWidth  || 700) : 700;
+  var H = wrap ? (wrap.offsetHeight || 240) : 240;
+
+  // Hi-DPI aware sizing
+  var dpr = window.devicePixelRatio || 1;
+  var physW = Math.round(W * dpr);
+  var physH = Math.round(H * dpr);
+  if (canvas.width !== physW || canvas.height !== physH) {
+    canvas.width  = physW;
+    canvas.height = physH;
+    canvas.style.width  = W + 'px';
+    canvas.style.height = H + 'px';
+    _wfBuf      = null;
+    _wfWritePos = 0;
+  }
+
+  if (!_wfBuf || _wfBuf.length !== physW) {
+    _wfBuf = new Float32Array(physW);
+    _wfWritePos = 0;
+  }
+
+  // ── Collect new sample from analyser ──
+  var newPeak = 0;
+  if (clipper_analyserNode) {
+    var td = new Float32Array(clipper_analyserNode.fftSize);
+    clipper_analyserNode.getFloatTimeDomainData(td);
+    for (var k = 0; k < td.length; k++) {
+      var a = Math.abs(td[k]);
+      if (a > newPeak) newPeak = a;
+    }
+  }
+  // Smooth: fast attack, slow release
+  _wfSmooth = newPeak > _wfSmooth
+    ? _wfSmooth + (newPeak - _wfSmooth) * 0.9
+    : _wfSmooth * 0.94;
+
+  // Write multiple columns per frame (controls scroll speed ~60px/s at 60fps)
+  var cols = Math.max(1, Math.round(dpr));
+  for (var c = 0; c < cols; c++) {
+    _wfBuf[_wfWritePos] = _wfSmooth;
+    _wfWritePos = (_wfWritePos + 1) % physW;
+  }
+
+  // ── Draw ──
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, physW, physH);
+
+  // Background
+  ctx.fillStyle = '#04040a';
+  ctx.fillRect(0, 0, physW, physH);
+
+  // Subtle horizontal grid lines (dB scale)
+  var thrLin  = Math.pow(10, clipper_state.threshold / 20);
+  // Map amplitude 0→1 to y: 0 = top (loud), physH = silence (bottom)
+  var ampToY = function(amp) { return physH - amp * physH * 0.96; };
+
+  // Grid lines at -6, -12, -18, -24 dB
+  var gridDBs = [-6, -12, -18, -24];
+  gridDBs.forEach(function(db) {
+    var a = Math.pow(10, db / 20);
+    var gy = ampToY(a);
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(physW, gy); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    ctx.font = (8 * dpr) + 'px Space Mono';
+    ctx.fillText(db + 'dB', 4, gy - 3);
+  });
+
+  // ── Draw columns from circular buffer ──
+  for (var x = 0; x < physW; x++) {
+    // Map x to circular buffer position
+    var bufIdx = (_wfWritePos + x) % physW;
+    var amp = _wfBuf[bufIdx];
+    if (amp < 0.0001) continue;
+
+    var barH = amp * physH * 0.96;
+    var yTop = physH - barH;
+    var isClipping = amp >= thrLin * 0.999;
+
+    if (isClipping) {
+      // Clipping zone: red
+      var clipH = (amp - thrLin) * physH * 0.96;
+      var safeH = barH - clipH;
+      // Safe portion (green→amber)
+      if (safeH > 0) {
+        var g1 = ctx.createLinearGradient(0, physH, 0, physH - safeH);
+        g1.addColorStop(0, 'rgba(0,255,136,0.55)');
+        g1.addColorStop(1, 'rgba(255,170,51,0.7)');
+        ctx.fillStyle = g1;
+        ctx.fillRect(x, physH - safeH, 1, safeH);
+      }
+      // Clipping portion (red, brighter)
+      var g2 = ctx.createLinearGradient(0, physH - barH, 0, physH - barH + clipH);
+      g2.addColorStop(0, 'rgba(255,60,80,0.95)');
+      g2.addColorStop(1, 'rgba(255,100,60,0.8)');
+      ctx.fillStyle = g2;
+      ctx.fillRect(x, yTop, 1, clipH);
+    } else {
+      // Normal zone: green→amber based on level
+      var t = Math.min(1, amp / thrLin);
+      var g3 = ctx.createLinearGradient(0, physH, 0, yTop);
+      g3.addColorStop(0, 'rgba(0,255,136,0.5)');
+      g3.addColorStop(1, 'rgba(0,220,120,' + (0.4 + t * 0.5) + ')');
+      ctx.fillStyle = g3;
+      ctx.fillRect(x, yTop, 1, barH);
+    }
+  }
+
+  // Playhead gap removed — the vertical line was visible and looked unprofessional
+
+  // ── Threshold horizontal line ──
+  var thrY = ampToY(thrLin);
+  ctx.strokeStyle = 'rgba(255,170,51,0.7)';
+  ctx.lineWidth = 1.5 * dpr;
+  ctx.setLineDash([4 * dpr, 4 * dpr]);
+  ctx.beginPath(); ctx.moveTo(0, thrY); ctx.lineTo(physW, thrY); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // ── Update HTML threshold badge position ──
+  var badge = document.getElementById('pcz_thrBadge');
+  if (badge) {
+    var pct = thrY / physH * 100;
+    badge.style.top = pct + '%';
+  }
+  var line = document.getElementById('pcz_thrLine');
+  if (line) {
+    var pct2 = thrY / physH * 100;
+    line.style.top = pct2 + '%';
+    line.style.display = 'none'; // line drawn on canvas, hide HTML line
+  }
+}
+
+// ── Combined animation loop ───────────────────────────────────────────────────
+function clipper_animLoop() {
+  // Grab waveform data from analyser if available
+  if (clipper_analyserNode) {
+    var buf = new Float32Array(clipper_analyserNode.fftSize);
+    clipper_analyserNode.getFloatTimeDomainData(buf);
+    clipper_waveData = buf;
+  }
+  // Sync threshold slider position  
+  var sl = document.getElementById('pcz_thrSlider');
+  if (sl && parseFloat(sl.value) !== clipper_state.threshold) sl.value = clipper_state.threshold;
+  pancz_updateThrBadge(clipper_state.threshold);
+  clipper_drawTransferCurve();
+  clipper_drawWaveform();
+  clipper_transferAnimId = requestAnimationFrame(clipper_animLoop);
+}
+
+// Initialize the Clipper UI controls
+function clipper_initUI() {
+  // Bypass toggle
+  var bypassToggle = document.getElementById('clipper_bypassToggle');
+  var toggleDiv = document.getElementById('clipper_toggle');
+  var label = document.getElementById('clipper_bypassLabel');
+  if (bypassToggle) {
+    bypassToggle.addEventListener('click', function() {
+      clipper_state.enabled = !clipper_state.enabled;
+      toggleDiv.classList.toggle('on', clipper_state.enabled);
+      label.textContent = clipper_state.enabled ? 'CLIP ON' : 'BYPASS';
+      if (typeof suite_toggleBypass === 'function') suite_toggleBypass('clipper');
+    });
+  }
+
+  // ── Threshold via scrub handle ──
+  var thrScrub = document.getElementById('clipper_thrScrub');
+  var thrValEl = document.getElementById('clipper_valThreshold');
+  var thrValEl2 = document.getElementById('clipper_valThreshold'); // same, no separate element needed
+
+  function updateThrDisplay(v) {
+    var fmt = (v <= 0 ? '' : '+') + v.toFixed(1);
+    if (thrValEl) thrValEl.textContent = v < 0 ? '−' + Math.abs(v).toFixed(1) : v.toFixed(1);
+  }
+
+  if (thrScrub) {
+    var startY2, startVal2;
+    thrScrub.addEventListener('mousedown', function(e) {
+      startY2 = e.clientY; startVal2 = clipper_state.threshold;
+      thrScrub.classList.add('dragging');
+      document.body.style.cursor = 'ns-resize';
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (startY2 === undefined) return;
+      var dy = startY2 - e.clientY;
+      var nv = Math.max(-36, Math.min(0, startVal2 + dy * 0.15));
+      clipper_state.threshold = nv;
+      updateThrDisplay(nv);
+      clipper_updateCurve();
+      syncSliders();
+    });
+    document.addEventListener('mouseup', function() {
+      if (startY2 !== undefined) { startY2 = undefined; thrScrub.classList.remove('dragging'); document.body.style.cursor = ''; }
+    });
+    thrScrub.addEventListener('dblclick', function() {
+      clipper_state.threshold = -6;
+      updateThrDisplay(-6);
+      clipper_updateCurve();
+      syncSliders();
+    });
+  }
+
+  // Threshold drag is handled by pancz_initThrDrag (linear px/dB)
+
+  // Legacy hidden transfer canvas — keep for compat but no drag needed
+  var tCanvas = document.getElementById('clipper_transferCanvas');
+  // (no drag handler needed, canvas is hidden)
+
+  function syncSliders() {
+    // Sync display values after threshold change
+    var k2 = document.getElementById('clipper_valKnee2');
+    if (k2) k2.textContent = Math.round(clipper_state.knee * 100) + '%';
+    var c2 = document.getElementById('clipper_valCeiling2');
+    if (c2) c2.textContent = (clipper_state.ceiling >= 0 ? '+' : '') + clipper_state.ceiling.toFixed(1) + ' dB';
+  }
+
+  // Ceiling slider
+  var ceilSlider = document.getElementById('clipper_ceilingSlider');
+  var ceilVal = document.getElementById('clipper_valCeiling');
+  var ceilVal2 = document.getElementById('clipper_valCeiling2');
+  if (ceilSlider) {
+    ceilSlider.addEventListener('input', function() {
+      var v = parseFloat(this.value);
+      var txt = (v >= 0 ? '+' : '') + v.toFixed(1) + ' dB';
+      if (ceilVal) ceilVal.textContent = txt;
+      if (ceilVal2) ceilVal2.textContent = txt;
+      clipper_state.ceiling = v;
+      clipper_updateCurve();
+    });
+    ceilSlider.value = clipper_state.ceiling;
+    var cTxt = (clipper_state.ceiling >= 0 ? '+' : '') + clipper_state.ceiling.toFixed(1) + ' dB';
+    if (ceilVal) ceilVal.textContent = cTxt;
+    if (ceilVal2) ceilVal2.textContent = cTxt;
+  }
+
+  // Knee slider
+  var kneeSlider = document.getElementById('clipper_kneeSlider');
+  var kneeVal = document.getElementById('clipper_valKnee');
+  var kneeVal2 = document.getElementById('clipper_valKnee2');
+  if (kneeSlider) {
+    kneeSlider.addEventListener('input', function() {
+      var v = parseFloat(this.value) / 100;
+      var txt = this.value + '%';
+      if (kneeVal) kneeVal.textContent = txt;
+      if (kneeVal2) kneeVal2.textContent = txt;
+      clipper_state.knee = v;
+      clipper_updateCurve();
+    });
+    kneeSlider.value = clipper_state.knee * 100;
+    var kTxt = Math.round(clipper_state.knee * 100) + '%';
+    if (kneeVal) kneeVal.textContent = kTxt;
+    if (kneeVal2) kneeVal2.textContent = kTxt;
+  }
+
+  // Mode buttons
+  var modeHard = document.getElementById('clipper_modeHard');
+  var modeSoft = document.getElementById('clipper_modeSoft');
+  var modeAnalog = document.getElementById('clipper_modeAnalog');
+  function setMode(m) {
+    clipper_state.mode = m;
+    if (modeHard) modeHard.classList.remove('active');
+    if (modeSoft) modeSoft.classList.remove('active');
+    if (modeAnalog) modeAnalog.classList.remove('active');
+    if (m === 'hard' && modeHard) modeHard.classList.add('active');
+    else if (m === 'soft' && modeSoft) modeSoft.classList.add('active');
+    else if (modeAnalog) modeAnalog.classList.add('active');
+    clipper_updateCurve();
+  }
+  if (modeHard) modeHard.onclick = function() { setMode('hard'); };
+  if (modeSoft) modeSoft.onclick = function() { setMode('soft'); };
+  if (modeAnalog) modeAnalog.onclick = function() { setMode('analog'); };
+
+  // Oversampling buttons
+  document.querySelectorAll('#panel-clipper .os-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#panel-clipper .os-btn').forEach(function(b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      var os = this.dataset.os;
+      clipper_state.oversample = os + 'x';
+      var osEl = document.getElementById('clipper_valOS');
+      if (osEl) osEl.textContent = clipper_state.oversample;
+      clipper_updateCurve();
+    });
+  });
+
+  // Initialize display
+  updateThrDisplay(clipper_state.threshold);
+  syncSliders();
+
+  // Start animation loop
+  if (clipper_transferAnimId) cancelAnimationFrame(clipper_transferAnimId);
+  clipper_animLoop();
+}
+// Build the audio nodes for the clipper
+function clipper_buildNodes(ctx) {
+  clipper_state.ctx = ctx;
+  clipper_state.inputGain  = ctx.createGain();
+  clipper_state.waveShaper = ctx.createWaveShaper();
+  clipper_state.outputGain = ctx.createGain();
+  // Dry/wet mix nodes
+  clipper_state.dryGain = ctx.createGain();
+  clipper_state.wetGain = ctx.createGain();
+  clipper_state.mixOut  = ctx.createGain();  // final summing bus
+
+  clipper_state.inputGain.gain.value  = 1.0;
+  clipper_state.outputGain.gain.value = 1.0;
+  clipper_state.dryGain.gain.value    = 0.0; // mix=100% wet default
+  clipper_state.wetGain.gain.value    = 1.0;
+  clipper_state.mixOut.gain.value     = 1.0;
+  clipper_updateCurve();
+
+  // PRE-clip analyser — taps the signal BEFORE the waveshaper so the
+  // waveform display shows the unclipped input (levels rise with input gain,
+  // but no flat-top distortion artefacts in the visualiser).
+  clipper_analyserNode = ctx.createAnalyser();
+  clipper_analyserNode.fftSize = 2048;
+  clipper_analyserNode.smoothingTimeConstant = 0.5;
+
+  // Audio graph:
+  //
+  //  inputGain ──► analyser (pre-clip display only, no audio effect)
+  //            ├──► waveShaper ──► wetGain ─┐
+  //            └──────────────── dryGain ───┤──► mixOut ──► outputGain
+  //
+  // Dry/wet paths are BOTH taken directly from inputGain so they share
+  // exactly the same latency — no phase cancellation at partial mix.
+  // The WaveShaperNode is only in the wet path; the dry path bypasses it.
+
+  // Post-clip analyser for OUT VU meter
+  clipper_state.postAnalyser = ctx.createAnalyser();
+  clipper_state.postAnalyser.fftSize = 2048;
+  clipper_state.postAnalyser.smoothingTimeConstant = 0.5;
+
+  // Dry-path identity WaveShaperNode — same oversample as wet shaper so
+  // both paths accumulate identical latency. Without this, 2x/4x oversample
+  // causes a sample-offset between dry and wet → phase cancellation at
+  // partial mix values (audible as mono-ish narrowing).
+  clipper_state.dryShaper = ctx.createWaveShaper();
+  var identityCurve = new Float32Array([-1, 1]);  // y = x  (unity, no shaping)
+  clipper_state.dryShaper.curve = identityCurve;
+  // oversample kept in sync with wet shaper via clipper_updateCurve()
+
+  clipper_state.inputGain.connect(clipper_analyserNode);   // pre-clip viz
+  clipper_state.inputGain.connect(clipper_state.waveShaper);
+  clipper_state.waveShaper.connect(clipper_state.wetGain);
+  clipper_state.wetGain.connect(clipper_state.mixOut);
+  clipper_state.inputGain.connect(clipper_state.dryShaper);   // latency-matched dry
+  clipper_state.dryShaper.connect(clipper_state.dryGain);
+  clipper_state.dryGain.connect(clipper_state.mixOut);
+  clipper_state.mixOut.connect(clipper_state.outputGain);
+
+  // mixOutAnalyser: taps the summed signal right before outputGain.
+  // It is internal to clipper (not part of suite chain) so data is always
+  // available as soon as buildNodes() runs — no suite wiring needed.
+  clipper_state.mixOutAnalyser = ctx.createAnalyser();
+  clipper_state.mixOutAnalyser.fftSize = 2048;
+  clipper_state.mixOutAnalyser.smoothingTimeConstant = 0.5;
+  clipper_state.mixOut.connect(clipper_state.mixOutAnalyser);
+  // Give the analyser a silent downstream so it stays in the pull graph
+  var _mixSink = ctx.createGain();
+  _mixSink.gain.value = 0;
+  clipper_state.mixOutAnalyser.connect(_mixSink);
+  _mixSink.connect(ctx.destination);
+
+  // Real-time gain reduction measurement via script processor (for meter)
+  var processor = ctx.createScriptProcessor(512, 2, 2);
+  clipper_state.waveShaper.connect(processor);
+  processor.connect(ctx.createGain()); // silent sink — just measuring
+  var smoothGR = 0;
+  processor.onaudioprocess = function(e) {
+    var inputL  = e.inputBuffer.getChannelData(0);
+    var inputR  = e.inputBuffer.numberOfChannels > 1 ? e.inputBuffer.getChannelData(1) : inputL;
+    var outputL = e.outputBuffer.getChannelData(0);
+    var outputR = e.outputBuffer.getChannelData(1);
+    // Pass through (required so script processor doesn't silence the stream)
+    for (var i = 0; i < inputL.length; i++) {
+      outputL[i] = inputL[i];
+      outputR[i] = inputR[i];
+    }
+    // Peak input vs post-shaper amplitude
+    var maxIn = 0, maxOut = 0;
+    for (var j = 0; j < inputL.length; j++) {
+      var ai = Math.max(Math.abs(inputL[j]), Math.abs(inputR[j]));
+      var ao = Math.max(Math.abs(inputL[j]), Math.abs(inputR[j]));
+      if (ai > maxIn) maxIn = ai;
+      if (ao > maxOut) maxOut = ao;
+    }
+    var reductionDB = (maxIn > 0.0001 && maxOut < maxIn)
+      ? 20 * Math.log10(maxOut / maxIn) : 0;
+    // Smooth GR for meter
+    smoothGR += (Math.abs(reductionDB) - smoothGR) * 0.2;
+    var percent = Math.min(1, smoothGR / 20);
+    clipper_updateMeter(percent, -smoothGR);
+    clipper_state.clipAmount = reductionDB;
+  };
+
+  // Store plugin nodes for suite connection
+  return { inputNode: clipper_state.inputGain, outputNode: clipper_state.outputGain };
+}
+
+// dummy so old reference in clipper_initUI doesn't break
+// (old clipper_initUI removed — new version defined above)
+
+// Initialize clipper when suite loads
+window.suite_initClipper = function(ctx, buf) {
+  var nodes = clipper_buildNodes(ctx);
+  _plugins['clipper'] = nodes;
+  clipper_initUI();
+};
+
+// ============================================================
+// SUITE_LOADFILE OVERRIDE - CLIPPER INITIALIZATION
+// ============================================================
+
+// suite_loadFile fonksiyonunu override ederek clipper'ı da başlat
+var originalSuiteLoadFile = window.suite_loadFile;
+
+window.suite_loadFile = async function(file) {
+  if (!file) return;
+  
+  // Mevcut dosya yükleme işlemini başlat
+  _currentFile = file;
+  var dz = document.getElementById('dropZone');
+  var prog = document.getElementById('suiteLoadProgress');
+  var bar = document.getElementById('suiteLoadBar');
+  var lbl = document.getElementById('suiteLoadLabel');
+  
+  if(dz) dz.classList.add('loading');
+  if(prog) prog.classList.add('visible');
+  
+  function setProgress(pct, text) { 
+    if(bar) bar.style.width = pct + '%'; 
+    if(lbl) lbl.textContent = text; 
+  }
+  
+  setProgress(5, 'READING FILE…');
+  
+  try {
+    suite_stop();
+    if(_ctx){ try{ _ctx.close(); } catch(e){} }
+    _chainHead = null;
+    _ctx = new (window.AudioContext || window.webkitAudioContext)();
+    _masterGain = _ctx.createGain();
+    _masterGain.gain.value = 1.0;
+    
+    setProgress(20, 'DECODING AUDIO…');
+    var arr = await file.arrayBuffer();
+    setProgress(40, 'DECODING…');
+    _buf = await _ctx.decodeAudioData(arr.slice(0));
+    
+    // Tüm plugin'leri sırayla başlat (clipper dahil)
+    var steps = [
+      ['EQ', function(){ if(typeof suite_initEQ === 'function') suite_initEQ(_ctx, _buf); }],
+      ['Tape', function(){ if(typeof suite_initTape === 'function') suite_initTape(_ctx, _buf); }],
+      ['Comp', function(){ if(typeof suite_initComp === 'function') suite_initComp(_ctx); }],
+      ['Imager', function(){ if(typeof suite_initImager === 'function') suite_initImager(_ctx); }],
+      ['Clipper', function(){ if(typeof suite_initClipper === 'function') suite_initClipper(_ctx, _buf); }],
+      ['LUFS', function(){ if(typeof suite_initLUFS === 'function') suite_initLUFS(_ctx); }],
+      ['Chain', function(){ if(typeof suite_rewireChain === 'function') suite_rewireChain(); }]
+    ];
+    
+    for(var si = 0; si < steps.length; si++){
+      var sn = steps[si][0], sf = steps[si][1];
+      setProgress(50 + si * 8, 'INIT: ' + sn.toUpperCase() + '…');
+      try{ sf(); } catch(se){ console.error(sn, se); }
+    }
+    
+    setProgress(100, 'READY');
+    
+    if(prog) prog.classList.remove('visible');
+    if(bar) bar.style.width = '0%';
+    if(dz) dz.classList.remove('loading');
+    
+    document.getElementById('uploadOv').classList.add('hidden');
+    document.getElementById('s_play').disabled = false;
+    document.getElementById('s_seek').disabled = false;
+    document.getElementById('sDot').className = 's-dot ready';
+    
+    var fa = document.getElementById('suiteFileActions');
+    if(fa){ 
+      fa.style.display = 'flex'; 
+      document.getElementById('suiteFileName').textContent = file.name || ''; 
+    }
+    
+    var formatTime = function(v){ 
+      return String(Math.floor(v/60)).padStart(2,'0') + ':' + String(Math.floor(v%60)).padStart(2,'0'); 
+    };
+    document.getElementById('s_time').textContent = '0:00 / ' + formatTime(_buf.duration);
+    
+    // Eğer clipper hala _plugins içinde yoksa manuel olarak ekle
+    if(!_plugins['clipper'] && typeof suite_initClipper === 'function') {
+      suite_initClipper(_ctx, _buf);
+    }
+    
+    // Zinciri yeniden kur
+    if(typeof suite_rewireChain === 'function') suite_rewireChain();
+    
+  } catch(e) {
+    console.error(e);
+    if(prog) prog.classList.remove('visible');
+    if(dz) dz.classList.remove('loading');
+    if(lbl){ 
+      lbl.textContent = 'ERROR: ' + e.message; 
+      lbl.style.color = 'var(--accent2)'; 
+    }
+    if(bar) bar.style.width = '0%';
+    return;
+  }
+};
+
+// suite_rewireChain fonksiyonunu da override ederek clipper bypass'ını destekle
+var originalSuiteRewireChain = window.suite_rewireChain;
+
+window.suite_rewireChain = function() {
+  if(!_ctx || !_masterGain) return;
+  // Ensure stable head node exists — _src always connects here
+  if(!_chainHead){ _chainHead = _ctx.createGain(); _chainHead.gain.value = 1; }
+  
+  try{ _masterGain.disconnect(); } catch(e){}
+  try{ _chainHead.disconnect(); } catch(e){}
+  
+  _chainOrder.forEach(function(k) {
+    var p = _plugins[k];
+    if(!p) return;
+    try{ if(p.outputNode) p.outputNode.disconnect(); } catch(e){}
+    try{ if(p.bypassNode) p.bypassNode.disconnect(); } catch(e){}
+  });
+  
+  var prev = _chainHead;
+  
+  for(var ci = 0; ci < _chainOrder.length; ci++) {
+    var k = _chainOrder[ci];
+    var p = _plugins[k];
+    if(!p || !p.inputNode || !p.outputNode) continue;
+    
+    var isBypassed = (k === 'eq')
+      ? ((typeof eq_eqEnabled !== 'undefined') ? !eq_eqEnabled : false)
+      : _bypassed.has(k);
+    
+    if(isBypassed) {
+      if(!p.bypassNode) p.bypassNode = _ctx.createGain();
+      prev.connect(p.bypassNode);
+      prev = p.bypassNode;
+    } else {
+      prev.connect(p.inputNode);
+      prev = p.outputNode;
+    }
+  }
+  
+  prev.connect(_masterGain);
+  _masterGain.connect(_ctx.destination);
+  
+  if(typeof suite_renderChain === 'function') suite_renderChain();
+};
+
+// suite_toggleBypass fonksiyonunu da clipper için genişlet
+var originalSuiteToggleBypass = window.suite_toggleBypass;
+
+window.suite_toggleBypass = function(key) {
+  if(key === 'clipper') {
+  clipper_state.enabled = !clipper_state.enabled;
+  var tog = document.getElementById('clipper_toggle');
+  var lbl = document.getElementById('clipper_bypassLabel');
+  if(tog) tog.classList.toggle('on', clipper_state.enabled);
+  if(lbl) lbl.textContent = clipper_state.enabled ? 'CLIP ON' : 'BYPASS';
+  // _bypassed kümesini senkronize et
+  if(clipper_state.enabled) {
+    _bypassed.delete('clipper');
+  } else {
+    _bypassed.add('clipper');
+  }
+  if(_ctx) suite_rewireChain();
+  else suite_renderChain();
+  return;
+}
+  
+  // Diğer plugin'ler için orijinal fonksiyonu çağır
+  if(typeof originalSuiteToggleBypass === 'function') {
+    originalSuiteToggleBypass(key);
+  } else {
+    // Fallback: manuel bypass işlemi
+    if(key !== 'eq'){
+      _bypassed.has(key) ? _bypassed.delete(key) : _bypassed.add(key);
+    }
+    if(key === 'eq') {
+      if(typeof eq_eqEnabled !== 'undefined') eq_eqEnabled = !eq_eqEnabled;
+      var eTog = document.getElementById('eq_eqToggle');
+      var eLbl = document.getElementById('eq_bypassLabel');
+      if(eTog) eTog.classList.toggle('on', eq_eqEnabled);
+      if(eLbl) eLbl.textContent = eq_eqEnabled ? 'EQ ON' : 'BYPASS';
+      if(typeof eq_syncFilters === 'function') eq_syncFilters();
+      if(typeof eq_drawEQ === 'function') eq_drawEQ();
+    }
+    if(_ctx) suite_rewireChain();
+    else suite_renderChain();
+  }
+};
+
+// Sayfa yüklendiğinde clipper'ın chain'e eklendiğinden emin ol
+document.addEventListener('DOMContentLoaded', function() {
+  if(typeof suite_renderChain === 'function') suite_renderChain();
+  if(document.getElementById('clipper_bypassToggle')) clipper_initUI();
+  pancz_initUI();
+});
+
+// ============================================================
+// CLIPPER UI CONTROLLER
+// ============================================================
+var pancz_state = {
+  mix: 1.0, knee: 0.5, inputGain: 1.0, outputGain: 1.0, bypassed: false,
+  vuInPeak: 0, vuOutPeak: 0,
+};
+var pancz_knobDrag = null;  // { id, startY, startVal, min, max, cb }
+
+// ── VU meter helpers ──────────────────────────────────────
+function pancz_buildVU(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = '';
+  for (var i = 0; i < 18; i++) {
+    var s = document.createElement('div');
+    s.className = 'cl-vu-seg';
+    el.appendChild(s);
+  }
+}
+function pancz_updateVU(id, level) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var segs = el.children;
+  var n = segs.length;
+  var lit = Math.round(level * n);
+  for (var i = 0; i < n; i++) {
+    var s = segs[i];
+    s.className = 'cl-vu-seg';
+    if (i < lit) {
+      if (i >= n - 2)      s.classList.add('lit-cl');
+      else if (i >= n - 4) s.classList.add('lit-hi');
+      else                 s.classList.add('lit');
+    }
+  }
+}
+
+// ── Comp-style knob helpers ───────────────────────────────
+function pancz_valToAngle(val, min, max) {
+  // -135° (min) to +135° (max)
+  return -135 + ((val - min) / (max - min)) * 270;
+}
+function pancz_updateKnobDot(knobEl, val) {
+  var min = parseFloat(knobEl.dataset.min);
+  var max = parseFloat(knobEl.dataset.max);
+  var dot = knobEl.querySelector('.cl-knob-dot');
+  if (!dot) return;
+  var angle = pancz_valToAngle(val, min, max);
+  dot.style.transform = 'rotate(' + angle + 'deg)';
+}
+
+// ── Individual param setters ──────────────────────────────
+function pancz_setInput(val) {
+  pancz_state.inputGain = val;
+  pancz_updateKnobDot(document.getElementById('pcz_knob_input'), val);
+  var db = val === 0 ? '-∞' : (20 * Math.log10(val)).toFixed(1);
+  var el = document.getElementById('pcz_val_input');
+  if (el) el.textContent = (val >= 1 ? '+' : '') + db + ' dB';
+  if (clipper_state.inputGain) clipper_state.inputGain.gain.value = val;
+}
+function pancz_setOutput(val) {
+  pancz_state.outputGain = val;
+  pancz_updateKnobDot(document.getElementById('pcz_knob_output'), val);
+  var db = val === 0 ? '-∞' : (20 * Math.log10(val)).toFixed(1);
+  var el = document.getElementById('pcz_val_output');
+  if (el) el.textContent = (val >= 1 ? '+' : '') + db + ' dB';
+  if (clipper_state.outputGain) clipper_state.outputGain.gain.value = val;
+}
+function pancz_setKnee(val) {
+  pancz_state.knee = val / 100;
+  pancz_updateKnobDot(document.getElementById('pcz_knob_knee'), val);
+  var el = document.getElementById('pcz_val_knee');
+  if (el) el.textContent = Math.round(val) + '%';
+  clipper_state.knee = val / 100;
+  var ks = document.getElementById('clipper_kneeSlider');
+  if (ks) ks.value = val;
+  if (typeof clipper_updateCurve === 'function') clipper_updateCurve();
+}
+function pancz_setMixKnob(val) {  // 0-100
+  pancz_state.mix = val / 100;
+  pancz_updateKnobDot(document.getElementById('pcz_knob_mix'), val);
+  var el = document.getElementById('pcz_val_mix');
+  if (el) el.textContent = Math.round(val) + '%';
+  // Apply to audio: wet = mix/100, dry = 1 - mix/100
+  var wet = pancz_state.mix;
+  var dry = 1 - wet;
+  if (clipper_state.wetGain) clipper_state.wetGain.gain.value = wet;
+  if (clipper_state.dryGain) clipper_state.dryGain.gain.value = dry;
+}
+function pancz_updateThrBadge(db) {
+  var badge = document.getElementById('pcz_thrBadge');
+  var txt = (db < 0 ? '−' + Math.abs(db).toFixed(1) : db.toFixed(1)) + ' dB';
+  if (badge) badge.textContent = txt;
+  var old = document.getElementById('clipper_valThreshold');
+  if (old) old.textContent = txt;
+}
+
+// ── Knob drag (comp-style ns-resize) ─────────────────────
+function pancz_initKnob(id, min, max, initVal, cb) {
+  var knob = document.getElementById(id);
+  if (!knob) return;
+  knob.dataset.min = min;
+  knob.dataset.max = max;
+  knob.dataset.val = initVal;
+  pancz_updateKnobDot(knob, initVal);
+  var startY, startVal;
+  function onMove(e) {
+    var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    var dy = startY - clientY;
+    var range = max - min;
+    var newVal = Math.max(min, Math.min(max, startVal + dy * (range / 180)));
+    knob.dataset.val = newVal;
+    cb(newVal);
+  }
+  function onUp() {
+    knob.classList.remove('active');
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+  }
+  knob.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    startY = e.clientY;
+    startVal = parseFloat(knob.dataset.val);
+    knob.classList.add('active');
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+  knob.addEventListener('dblclick', function() {
+    var def = parseFloat(knob.dataset.default !== undefined ? knob.dataset.default : initVal);
+    knob.dataset.val = def;
+    cb(def);
+  });
+}
+
+// ── Threshold drag on waveform canvas ────────────────────
+function pancz_initThrDrag() {
+  var wCanvas = document.getElementById('clipper_waveCanvas');
+  if (!wCanvas) return;
+  var isDragging = false;
+
+  // Inverse of ampToY: amp = (physH - y) / (physH * 0.96)
+  // Then dB = 20 * log10(amp), clamped to [-36, 0]
+  function yToThrDB(relY, canvasH) {
+    var dpr = window.devicePixelRatio || 1;
+    var physH = canvasH * dpr;
+    var y = relY * dpr;
+    var amp = (physH - y) / (physH * 0.96);
+    amp = Math.max(0.00001, Math.min(1, amp));
+    var db = 20 * Math.log10(amp);
+    return Math.round(Math.max(-36, Math.min(0, db)) * 10) / 10;
+  }
+
+  function applyDrag(e) {
+    var rect = wCanvas.getBoundingClientRect();
+    var relY = e.clientY - rect.top;
+    var newThr = yToThrDB(relY, rect.height);
+    clipper_state.threshold = newThr;
+    pancz_updateThrBadge(newThr);
+    if (typeof clipper_updateCurve === 'function') clipper_updateCurve();
+  }
+
+  wCanvas.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    document.body.style.cursor = 'ns-resize';
+    e.preventDefault();
+    applyDrag(e);
+  });
+  document.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    applyDrag(e);
+  });
+  document.addEventListener('mouseup', function() {
+    if (isDragging) { isDragging = false; document.body.style.cursor = ''; }
+  });
+  wCanvas.style.cursor = 'ns-resize';
+}
+
+// ── Bypass ────────────────────────────────────────────────
+function pancz_toggleBypass() {
+  pancz_state.bypassed = !pancz_state.bypassed;
+  var isOn = !pancz_state.bypassed;
+  pancz_setToggleVisual(isOn);
+  if (typeof suite_toggleBypass === 'function') suite_toggleBypass('clipper');
+}
+function pancz_setToggleVisual(isOn) {
+  var track = document.getElementById('pcz_toggleTrack');
+  var label = document.getElementById('pcz_toggleLabel');
+  if (track) track.classList.toggle('on', isOn);
+  if (label) { label.classList.toggle('on', isOn); label.textContent = isOn ? 'CLIPPER ON' : 'BYPASSED'; }
+}
+function pancz_setMode(m) {
+  ['hard','soft','analog'].forEach(function(mode) {
+    var b = document.getElementById('pcz_mode' + mode.charAt(0).toUpperCase() + mode.slice(1));
+    if (b) b.classList.toggle('active', mode === m);
+    var b2 = document.getElementById('clipper_mode' + mode.charAt(0).toUpperCase() + mode.slice(1));
+    if (b2) b2.classList.toggle('active', mode === m);
+  });
+  clipper_state.mode = m;
+  if (typeof clipper_updateCurve === 'function') clipper_updateCurve();
+}
+function pancz_setOS(n, btn) {
+  document.querySelectorAll('#panel-clipper .os-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  clipper_state.oversample = n + 'x';
+  var el = document.getElementById('clipper_valOS'); if (el) el.textContent = n + '×';
+  if (typeof clipper_updateCurve === 'function') clipper_updateCurve();
+}
+
+// ── VU animation loop ─────────────────────────────────────
+var pancz_vuRaf = null;
+var _vuInSmooth = 0, _vuOutSmooth = 0;
+function pancz_vuLoop() {
+  if (clipper_analyserNode) {
+    var buf = new Float32Array(clipper_analyserNode.fftSize);
+    clipper_analyserNode.getFloatTimeDomainData(buf);
+    var peak = 0;
+    for (var i = 0; i < buf.length; i++) { var a = Math.abs(buf[i]); if (a > peak) peak = a; }
+    _vuInSmooth  += (peak - _vuInSmooth) * (peak > _vuInSmooth ? 0.7 : 0.1);
+    // OUT VU: tap from mixOutAnalyser (after wet+dry sum, before outputGain)
+    // This node is internal to clipper and always active regardless of suite wiring.
+    var outPeak = 0;
+    var _mixA = clipper_state && clipper_state.mixOutAnalyser;
+    if (_mixA) {
+      var outBuf = new Float32Array(_mixA.fftSize);
+      _mixA.getFloatTimeDomainData(outBuf);
+      for (var j = 0; j < outBuf.length; j++) { var ao = Math.abs(outBuf[j]); if (ao > outPeak) outPeak = ao; }
+      // Scale by outputGain to reflect final output level
+      outPeak = Math.min(1, outPeak * pancz_state.outputGain);
+    } else {
+      outPeak = Math.min(1, peak * pancz_state.outputGain);
+    }
+    _vuOutSmooth += (outPeak - _vuOutSmooth) * (outPeak > _vuOutSmooth ? 0.7 : 0.1);
+    pancz_updateVU('pcz_vuIn',  _vuInSmooth);
+    pancz_updateVU('pcz_vuOut', _vuOutSmooth);
+    // GR overlay
+    var grEl = document.getElementById('pcz_grLabel');
+    var grDbEl = document.getElementById('pcz_grDb') || document.getElementById('clipper_grDbVal');
+    if (grEl && grDbEl) grEl.textContent = grDbEl.textContent !== '0.0 dB' ? grDbEl.textContent : '';
+  }
+  pancz_vuRaf = requestAnimationFrame(pancz_vuLoop);
+}
+
+// ── Legacy compat wrappers (called from old clipper_initUI JS) ──
+function pancz_setInputGain(v)  { pancz_setInput(parseFloat(v)); }
+function pancz_setOutputGain(v) { pancz_setOutput(parseFloat(v)); }
+function pancz_setTransient()   {}  // removed
+function pancz_setSustain()     {}  // removed
+function pancz_setThrSlider(v)  {
+  clipper_state.threshold = parseFloat(v);
+  pancz_updateThrBadge(parseFloat(v));
+  if (typeof clipper_updateCurve === 'function') clipper_updateCurve();
+}
+function pancz_setThrKnob(val01) {
+  var db = -36 + val01 * 36;
+  clipper_state.threshold = db;
+  pancz_updateThrBadge(db);
+  if (typeof clipper_updateCurve === 'function') clipper_updateCurve();
+}
+
+function pancz_initUI() {
+  pancz_buildVU('pcz_vuIn');
+  pancz_buildVU('pcz_vuOut');
+  // Init comp-style knobs
+  pancz_initKnob('pcz_knob_input', 0, 2, 1, function(v) { pancz_setInput(v); });
+  pancz_initKnob('pcz_knob_output', 0, 2, 1, function(v) { pancz_setOutput(v); });
+  pancz_initKnob('pcz_knob_knee', 0, 100, 50, function(v) { pancz_setKnee(v); });
+  pancz_initKnob('pcz_knob_mix', 0, 100, 100, function(v) { pancz_setMixKnob(v); });
+  // Init values
+  pancz_setInput(1);
+  pancz_setOutput(1);
+  pancz_setKnee(50);
+  pancz_setMixKnob(100);
+  pancz_updateThrBadge(clipper_state.threshold);
+  // Init toggle visual
+  pancz_setToggleVisual(true);
+  // Threshold drag on canvas
+  pancz_initThrDrag();
+  // Start VU loop
+  if (pancz_vuRaf) cancelAnimationFrame(pancz_vuRaf);
+  pancz_vuLoop();
+}
+
 </script>
 
 <!-- SUITE EXPORT PANEL -->
 <div class="suite-export-panel hidden" id="suiteExportPanel">
-  <div class="suite-export-box">
+  <div class="suite-export-box" style="position:relative;">
+    <button onclick="suite_closeExportPanel()" style="position:absolute;top:10px;right:12px;background:none;border:none;color:#555;font-size:18px;line-height:1;cursor:pointer;padding:0;" title="Close" onmouseover="this.style.color='#aaa'" onmouseout="this.style.color='#555'">✕</button>
     <div class="suite-export-title">EXPORT — FULL CHAIN RENDER</div>
     <div class="suite-export-row">
       <span class="suite-export-label">FORMAT</span>
