@@ -105,6 +105,9 @@ html, body { height: 100%; overflow: hidden; background: #07070d; font-family: '
 .plugin-panel { position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:none; }
 .plugin-panel.active { display:block; }
 .suite-upload-ov { position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9000;background:#07070d; }
+.suite-home-link { position:fixed;bottom:20px;right:20px;z-index:9001;font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#666680;text-decoration:none;transition:color 0.15s; }
+.suite-home-link:hover { color:#00ff88; }
+.suite-home-link em { color:#4488ff;font-style:normal; }
 .suite-file-actions { display:flex;align-items:center;gap:8px;padding:0 12px;border-left:1px solid #1e1e2e; }
 .suite-filename { font-family:'Space Mono',monospace;font-size:9px;color:#666;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
 .suite-btn.accent { border-color:var(--accent3);color:var(--accent3); }
@@ -3579,6 +3582,7 @@ html, body { height: 100%; overflow: hidden; background: #07070d; font-family: '
 </head>
 <body>
 <div class="suite-wrap">
+  <a href="index.html" class="suite-home-link">Saranta<em>/</em>Soundworks</a>
   <div class="suite-upload-ov" id="uploadOv">
     <div class="suite-drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
       <div class="suite-drop-icon" style="color:#ffffff;font-size:64px">⟁</div>
