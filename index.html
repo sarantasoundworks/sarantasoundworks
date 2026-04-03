@@ -414,7 +414,7 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
     <div>
       <div class="contact-sub">// Links</div>
       <ul class="clinks">
-        <li><span class="clink-k">Email</span><a href="mailto:contact@sarantasoundworks.com">contact@sarantasoundworks.com</a></li>
+        <li><span class="clink-k">Email</span><a href="/cdn-cgi/l/email-protection#ff9c90918b9e9c8bbf8c9e8d9e918b9e8c908a919b88908d948cd19c9092"><span class="__cf_email__" data-cfemail="5d3e3233293c3e291d2e3c2f3c33293c2e322833392a322f362e733e3230">[email&#160;protected]</span></a></li>
         <li><span class="clink-k">GitHub</span><a href="https://github.com/sarantasoundworks" target="_blank">sarantasoundworks</a></li>
         <li><span class="clink-k">SoundCloud</span><a href="https://soundcloud.com/saranta-596980414" target="_blank">soundcloud.com/saranta</a></li>
         <li><span class="clink-k">Spotify</span><a href="https://open.spotify.com/intl-tr/artist/6l97qlvDhzQlezBQWjhp3e?si=F3Y-xXRbTvqm7SFkdmLNnA" target="_blank">Listen on Spotify</a></li>
@@ -423,58 +423,25 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
     </div>
     <div>
       <div class="contact-sub">// Message</div>
-        <div style="
-    background: var(--bg3); 
-    border: 1px dashed var(--border2); 
-    padding: 40px 20px; 
-    text-align: center; 
-    border-radius: 2px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 250px;
-  ">
-    <div style="
-      font-family: var(--disp); 
-      font-size: 14px; 
-      font-weight: 800; 
-      letter-spacing: 2px; 
-      text-transform: uppercase; 
-      color: var(--accent);
-      margin-bottom: 10px;
-    ">
-      Contact Form Coming Soon
-    </div>
-    <p style="color: var(--dim); font-size: 11px; max-width: 280px;">
-      The direct messaging system is under maintenance. Please use the email link on the left for inquiries.
-    </p>
-
-      <!-- message 
-      <form action="/api/form-handler" method="POST" class="form">
+      <form id="contactForm" class="form">
         <div>
           <label class="flabel">Full Name</label>
           <input class="finput" type="text" name="name" placeholder="Your name" required>
         </div>
-        
         <div>
           <label class="flabel">Email Address</label>
           <input class="finput" type="email" name="email" placeholder="your@email.com" required>
         </div>
-        
         <div>
           <label class="flabel">Message</label>
           <textarea class="finput" name="message" placeholder="Mixing consult, collab, or just to say hi..." required></textarea>
         </div>
-
         <div class="cf-turnstile" data-sitekey="0x4AAAAAACydKTSgQ15gBtl9" data-theme="dark"></div>
-
-        <button type="submit" class="btn btn-primary" style="align-self:flex-start; margin-top: 10px;">Send →</button>
+        <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+          <button type="submit" id="formBtn" class="btn btn-primary" style="align-self:flex-start; margin-top:10px;">Send →</button>
+          <span id="formMsg" style="display:none; font-size:11px; margin-top:10px;"></span>
+        </div>
       </form>
-      -->
-      </div>
-  </div>
-</section>
     </div>
   </div>
 </section>
@@ -482,7 +449,63 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
 <!-- FOOTER -->
 <footer>
   <div class="foot-logo">Saranta<em>_</em>Soundworks</div>
-  <div class="foot-copy">© 2026 Burak Balta — All rights reserved <a href="privacy.html" style="color:var(--dim); margin-left:15px; text-decoration:none;">Privacy Policy</a></div></div>
+  <div class="foot-copy">© 2026 Burak Balta — All rights reserved</div>
   <div class="foot-links">
+    <a href="#about">About</a>
+    <a href="#music">Music</a>
+    <a href="tips.html">Tips</a>
+    <a href="#contact">Contact</a>
   </div>
 </footer>
+</div><!-- /page-container -->
+
+<script>
+  document.getElementById("contactForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const btn = document.getElementById("formBtn");
+    const msg = document.getElementById("formMsg");
+
+    const turnstileResponse = this.querySelector("[name="cf-turnstile-response"]");
+    if (!turnstileResponse || !turnstileResponse.value) {
+      msg.style.display = "inline";
+      msg.style.color = "var(--dim)";
+      msg.textContent = "⚠ Please complete the CAPTCHA.";
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "Sending...";
+    msg.style.display = "none";
+
+    try {
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        body: new FormData(this),
+      });
+
+      const data = await res.json();
+      msg.style.display = "inline";
+
+      if (data.success) {
+        msg.style.color = "var(--accent)";
+        msg.textContent = "✓ Message sent. I'll get back to you soon.";
+        this.reset();
+        if (window.turnstile) turnstile.reset();
+      } else {
+        msg.style.color = "#ff4466";
+        msg.textContent = "✗ " + (data.error || "Something went wrong. Try again.");
+        btn.disabled = false;
+        btn.textContent = "Send →";
+      }
+    } catch (err) {
+      msg.style.display = "inline";
+      msg.style.color = "#ff4466";
+      msg.textContent = "✗ Network error. Please try again.";
+      btn.disabled = false;
+      btn.textContent = "Send →";
+    }
+  });
+</script>
+</body>
+</html>
