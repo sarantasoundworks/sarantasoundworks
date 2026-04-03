@@ -492,6 +492,9 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
         msg.textContent = "✓ Message sent. I'll get back to you soon.";
         this.reset();
         if (window.turnstile) turnstile.reset();
+        btn.textContent = "Sent ✓";
+        btn.disabled = false;
+        setTimeout(() => { btn.textContent = "Send →"; }, 3000);
       } else {
         msg.style.color = "#ff4466";
         msg.textContent = "✗ " + (data.error || "Something went wrong. Try again.");
