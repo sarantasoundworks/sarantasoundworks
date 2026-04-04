@@ -205,16 +205,16 @@ canvas{display:block;width:100%;touch-action:none}
 <div class="screen" id="lbScreen">
   <div class="seq-header">
     <div class="seq-title">// Global Leaderboard — Top 20</div>
-    <button class="btn btn-ghost btn-sm" id="lbBackBtn">&larr; Geri</button>
+    <button class="btn btn-ghost btn-sm" id="lbBackBtn">&larr; Back</button>
   </div>
   <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
     <div id="lbFullList" style="display:flex;flex-direction:column;gap:4px">
-      <div class="go-lb-loading">Yukleniyor...</div>
+      <div class="go-lb-loading">Loading...</div>
     </div>
   </div>
   <div style="margin-top:24px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-    <button class="btn btn-ghost" id="lbRefreshBtn">&#8635; Yenile</button>
-    <button class="btn btn-primary" id="lbPlayBtn">Oyna &#8599;</button>
+    <button class="btn btn-ghost" id="lbRefreshBtn">&#8635; Refresh</button>
+    <button class="btn btn-primary" id="lbPlayBtn">Play &#8599;</button>
   </div>
 </div>
 
@@ -242,7 +242,7 @@ canvas{display:block;width:100%;touch-action:none}
     <button class="btn btn-ghost btn-sm" id="addBarBtn">+ Add Bar</button>
   </div>
   <div class="launch-bar">
-    <div class="launch-hint"><strong>Ritmine güveniyor musun?</strong><br>Kendi beatini çal ya da Wild Mode'da şansına bırak.</div>
+    <div class="launch-hint"><strong>Got what it takes?</strong><br>Play your own beat or brave the unpredictable Wild Mode flow.</div>
     <div class="launch-btns">
       <button class="btn btn-primary" id="launchMyBeatBtn">▶ Play My Beat</button>
       <button class="btn btn-wild" id="launchWildBtn">⚡ Wild Mode</button>
@@ -284,15 +284,15 @@ canvas{display:block;width:100%;touch-action:none}
       <div class="go-sub">Final Score</div>
       <div class="go-name-row" id="goNameRow">
         <input class="go-name-input" id="goNameInput" placeholder="İsmin? (boş → Anonymous)" maxlength="20" autocomplete="off" spellcheck="false">
-        <button class="btn btn-accent btn-sm" id="goSaveBtn">Kaydet</button>
+        <button class="btn btn-accent btn-sm" id="goSaveBtn">Save</button>
       </div>
       <div class="go-lb-wrap" id="goLbWrap">
         <div class="go-lb-title">// Global Leaderboard</div>
-        <div class="go-lb-list" id="goLbList"><div class="go-lb-loading">Yükleniyor…</div></div>
+        <div class="go-lb-list" id="goLbList"><div class="go-lb-loading">Loading…</div></div>
       </div>
       <div class="go-btns">
-        <button class="btn btn-ghost" id="redesignBtn">← Yeniden Tasarla</button>
-        <button class="btn btn-primary" id="replayBtn">Tekrar Oyna ↗</button>
+        <button class="btn btn-ghost" id="redesignBtn">← Redesign</button>
+        <button class="btn btn-primary" id="replayBtn">Play Again ↗</button>
       </div>
     </div>
   </div>
@@ -571,11 +571,11 @@ function generateWildBars(numBars){
   const flat=Array.from({length:4},()=>Array(totalS).fill(false));
 
   // Per-lane cooldown: after placing a note, that lane is blocked for N steps
-  const LANE_COOL=6; // 6 sixteenth notes minimum between hits in same lane
+  const LANE_COOL=4; // 6 sixteenth notes minimum between hits in same lane
   const laneCD=[0,0,0,0]; // countdown per lane
 
   // Global step cooldown after ANY note: next step always has a gap
-  const STEP_GAP=2; // at least 2 empty steps between any notes at all
+  const STEP_GAP=1; // at least 2 empty steps between any notes at all
   let globalCD=0;
 
   for(let si=0;si<totalS;si++){
@@ -645,9 +645,9 @@ function resizeCanvas(){canvas.width=canvas.offsetWidth;canvas.height=canvas.off
 
 // Multiplier thresholds: 10→x2, 50→x4, 100→x8, 250→x16
 function getMult(combo){
-  if(combo>=250)return 16;
-  if(combo>=100)return 8;
-  if(combo>=50)return 4;
+  if(combo>=100)return 16;
+  if(combo>=50)return 8;
+  if(combo>=25)return 4;
   if(combo>=10)return 2;
   return 1;
 }
@@ -862,7 +862,7 @@ function drawFrame(ts){
   GS.notes=GS.notes.filter(n=>n.y<H+40&&!(n.hit&&n.y>H));
 
   // BPM escalation — every 200 pts, +4 bpm + combo bonus
-  const nb=bpm+Math.floor(GS.score/200)*4+(GS.comboBpmBonus||0);
+  const nb=bpm+Math.floor(GS.score/100)*4+(GS.comboBpmBonus||0);
   if(nb!==GS.gameBpm&&nb<=220){
     GS.gameBpm=nb;document.getElementById('gameBpmDisplay').textContent=nb;
   }
