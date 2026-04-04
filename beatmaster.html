@@ -94,13 +94,14 @@ body{min-height:100vh;display:flex;flex-direction:column;align-items:center;padd
 
 /* GAME */
 #gameScreen{position:relative}
-.game-hud{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.game-hud{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;min-height:44px}
+@media(max-width:600px){.game-hud{flex-direction:column-reverse;align-items:flex-start;gap:6px}.game-hud>div:last-child{align-self:flex-start}}
 .hud-stat{display:flex;flex-direction:column;gap:2px}
 .hud-label{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
-.hud-val{font-family:var(--disp);font-size:22px;font-weight:800;color:var(--text)}
+.hud-val{font-family:var(--disp);font-size:18px;font-weight:800;color:var(--text)}
 .hud-val.accent{color:var(--accent)}
 .hud-combo{font-family:var(--disp);font-size:14px;font-weight:800;color:var(--amber)}
-.canvas-wrap{position:relative;border:1px solid var(--border);border-radius:3px;overflow:hidden;background:var(--bg2)}
+.canvas-wrap{position:relative;border:1px solid var(--border);border-radius:3px;overflow:hidden;background:var(--bg2);max-width:640px;width:100%;margin:0 auto}
 canvas{display:block;width:100%;touch-action:none}
 .hit-zone{display:grid;gap:4px;padding:10px 0;background:var(--bg3);border-top:1px solid var(--border)}
 .hit-btn{height:56px;border-radius:2px;border:2px solid;cursor:pointer;font-family:var(--disp);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;transition:all 0.08s;background:transparent;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -195,7 +196,6 @@ canvas{display:block;width:100%;touch-action:none}
   <div class="logo">Beat<em>Master</em></div>
   <div style="display:flex;align-items:center;gap:10px">
     <button class="btn btn-ghost btn-sm" id="lbNavBtn" onclick="showLbScreen()">🏆 Leaderboard</button>
-    <div class="mode-badge" id="modeBadge">// Sequencer Mode</div>
   </div>
 </div>
 <div class="app">
@@ -254,7 +254,7 @@ canvas{display:block;width:100%;touch-action:none}
 <!-- GAME -->
 <div class="screen" id="gameScreen">
   <div class="game-hud">
-    <div style="display:flex;gap:20px;align-items:flex-end;flex-wrap:wrap">
+    <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:nowrap;overflow:hidden;flex:1;min-width:0">
       <div class="hud-stat"><div class="hud-label">Score</div><div class="hud-val accent" id="scoreDisplay">0</div></div>
       <div class="hud-stat"><div class="hud-label">Combo</div><div class="hud-val hud-combo" id="comboDisplay">×0</div></div>
       <div class="hud-stat"><div class="hud-label">BPM</div><div class="hud-val" id="gameBpmDisplay">120</div></div>
@@ -267,7 +267,7 @@ canvas{display:block;width:100%;touch-action:none}
         </div>
       </div>
     </div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:nowrap;flex-shrink:0">
       <span class="mult-badge" id="multBadge">×1</span>
       <span class="wild-badge" id="wildBadge">⚡ Wild</span>
       <button class="btn btn-ghost btn-sm" id="backBtn">← Sequencer</button>
@@ -283,7 +283,7 @@ canvas{display:block;width:100%;touch-action:none}
       <div class="go-score" id="goScore">0</div>
       <div class="go-sub">Final Score</div>
       <div class="go-name-row" id="goNameRow">
-        <input class="go-name-input" id="goNameInput" placeholder="İsmin? (boş → Anonymous)" maxlength="20" autocomplete="off" spellcheck="false">
+        <input class="go-name-input" id="goNameInput" placeholder="Your name" maxlength="20" autocomplete="off" spellcheck="false">
         <button class="btn btn-accent btn-sm" id="goSaveBtn">Save</button>
       </div>
       <div class="go-lb-wrap" id="goLbWrap">
@@ -296,7 +296,7 @@ canvas{display:block;width:100%;touch-action:none}
       </div>
     </div>
   </div>
-  <div class="hit-zone" style="grid-template-columns:repeat(4,1fr)">
+  <div class="hit-zone" style="grid-template-columns:repeat(4,1fr);max-width:640px;width:100%;margin:0 auto">
     <button class="hit-btn kick" data-ch="0">KICK<span class="key-hint">[A]</span></button>
     <button class="hit-btn snare" data-ch="1">SNARE<span class="key-hint">[S]</span></button>
     <button class="hit-btn hihat" data-ch="2">HI-HAT<span class="key-hint">[D]</span></button>
@@ -1202,7 +1202,7 @@ function lbRenderFull(entries) {
 async function showLbScreen() {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('lbScreen').classList.add('active');
-  document.getElementById('modeBadge').textContent = '// Leaderboard';
+
   document.getElementById('lbFullList').innerHTML = '<div class="go-lb-loading">Loading...</div>';
   const entries = await lbLoad();
   lbRenderFull(entries);
@@ -1211,7 +1211,7 @@ async function showLbScreen() {
 function hideLbScreen() {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('seqScreen').classList.add('active');
-  document.getElementById('modeBadge').textContent = '// Sequencer Mode';
+
 }
 
 document.getElementById('lbBackBtn').addEventListener('click', hideLbScreen);
@@ -1240,7 +1240,7 @@ function startGame(wild){
     document.getElementById('loopDisplay').textContent='1';
     document.getElementById('cdNum').classList.add('wild-cd');
     document.getElementById('cdLabel').textContent='⚡ Wild Mode';
-    document.getElementById('modeBadge').textContent='// Wild Mode';
+
   } else {
     const hasNotes=bars.some(bar=>bar.some(row=>row.some(v=>v)));
     if(!hasNotes){
@@ -1253,7 +1253,7 @@ function startGame(wild){
     document.getElementById('loopWrap').style.display='none';
     document.getElementById('cdNum').classList.remove('wild-cd');
     document.getElementById('cdLabel').textContent='Get Ready';
-    document.getElementById('modeBadge').textContent='// Runner Mode';
+
   }
 
   const mb=document.getElementById('multBadge');
@@ -1287,7 +1287,7 @@ function showSeq(){
   stopSeq();GS.running=false;
   document.getElementById('seqScreen').classList.add('active');
   document.getElementById('gameScreen').classList.remove('active');
-  document.getElementById('modeBadge').textContent='// Sequencer Mode';
+
 }
 function showGame(wild){
   stopSeq();
