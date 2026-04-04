@@ -195,7 +195,7 @@ canvas{display:block;width:100%;touch-action:none}
 <div class="header">
   <div class="logo">Beat<em>Master</em></div>
   <div style="display:flex;align-items:center;gap:10px">
-    <button class="btn btn-ghost btn-sm" id="lbNavBtn" onclick="showLbScreen()">🏆 Leaderboard</button>
+    <button class="btn btn-ghost btn-sm" id="lbNavBtn" onclick="showLbScreen()">&#9650; Leaderboard</button>
   </div>
 </div>
 <div class="app">
@@ -245,8 +245,8 @@ canvas{display:block;width:100%;touch-action:none}
     <div class="launch-hint"><strong>Got what it takes?</strong><br>Play your own beat or brave the unpredictable Wild Mode flow.</div>
     <div class="launch-btns">
       <button class="btn btn-primary" id="launchMyBeatBtn">▶ Play My Beat</button>
-      <button class="btn btn-wild" id="launchWildBtn">⚡ Wild Mode</button>
-      <button class="btn btn-ghost btn-sm" id="midiExportBtn" style="border-color:#4488ff;color:#4488ff">⬇ Export MIDI</button>
+      <button class="btn btn-wild" id="launchWildBtn">&#9889; Wild Mode</button>
+      <button class="btn btn-ghost btn-sm" id="midiExportBtn" style="border-color:#4488ff;color:#4488ff">&#8595; Export MIDI</button>
     </div>
   </div>
 </div>
@@ -269,7 +269,7 @@ canvas{display:block;width:100%;touch-action:none}
     </div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:nowrap;flex-shrink:0">
       <span class="mult-badge" id="multBadge">×1</span>
-      <span class="wild-badge" id="wildBadge">⚡ Wild</span>
+      <span class="wild-badge" id="wildBadge">&#9889; Wild</span>
       <button class="btn btn-ghost btn-sm" id="backBtn">← Sequencer</button>
       <button class="btn btn-ghost btn-sm" id="restartBtn">Restart</button>
     </div>
@@ -307,133 +307,168 @@ canvas{display:block;width:100%;touch-action:none}
 
 <script>
 // ═══════ AUDIO ═══════
-const AC = new (window.AudioContext||window.webkitAudioContext)();
-function resumeAC(){if(AC.state==='suspended')AC.resume();}
+let AC = null;
+function getAC() {
+  if (!AC) {
+    AC = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  return AC;
+}
+function resumeAC() {
+  const ac = getAC();
+  if (ac.state === 'suspended') {
+    ac.resume();
+  }
+}
+// iOS requires AudioContext to be created/resumed inside a user gesture
+// Unlock audio on first touch/click anywhere on the page
+let _audioUnlocked = false;
+function unlockAudio() {
+  if (_audioUnlocked) return;
+  _audioUnlocked = true;
+  const ac = getAC();
+  if (ac.state === 'suspended') {
+    ac.resume().then(() => {
+      // Play a silent buffer to fully unlock iOS audio
+      const buf = ac.createBuffer(1, 1, 22050);
+      const src = ac.createBufferSource();
+      src.buffer = buf;
+      src.connect(ac.destination);
+      src.start(0);
+    });
+  }
+}
+document.addEventListener('touchstart', unlockAudio, { once: false, passive: true });
+document.addEventListener('touchend', unlockAudio, { once: false, passive: true });
+document.addEventListener('click', unlockAudio, { once: false, passive: true });
 
 const CMAJOR=[261.63,293.66,329.63,349.23,392.00,440.00,493.88,523.25];
 
 const Synth={
-  kick(t=AC.currentTime,acc=false){
-    const g=AC.createGain();g.connect(AC.destination);
+  kick(t,acc=false){
+    const ac=getAC();if(t===undefined)t=ac.currentTime;
+    const g=ac.createGain();g.connect(ac.destination);
     g.gain.setValueAtTime(acc?1.2:.85,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);
-    const o=AC.createOscillator();o.connect(g);
+    const o=ac.createOscillator();o.connect(g);
     o.frequency.setValueAtTime(160,t);o.frequency.exponentialRampToValueAtTime(40,t+.25);
     o.start(t);o.stop(t+.35);
-    const buf=AC.createBuffer(1,512,AC.sampleRate),d=buf.getChannelData(0);
+    const buf=ac.createBuffer(1,512,ac.sampleRate),d=buf.getChannelData(0);
     for(let i=0;i<512;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/512,8);
-    const s=AC.createBufferSource();s.buffer=buf;
-    const cg=AC.createGain();cg.gain.setValueAtTime(acc?.8:.5,t);cg.gain.exponentialRampToValueAtTime(.001,t+.02);
-    s.connect(cg);cg.connect(AC.destination);s.start(t);
+    const s=ac.createBufferSource();s.buffer=buf;
+    const cg=ac.createGain();cg.gain.setValueAtTime(acc?.8:.5,t);cg.gain.exponentialRampToValueAtTime(.001,t+.02);
+    s.connect(cg);cg.connect(ac.destination);s.start(t);
   },
-  snare(t=AC.currentTime,acc=false){
-    const buf=AC.createBuffer(1,AC.sampleRate*.22,AC.sampleRate),d=buf.getChannelData(0);
+  snare(t,acc=false){
+    const ac=getAC();if(t===undefined)t=ac.currentTime;
+    const buf=ac.createBuffer(1,ac.sampleRate*.22,ac.sampleRate),d=buf.getChannelData(0);
     for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.5);
-    const s=AC.createBufferSource();s.buffer=buf;
-    const g=AC.createGain();g.gain.setValueAtTime(acc?1.1:.75,t);g.gain.exponentialRampToValueAtTime(.001,t+.22);
-    s.connect(g);g.connect(AC.destination);s.start(t);
-    const o=AC.createOscillator(),og=AC.createGain();
+    const s=ac.createBufferSource();s.buffer=buf;
+    const g=ac.createGain();g.gain.setValueAtTime(acc?1.1:.75,t);g.gain.exponentialRampToValueAtTime(.001,t+.22);
+    s.connect(g);g.connect(ac.destination);s.start(t);
+    const o=ac.createOscillator(),og=ac.createGain();
     o.frequency.value=210;og.gain.setValueAtTime(acc?.35:.2,t);og.gain.exponentialRampToValueAtTime(.001,t+.1);
-    o.connect(og);og.connect(AC.destination);o.start(t);o.stop(t+.1);
+    o.connect(og);og.connect(ac.destination);o.start(t);o.stop(t+.1);
   },
-  hihat(t=AC.currentTime,acc=false){
-    const buf=AC.createBuffer(1,AC.sampleRate*.08,AC.sampleRate),d=buf.getChannelData(0);
+  hihat(t,acc=false){
+    const ac=getAC();if(t===undefined)t=ac.currentTime;
+    const buf=ac.createBuffer(1,ac.sampleRate*.08,ac.sampleRate),d=buf.getChannelData(0);
     for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
-    const s=AC.createBufferSource();s.buffer=buf;
-    const hpf=AC.createBiquadFilter();hpf.type='highpass';hpf.frequency.value=7000;
-    const g=AC.createGain();g.gain.setValueAtTime(acc?.7:.45,t);g.gain.exponentialRampToValueAtTime(.001,t+.08);
-    s.connect(hpf);hpf.connect(g);g.connect(AC.destination);s.start(t);
+    const s=ac.createBufferSource();s.buffer=buf;
+    const hpf=ac.createBiquadFilter();hpf.type='highpass';hpf.frequency.value=7000;
+    const g=ac.createGain();g.gain.setValueAtTime(acc?.7:.45,t);g.gain.exponentialRampToValueAtTime(.001,t+.08);
+    s.connect(hpf);hpf.connect(g);g.connect(ac.destination);s.start(t);
   },
-  perc(t=AC.currentTime,acc=false){
-    const o=AC.createOscillator();o.type='triangle';
+  perc(t,acc=false){
+    const ac=getAC();if(t===undefined)t=ac.currentTime;
+    const o=ac.createOscillator();o.type='triangle';
     o.frequency.setValueAtTime(440,t);o.frequency.exponentialRampToValueAtTime(120,t+.18);
-    const g=AC.createGain();g.gain.setValueAtTime(acc?.9:.6,t);g.gain.exponentialRampToValueAtTime(.001,t+.2);
-    o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.2);
+    const g=ac.createGain();g.gain.setValueAtTime(acc?.9:.6,t);g.gain.exponentialRampToValueAtTime(.001,t+.2);
+    o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+.2);
   },
-  muffle(t=AC.currentTime){
-    const o=AC.createOscillator();o.frequency.value=80;
-    const g=AC.createGain();g.gain.setValueAtTime(.1,t);g.gain.exponentialRampToValueAtTime(.001,t+.05);
-    o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.05);
+  muffle(t){
+    const ac=getAC();if(t===undefined)t=ac.currentTime;
+    const o=ac.createOscillator();o.frequency.value=80;
+    const g=ac.createGain();g.gain.setValueAtTime(.1,t);g.gain.exponentialRampToValueAtTime(.001,t+.05);
+    o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+.05);
   },
-  scaleNote(t=AC.currentTime,dur=0.25){
+  scaleNote(t,dur=0.25){
+    const ac=getAC();if(t===undefined)t=ac.currentTime;
     const freq=CMAJOR[Math.floor(Math.random()*CMAJOR.length)];
-    const o=AC.createOscillator();o.type='square';
+    const o=ac.createOscillator();o.type='square';
     o.frequency.setValueAtTime(freq,t);
-    const g=AC.createGain();g.gain.setValueAtTime(.12,t);
+    const g=ac.createGain();g.gain.setValueAtTime(.12,t);
     g.gain.exponentialRampToValueAtTime(.001,t+dur);
-    // slight detune for width
-    const o2=AC.createOscillator();o2.type='square';
+    const o2=ac.createOscillator();o2.type='square';
     o2.frequency.setValueAtTime(freq*1.005,t);
-    const g2=AC.createGain();g2.gain.setValueAtTime(.07,t);
+    const g2=ac.createGain();g2.gain.setValueAtTime(.07,t);
     g2.gain.exponentialRampToValueAtTime(.001,t+dur);
-    o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+dur);
-    o2.connect(g2);g2.connect(AC.destination);o2.start(t);o2.stop(t+dur);
+    o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+dur);
+    o2.connect(g2);g2.connect(ac.destination);o2.start(t);o2.stop(t+dur);
   },
-  // C major chords: I ii iii IV V vi vii°
-  pad(t=AC.currentTime,dur=1.0){
+  pad(t,dur=1.0){
+    const ac=getAC();if(t===undefined)t=ac.currentTime;
     const CHORDS=[
-      [261.63,329.63,392.00],   // C  maj
-      [293.66,349.23,440.00],   // D  min
-      [329.63,392.00,493.88],   // E  min
-      [349.23,440.00,523.25],   // F  maj
-      [392.00,493.88,587.33],   // G  maj
-      [220.00,261.63,329.63],   // A  min (root oct down)
-      [246.94,293.66,349.23],   // B  dim (root oct down)
+      [261.63,329.63,392.00],
+      [293.66,349.23,440.00],
+      [329.63,392.00,493.88],
+      [349.23,440.00,523.25],
+      [392.00,493.88,587.33],
+      [220.00,261.63,329.63],
+      [246.94,293.66,349.23],
     ];
     const chord=CHORDS[Math.floor(Math.random()*CHORDS.length)];
-    const masterG=AC.createGain();
-    // soft attack, long release
+    const masterG=ac.createGain();
     masterG.gain.setValueAtTime(0,t);
     masterG.gain.linearRampToValueAtTime(0.18,t+dur*0.08);
     masterG.gain.setValueAtTime(0.18,t+dur*0.7);
     masterG.gain.linearRampToValueAtTime(0,t+dur);
-    // reverb-like: two detuned layers per note
     chord.forEach(freq=>{
       [-4,0,4].forEach(cent=>{
-        const o=AC.createOscillator();o.type='sine';
+        const o=ac.createOscillator();o.type='sine';
         o.frequency.setValueAtTime(freq*Math.pow(2,cent/1200),t);
-        const og=AC.createGain();og.gain.value=cent===0?1:.4;
-        // add a sub octave for body
-        const sub=AC.createOscillator();sub.type='sine';
+        const og=ac.createGain();og.gain.value=cent===0?1:.4;
+        const sub=ac.createOscillator();sub.type='sine';
         sub.frequency.setValueAtTime(freq/2,t);
-        const sg=AC.createGain();sg.gain.value=.18;
+        const sg=ac.createGain();sg.gain.value=.18;
         o.connect(og);og.connect(masterG);
         sub.connect(sg);sg.connect(masterG);
         o.start(t);o.stop(t+dur);
         sub.start(t);sub.stop(t+dur);
       });
     });
-    // gentle lpf to keep it warm
-    const lpf=AC.createBiquadFilter();lpf.type='lowpass';lpf.frequency.value=2200;lpf.Q.value=0.5;
-    masterG.connect(lpf);lpf.connect(AC.destination);
+    const lpf=ac.createBiquadFilter();lpf.type='lowpass';lpf.frequency.value=2200;lpf.Q.value=0.5;
+    masterG.connect(lpf);lpf.connect(ac.destination);
   },
-  wrongKey(t=AC.currentTime){
-    const o=AC.createOscillator();o.type='sine';
+  wrongKey(t){
+    const ac=getAC();if(t===undefined)t=ac.currentTime;
+    const o=ac.createOscillator();o.type='sine';
     o.frequency.setValueAtTime(200,t);
     o.frequency.exponentialRampToValueAtTime(80,t+.3);
-    const g=AC.createGain();g.gain.setValueAtTime(.3,t);
+    const g=ac.createGain();g.gain.setValueAtTime(.3,t);
     g.gain.exponentialRampToValueAtTime(.001,t+.3);
-    const lpf=AC.createBiquadFilter();lpf.type='lowpass';lpf.frequency.value=500;
-    o.connect(lpf);lpf.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.3);
+    const lpf=ac.createBiquadFilter();lpf.type='lowpass';lpf.frequency.value=500;
+    o.connect(lpf);lpf.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+.3);
   },
-  glitch(t=AC.currentTime){
-    const buf=AC.createBuffer(1,AC.sampleRate*.15,AC.sampleRate),d=buf.getChannelData(0);
+  glitch(t){
+    const ac=getAC();if(t===undefined)t=ac.currentTime;
+    const buf=ac.createBuffer(1,ac.sampleRate*.15,ac.sampleRate),d=buf.getChannelData(0);
     for(let i=0;i<d.length;i++){
       d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2)*(i%3===0?1:-1);
     }
-    const s=AC.createBufferSource();s.buffer=buf;
-    const g=AC.createGain();g.gain.setValueAtTime(.5,t);
+    const s=ac.createBufferSource();s.buffer=buf;
+    const g=ac.createGain();g.gain.setValueAtTime(.5,t);
     g.gain.exponentialRampToValueAtTime(.001,t+.15);
-    const dist=AC.createWaveShaper();
+    const dist=ac.createWaveShaper();
     const curve=new Float32Array(256);
     for(let i=0;i<256;i++){const x=i*2/256-1;curve[i]=Math.tanh(x*10);}
     dist.curve=curve;
-    s.connect(dist);dist.connect(g);g.connect(AC.destination);s.start(t);
-    const o=AC.createOscillator();o.type='sawtooth';
+    s.connect(dist);dist.connect(g);g.connect(ac.destination);s.start(t);
+    const o=ac.createOscillator();o.type='sawtooth';
     o.frequency.setValueAtTime(120+Math.random()*80,t);
     o.frequency.exponentialRampToValueAtTime(40,t+.12);
-    const og=AC.createGain();og.gain.setValueAtTime(.25,t);
+    const og=ac.createGain();og.gain.setValueAtTime(.25,t);
     og.gain.exponentialRampToValueAtTime(.001,t+.12);
-    o.connect(og);og.connect(AC.destination);o.start(t);o.stop(t+.12);
+    o.connect(og);og.connect(ac.destination);o.start(t);o.stop(t+.12);
   }
 };
 const PLAY=[Synth.kick,Synth.snare,Synth.hihat,Synth.perc];
@@ -462,7 +497,7 @@ function buildBarsUI(){
     // separator
     const sep=document.createElement('div');sep.className='bar-sep';
     sep.innerHTML=`<div class="bar-sep-line"></div><span class="bar-sep-text">Bar ${bi+1}</span><div class="bar-sep-line"></div>`
-      +(bars.length>1?`<button class="bar-del" data-bi="${bi}">✕ Remove</button>`:'');
+      +(bars.length>1?`<button class="bar-del" data-bi="${bi}">x Remove</button>`:'');
     c.appendChild(sep);
 
     // step numbers — show global beat numbers
@@ -525,11 +560,12 @@ document.getElementById('addBarBtn').addEventListener('click',()=>{
 function stepDur(){return 60/bpm/4;}
 
 function schedAbsStep(abs,time){
+  const ac=getAC();
   const bi=Math.floor(abs/STEPS),si=abs%STEPS;
   ROWS.forEach((_,ri)=>{
     if(!bars[bi][ri][si])return;
     PLAY[ri].call(Synth,time,false);
-    const delay=Math.max(0,(time-AC.currentTime)*1000);
+    const delay=Math.max(0,(time-ac.currentTime)*1000);
     setTimeout(()=>{
       const el=document.querySelector(`.step[data-bi="${bi}"][data-ri="${ri}"][data-si="${si}"]`);
       if(el){el.classList.add(`flash-${ROWS[ri]}`);setTimeout(()=>el.classList.remove(`flash-${ROWS[ri]}`),120);}
@@ -538,18 +574,19 @@ function schedAbsStep(abs,time){
 }
 
 function seqTick(){
+  const ac=getAC();
   const T=totalSteps();
-  while(nextTime<AC.currentTime+AHEAD){
+  while(nextTime<ac.currentTime+AHEAD){
     curStep=(curStep+1)%T;
     schedAbsStep(curStep,nextTime);
-    const d=(nextTime-AC.currentTime)*1000;
+    const d=(nextTime-ac.currentTime)*1000;
     setTimeout(renderSteps,Math.max(0,d));
     nextTime+=stepDur();
   }
 }
 
 function startSeq(){
-  resumeAC();isPlaying=true;curStep=-1;nextTime=AC.currentTime+.05;
+  unlockAudio();resumeAC();isPlaying=true;curStep=-1;nextTime=getAC().currentTime+.05;
   seqTimer=setInterval(seqTick,25);
   document.getElementById('playBtn').textContent='■';
   document.getElementById('playBtn').classList.add('playing');
@@ -678,7 +715,7 @@ function spawnNote(){
   if(isWild&&prevAbs===totalS-1&&newAbs===0){
     wildLoop++;
     document.getElementById('loopDisplay').textContent=wildLoop+1;
-    const d=Math.max(0,(GS.nextNote-AC.currentTime-stepSec)*1000);
+    const d=Math.max(0,(GS.nextNote-getAC().currentTime-stepSec)*1000);
     setTimeout(()=>{wildBars=generateWildBars(bars.length);wildFlash();},d);
   }
   GS.nextNote+=stepSec;
@@ -826,7 +863,8 @@ function drawFrame(ts){
   resizeCanvas();
   const W=canvas.width,H=canvas.height;
   GS.lastFrame=ts;
-  const now=AC.currentTime-GS.startT;
+  const ac=getAC();
+  const now=ac.currentTime-GS.startT;
   const spd=noteSpeed();
   const hitY=H-60,laneW=W/4;
 
@@ -837,13 +875,12 @@ function drawFrame(ts){
   while(GS.nextBeat<=now){
     const beatDur2=60/GS.gameBpm;
     const noteDur=beatDur2*(0.3+Math.random()*0.65);
-    Synth.scaleNote(AC.currentTime,noteDur);
-    // pad: fire randomly, but only if no pad is currently playing
-    if(Math.random()<0.35&&AC.currentTime>=(GS.padUntil||0)){
+    Synth.scaleNote(ac.currentTime,noteDur);
+    if(Math.random()<0.35&&ac.currentTime>=(GS.padUntil||0)){
       const beats=[1,2,4][Math.floor(Math.random()*3)];
       const dur=beatDur2*beats;
-      Synth.pad(AC.currentTime,dur);
-      GS.padUntil=AC.currentTime+dur;
+      Synth.pad(ac.currentTime,dur);
+      GS.padUntil=ac.currentTime+dur;
     }
     GS.nextBeat+=step;
   }
@@ -856,7 +893,7 @@ function drawFrame(ts){
       changeHp(-5);
       updateMultBadge(0);
       spawnPart(n.lane*laneW+laneW/2,hitY,'#ffffff22','miss');
-      MUTE[n.lane](AC.currentTime);
+      MUTE[n.lane](getAC().currentTime);
     }
   });
   GS.notes=GS.notes.filter(n=>n.y<H+40&&!(n.hit&&n.y>H));
@@ -990,7 +1027,7 @@ function drawFrame(ts){
       gr.addColorStop(0,'#ff4466');gr.addColorStop(.5,'#ffaa00');gr.addColorStop(1,'#ff4466');
       ctx.fillStyle=gr;
       ctx.shadowColor='rgba(255,100,0,0.6)';ctx.shadowBlur=20;
-      ctx.fillText(`🔥 ${milestonePop.score}`,W/2,H/2);
+      ctx.fillText(`* ${milestonePop.score}`,W/2,H/2);
       ctx.restore();
     }
   }
@@ -1003,8 +1040,9 @@ function drawFrame(ts){
 // ── Hit detection ──
 function tryHit(lane){
   if(!GS.running)return;
-  resumeAC();
-  const now=AC.currentTime-GS.startT;
+  unlockAudio();resumeAC();
+  const ac=getAC();
+  const now=ac.currentTime-GS.startT;
   const laneW=canvas.width/4,hitY=canvas.height-60;
   let best=null,bestD=Infinity;
   GS.notes.forEach(n=>{
@@ -1019,7 +1057,7 @@ function tryHit(lane){
     GS.combo++;if(GS.combo>GS.maxCombo)GS.maxCombo=GS.combo;
     const newMult=getMult(GS.combo);
     GS.score+=newMult;
-    PLAY[lane].call(Synth,AC.currentTime,GS.combo>=5);
+    PLAY[lane].call(Synth,ac.currentTime,GS.combo>=5);
     spawnPart(cx,hitY,LANE_COLORS[lane],'hit',GS.combo);
     addPopup(cx,hitY-30,newMult,newMult);
     flashBtn(lane,true);
@@ -1035,7 +1073,7 @@ function tryHit(lane){
     }
     updateMultBadge(GS.combo);
   } else {
-    Synth.wrongKey(AC.currentTime);
+    Synth.wrongKey(ac.currentTime);
     GS.combo=0;
     changeHp(-1);
     updateMultBadge(0);
@@ -1134,7 +1172,7 @@ function lbRender(entries, myId) {
   list.innerHTML = entries.map((e, i) => {
     const isMe = e.id === myId;
     const isGold = i === 0;
-    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i+1)+'';
+    const medal = i === 0 ? '1st' : i === 1 ? '2nd' : i === 2 ? '3rd' : (i+1)+'';
     return `<div class="lb-row${isGold?' lb-gold':''}${isMe?' lb-me':''}">
       <div class="lb-rank">${medal}</div>
       <div class="lb-name">${e.name.replace(/</g,'&lt;')}</div>
@@ -1190,7 +1228,7 @@ function lbRenderFull(entries) {
   }
   list.innerHTML = entries.map((e, i) => {
     const isGold = i === 0;
-    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i+1)+'';
+    const medal = i === 0 ? '1st' : i === 1 ? '2nd' : i === 2 ? '3rd' : (i+1)+'';
     return `<div class="lb-row${isGold?' lb-gold':''}">
       <div class="lb-rank">${medal}</div>
       <div class="lb-name">${e.name.replace(/</g,'&lt;')}</div>
@@ -1231,7 +1269,7 @@ document.querySelectorAll('.hit-btn').forEach(b=>b.addEventListener('pointerdown
 
 // ── Game flow ──
 function startGame(wild){
-  resumeAC();
+  unlockAudio();resumeAC();
   isWild=!!wild;wildLoop=0;fireParts=[];scorePopups=[];milestonePop=null;lastFireThr=0;shockwaves=[];stars=[];
 
   if(isWild){
@@ -1239,7 +1277,7 @@ function startGame(wild){
     document.getElementById('wildBadge').classList.add('show');
     document.getElementById('loopDisplay').textContent='1';
     document.getElementById('cdNum').classList.add('wild-cd');
-    document.getElementById('cdLabel').textContent='⚡ Wild Mode';
+    document.getElementById('cdLabel').textContent='! Wild Mode';
 
   } else {
     const hasNotes=bars.some(bar=>bar.some(row=>row.some(v=>v)));
@@ -1275,7 +1313,7 @@ function startGame(wild){
     cnt--;
     if(cnt<=0){
       clearInterval(iv);cd.classList.remove('show');
-      GS.startT=AC.currentTime;GS.running=true;GS.lastFrame=performance.now();
+      GS.startT=getAC().currentTime;GS.running=true;GS.lastFrame=performance.now();
       requestAnimationFrame(drawFrame);
     } else {
       cdNum.textContent=cnt;cdNum.style.animation='none';cdNum.offsetHeight;cdNum.style.animation='';
