@@ -155,7 +155,7 @@ canvas{display:block;width:100%;touch-action:none}
 .lb-rank{font-family:var(--disp);font-weight:800;font-size:9px;color:var(--dim);text-align:center}
 .lb-row.lb-gold .lb-rank{color:#ffaa00}
 .lb-name{color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lb-row.lb-me .lb-name::after{content:' ← sen';color:var(--accent);font-size:8px}
+.lb-row.lb-me .lb-name::after{content:' ← you';color:var(--accent);font-size:8px}
 .lb-score{font-family:var(--disp);font-weight:800;color:var(--accent);text-align:right}
 .lb-row.lb-gold .lb-score{color:#ffaa00}
 @media(max-width:600px){.step{height:36px}.row-label{padding:0 8px;font-size:7px}canvas{height:360px!important}.hit-btn{height:48px;font-size:8px}}
@@ -862,7 +862,7 @@ function drawFrame(ts){
   GS.notes=GS.notes.filter(n=>n.y<H+40&&!(n.hit&&n.y>H));
 
   // BPM escalation — every 200 pts, +4 bpm + combo bonus
-  const nb=bpm+Math.floor(GS.score/100)*4+(GS.comboBpmBonus||0);
+  const nb=bpm+Math.floor(GS.score/100)*3+(GS.comboBpmBonus||0);
   if(nb!==GS.gameBpm&&nb<=220){
     GS.gameBpm=nb;document.getElementById('gameBpmDisplay').textContent=nb;
   }
@@ -1026,9 +1026,10 @@ function tryHit(lane){
     // HP heal: x4→+1, x8→+2
     if(newMult>=8) changeHp(2);
     else if(newMult>=4) changeHp(1);
+    else if(newMult>=16) changeHp(5);
     else updateHUD();
     // BPM bonus when crossing x4 or x8 threshold for the first time
-    if(newMult>prevMult&&(newMult===4||newMult===8)){
+    if(newMult>prevMult&&(newMult===4||newMult===8 ||newMult===16)){
       GS.comboBpmBonus=(GS.comboBpmBonus||0)+1;
       document.getElementById('gameBpmDisplay').textContent=GS.gameBpm+(GS.comboBpmBonus);
     }
@@ -1129,7 +1130,7 @@ async function lbAddScore(name, score) {
 
 function lbRender(entries, myId) {
   const list = document.getElementById('goLbList');
-  if (!entries.length) { list.innerHTML = '<div class="go-lb-loading">Henüz skor yok.</div>'; return; }
+  if (!entries.length) { list.innerHTML = '<div class="go-lb-loading">There is no score yet.</div>'; return; }
   list.innerHTML = entries.map((e, i) => {
     const isMe = e.id === myId;
     const isGold = i === 0;
@@ -1156,10 +1157,10 @@ async function triggerGameOver() {
   document.getElementById('goScore').textContent = _pendingScore;
   document.getElementById('goNameRow').style.display = 'flex';
   document.getElementById('goNameInput').value = '';
-  document.getElementById('goSaveBtn').textContent = 'Kaydet';
+  document.getElementById('goSaveBtn').textContent = 'Save';
   document.getElementById('goSaveBtn').disabled = false;
   document.getElementById('gameover').classList.add('show');
-  document.getElementById('goLbList').innerHTML = '<div class="go-lb-loading">Yükleniyor…</div>';
+  document.getElementById('goLbList').innerHTML = '<div class="go-lb-loading">Loading…</div>';
   const entries = await lbLoad();
   lbRender(entries, null);
 }
@@ -1184,7 +1185,7 @@ document.getElementById('goNameInput').addEventListener('keydown', e => {
 function lbRenderFull(entries) {
   const list = document.getElementById('lbFullList');
   if (!entries.length) {
-    list.innerHTML = '<div class="go-lb-loading">Henuz skor yok.</div>';
+    list.innerHTML = '<div class="go-lb-loading">There is no score yet.</div>';
     return;
   }
   list.innerHTML = entries.map((e, i) => {
@@ -1202,7 +1203,7 @@ async function showLbScreen() {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('lbScreen').classList.add('active');
   document.getElementById('modeBadge').textContent = '// Leaderboard';
-  document.getElementById('lbFullList').innerHTML = '<div class="go-lb-loading">Yukleniyor...</div>';
+  document.getElementById('lbFullList').innerHTML = '<div class="go-lb-loading">Loading...</div>';
   const entries = await lbLoad();
   lbRenderFull(entries);
 }
@@ -1215,7 +1216,7 @@ function hideLbScreen() {
 
 document.getElementById('lbBackBtn').addEventListener('click', hideLbScreen);
 document.getElementById('lbRefreshBtn').addEventListener('click', async () => {
-  document.getElementById('lbFullList').innerHTML = '<div class="go-lb-loading">Yukleniyor...</div>';
+  document.getElementById('lbFullList').innerHTML = '<div class="go-lb-loading">Loading...</div>';
   const entries = await lbLoad();
   lbRenderFull(entries);
 });
