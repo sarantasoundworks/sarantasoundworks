@@ -417,7 +417,7 @@ const Synth={
     o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+dur);
     o2.connect(g2);g2.connect(ac.destination);o2.start(t);o2.stop(t+dur);
   },
-  pad(t,dur=1.0){
+  pad(t,dur=2.5){
     const ac=getAC();if(t===undefined)t=ac.currentTime;
     const CHORDS=[
       [261.63,329.63,392.00],
@@ -1050,9 +1050,10 @@ function drawFrame(ts){
 }
 
 // ── Hit detection ──
-function tryHit(lane){
+async function tryHit(lane){
   if(!GS.running)return;
-  unlockAudio();resumeAC();
+  unlockAudio();
+  await resumeAC();
   const ac=getAC();
   const now=ac.currentTime-GS.startT;
   const laneW=canvas.width/4,hitY=canvas.height-60;
@@ -1280,8 +1281,17 @@ document.addEventListener('keydown',e=>{if(e.repeat)return;const l=KEYS[e.key.to
 document.querySelectorAll('.hit-btn').forEach(b=>b.addEventListener('pointerdown',e=>{e.preventDefault();tryHit(+b.dataset.ch);}));
 
 // ── Game flow ──
-function startGame(wild){
-  unlockAudio();resumeAC();
+async function startGame(wild){
+  unlockAudio();
+  await resumeAC();
+  // iOS: play a silent buffer to guarantee audio path is open
+  const ac=getAC();
+  const silentBuf=ac.createBuffer(1,ac.sampleRate*0.05,ac.sampleRate);
+  const silentSrc=ac.createBufferSource();
+  silentSrc.buffer=silentBuf;
+  silentSrc.connect(ac.destination);
+  silentSrc.start(0);
+
   isWild=!!wild;wildLoop=0;fireParts=[];scorePopups=[];milestonePop=null;lastFireThr=0;shockwaves=[];stars=[];
 
   if(isWild){
