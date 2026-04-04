@@ -167,22 +167,27 @@ canvas{display:block;width:100%;touch-action:none}
     query, orderBy, limit
   } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDhJF5lmGRXtFXEH0OLfjv31cA-5uQpRu4",
-    authDomain: "beatmaster-a06f8.firebaseapp.com",
-    projectId: "beatmaster-a06f8",
-    storageBucket: "beatmaster-a06f8.firebasestorage.app",
-    messagingSenderId: "592566896820",
-    appId: "1:592566896820:web:d1fa36d1c93cfbd2376fe1",
-    measurementId: "G-JETKPBL7B1"
-  };
+  // 1. Config'i Cloudflare Function'dan çekiyoruz
+  async function startApp() {
+    try {
+      const response = await fetch('/api/firebase-config');
+      const firebaseConfig = await response.json();
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+      // 2. Firebase'i gelen dinamik veriyle başlatıyoruz
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
 
-  // Expose to global scope so the main script can use them
-  window._bmDb = db;
-  window._bmFirestore = { collection, addDoc, getDocs, query, orderBy, limit };
+      // 3. Global scope'a aktar (mevcut oyun mantığının çalışması için)
+      window._bmDb = db;
+      window._bmFirestore = { collection, addDoc, getDocs, query, orderBy, limit };
+      
+      console.log("Firebase güvenli şekilde başlatıldı.");
+    } catch (error) {
+      console.error("Config yüklenirken hata oluştu:", error);
+    }
+  }
+
+  startApp();
 </script>
 </head>
 <body>
