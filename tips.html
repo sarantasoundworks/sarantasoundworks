@@ -142,6 +142,17 @@ nav {
 .nav-links a:hover { color: var(--text); border-color: var(--border2); background: var(--bg4); }
 .nav-tool-btn { font-family: var(--disp); font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; background: rgba(0,255,136,0.08); border: 1px solid var(--accent); color: var(--accent); text-decoration: none; padding: 6px 16px; border-radius: 2px; transition: background 0.15s; }
 .nav-tool-btn:hover { background: rgba(0,255,136,0.18); }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+.hamburger span { display: block; width: 22px; height: 1.5px; background: var(--dim); transition: all 0.2s; }
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--accent); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--accent); }
+.mobile-menu { display: none; position: fixed; top: 48px; left: 0; right: 0; background: rgba(7,7,13,0.98); border-bottom: 1px solid var(--border); backdrop-filter: blur(8px); z-index: 199; padding: 16px 24px; flex-direction: column; gap: 4px; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-family: var(--disp); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); text-decoration: none; padding: 10px 0; border-bottom: 1px solid var(--border); transition: color 0.15s; }
+.mobile-menu a:last-child { border-bottom: none; color: var(--accent); }
+.mobile-menu a:hover { color: var(--text); }
+.nav-tool-desktop { display: block; }
 
 /* HERO */
 .hero { min-height: 28vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 120px 64px 56px; position: relative; overflow: hidden; }
@@ -274,6 +285,8 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
 @media (max-width: 900px) {
   nav { padding: 0 20px; }
   .nav-links { display: none; }
+  .nav-tool-desktop { display: none; }
+  .hamburger { display: flex; }
   .hero { padding: 100px 24px 40px; }
   .tips-section { padding: 56px 24px; }
   .section-topbar { padding: 0 16px; }
@@ -299,10 +312,22 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
     <li><a href="index.html#about">About</a></li>
     <li><a href="index.html#music">Music</a></li>
     <li><a href="tips.html" style="color:var(--accent);">Tips</a></li>
+    <li><a href="beatmaster.html">BeatMaster</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
-  <a href="tools.html" class="nav-tool-btn">Launch Mastering Suite ↗</a>
+  <a href="tools.html" class="nav-tool-btn nav-tool-desktop">Launch Mastering Suite ↗</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#about" onclick="closeMobile()">About</a>
+  <a href="index.html#music" onclick="closeMobile()">Music</a>
+  <a href="tips.html" onclick="closeMobile()">Tips</a>
+  <a href="beatmaster.html" onclick="closeMobile()">BeatMaster</a>
+  <a href="index.html#contact" onclick="closeMobile()">Contact</a>
+  <a href="tools.html">Launch Mastering Suite ↗</a>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="home">
@@ -868,6 +893,13 @@ const observer = new IntersectionObserver((entries) => {
 }, { rootMargin: '-48px 0px -60% 0px', threshold: 0 });
 
 sections.forEach(sec => observer.observe(sec));
+</script>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  function closeMobile() { hamburger.classList.remove('open'); mobileMenu.classList.remove('open'); }
+  hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
 </script>
 
 </body>
