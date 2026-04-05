@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MasterMind — Saranta Soundworks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07070d;--bg2:#0c0c14;--surface:#111118;--elevated:#1a1a28;
+  --neon:#00ff88;--blue:#4488ff;--red:#ff4466;--warn:#ffaa00;
+  --hi:#e8e8f0;--mid:#666680;--lo:#2a2a3a;
+  --border:#1e1e2e;--border-a:#2a2a3a;
+  --display:'Syne',sans-serif;--mono:'Space Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--hi);font-family:var(--mono);min-height:100vh;overflow-x:hidden}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(0,255,136,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.025) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+body::after{
+  content:'';position:fixed;top:-200px;left:-200px;width:600px;height:600px;
+  background:radial-gradient(circle,rgba(0,255,136,.05) 0%,transparent 65%);
+  pointer-events:none;z-index:0;
+}
+nav{
+  position:sticky;top:0;z-index:100;height:48px;
+  background:rgba(7,7,13,.97);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;padding:0 32px;
+  backdrop-filter:blur(8px);
+}
+.logo{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--neon);text-decoration:none}
+.logo em{color:var(--blue);font-style:normal}
+.mastermind-logo{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--neon)}
+.mastermind-logo em{color:var(--blue);font-style:normal}
+.nav-r{display:flex;align-items:center;gap:16px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--neon);animation:breath 2s ease-in-out infinite}
+@keyframes breath{0%,100%{opacity:1}50%{opacity:.2}}
+.nav-tag{font-size:9px;letter-spacing:2px;color:var(--mid);text-transform:uppercase}
+main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:48px 24px 80px}
+.hero{text-align:center;margin-bottom:56px}
+.hero-eyebrow{font-size:9px;letter-spacing:3px;color:var(--neon);text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,5vw,48px);color:var(--hi);line-height:1.1;margin-bottom:16px}
+.hero h1 span{color:var(--neon)}
+.hero p{font-size:12px;color:var(--mid);letter-spacing:1px;line-height:1.8;max-width:480px;margin:0 auto}
+.chain-row{display:flex;align-items:center;justify-content:center;margin-bottom:56px;flex-wrap:wrap;gap:4px}
+.chain-step{background:var(--surface);border:1px solid var(--border);padding:8px 14px;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--mid);border-radius:2px;white-space:nowrap}
+.chain-step.active{border-color:var(--neon);color:var(--neon)}
+.chain-arrow{color:var(--lo);font-size:10px;margin:0 2px}
+.drop-zone{
+  border:1px dashed var(--border-a);border-radius:2px;padding:56px 32px;text-align:center;cursor:pointer;
+  transition:border-color .15s,background .15s;position:relative;margin-bottom:32px;background:var(--surface);
+}
+.drop-zone:hover,.drop-zone.drag-over{border-color:var(--neon);background:rgba(0,255,136,.03)}
+.drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-icon{width:48px;height:48px;margin:0 auto 16px;border:1px solid var(--border-a);border-radius:2px;display:flex;align-items:center;justify-content:center;transition:border-color .15s}
+.drop-zone:hover .drop-icon,.drop-zone.drag-over .drop-icon{border-color:var(--neon)}
+.drop-icon svg{width:20px;height:20px;stroke:var(--mid)}
+.drop-zone:hover .drop-icon svg,.drop-zone.drag-over .drop-icon svg{stroke:var(--neon)}
+.drop-title{font-family:var(--display);font-weight:700;font-size:15px;color:var(--hi);margin-bottom:8px}
+.drop-sub{font-size:10px;color:var(--mid);letter-spacing:1px}
+.drop-formats{display:flex;gap:8px;justify-content:center;margin-top:16px}
+.format-tag{font-size:8px;letter-spacing:2px;border:1px solid var(--border-a);color:var(--mid);padding:4px 10px;border-radius:2px;text-transform:uppercase}
+.file-card{display:none;background:var(--surface);border:1px solid var(--border-a);border-radius:2px;padding:20px 24px;margin-bottom:32px;flex-direction:column;gap:12px}
+.file-card.show{display:flex}
+.fc-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.fc-info{display:flex;flex-direction:column;gap:4px}
+.fc-name{font-size:13px;color:var(--hi);font-weight:700}
+.fc-meta{font-size:10px;color:var(--mid);letter-spacing:1px}
+.fc-remove{background:none;border:1px solid var(--border-a);color:var(--mid);font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:6px 12px;cursor:pointer;border-radius:2px;text-transform:uppercase;transition:border-color .15s,color .15s}
+.fc-remove:hover{border-color:var(--red);color:var(--red)}
+.waveform-wrap{display:none;margin-bottom:32px;background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:16px 20px}
+.waveform-wrap.show{display:block}
+.wf-label{font-size:9px;letter-spacing:2px;color:var(--mid);text-transform:uppercase;margin-bottom:10px}
+canvas.waveform{width:100%;height:64px;display:block}
+.process-btn{
+  width:100%;background:var(--neon);color:var(--bg);border:none;border-radius:2px;padding:16px;
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  cursor:pointer;transition:opacity .15s,transform .15s;
+  display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:32px;
+}
+.process-btn:hover:not(:disabled){opacity:.85;transform:translateY(-1px)}
+.process-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.progress-panel{display:none;margin-bottom:32px;background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:24px}
+.progress-panel.show{display:block}
+.progress-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.progress-step{display:flex;align-items:center;gap:12px}
+.ps-icon{width:20px;height:20px;border-radius:50%;border:1px solid var(--border-a);display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;transition:all .3s}
+.ps-icon.done{border-color:var(--neon);background:rgba(0,255,136,.15);color:var(--neon)}
+.ps-icon.active{border-color:var(--neon);animation:pulse-border 1s ease-in-out infinite}
+@keyframes pulse-border{0%,100%{border-color:var(--neon)}50%{border-color:rgba(0,255,136,.3)}}
+.ps-icon.pending{color:var(--lo)}
+.ps-label{font-size:10px;letter-spacing:1px;color:var(--mid);transition:color .3s;text-transform:uppercase}
+.ps-label.active,.ps-label.done{color:var(--hi)}
+.progress-bar-wrap{height:2px;background:var(--border);border-radius:1px;overflow:hidden}
+.progress-bar-fill{height:100%;background:var(--neon);border-radius:1px;width:0%;transition:width .4s ease}
+.upload-panel{display:none;margin-bottom:32px;background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:24px}
+.upload-panel.show{display:block}
+.upload-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.upload-step{display:flex;align-items:center;gap:12px}
+.us-icon{width:20px;height:20px;border-radius:50%;border:1px solid var(--border-a);display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;transition:all .3s}
+.us-icon.done{border-color:var(--neon);background:rgba(0,255,136,.15);color:var(--neon)}
+.us-icon.active{border-color:var(--neon);animation:pulse-border 1s ease-in-out infinite}
+.us-icon.pending{color:var(--lo)}
+.us-label{font-size:10px;letter-spacing:1px;color:var(--mid);transition:color .3s;text-transform:uppercase}
+.us-label.active,.us-label.done{color:var(--hi)}
+.result-panel{display:none;background:var(--surface);border:1px solid var(--neon);border-radius:2px;padding:24px;margin-bottom:32px}
+.result-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.result-title{font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase;color:var(--neon)}
+.result-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:20px}
+.stat-card{background:var(--elevated);border:1px solid var(--border);border-radius:2px;padding:12px;display:flex;flex-direction:column;gap:4px}
+.stat-label{font-size:8px;letter-spacing:2px;color:var(--mid);text-transform:uppercase}
+.stat-val{font-size:16px;font-weight:700;color:var(--neon);font-family:var(--display)}
+.stat-unit{font-size:8px;color:var(--mid)}
+
+/* ── A/B PANEL ── */
+.ab-panel{display:none;background:var(--elevated);border:1px solid var(--border);border-radius:2px;padding:18px;margin-bottom:16px}
+.ab-panel.show{display:block}
+.ab-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.ab-title{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--mid)}
+.ab-badge{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:2px;border:1px solid;transition:all .2s}
+.ab-badge.original{color:var(--warn);border-color:var(--warn)}
+.ab-badge.mastered{color:var(--neon);border-color:var(--neon)}
+.ab-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.ab-btn{
+  background:transparent;border:1px solid var(--border-a);color:var(--mid);
+  border-radius:2px;padding:11px;font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;cursor:pointer;
+  transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.ab-btn:hover{border-color:var(--hi);color:var(--hi)}
+.ab-btn.sel-a{border-color:var(--warn);color:var(--warn);background:rgba(255,170,0,.06)}
+.ab-btn.sel-b{border-color:var(--neon);color:var(--neon);background:rgba(0,255,136,.06)}
+.ab-transport{display:flex;align-items:center;gap:10px}
+.ab-play-btn{
+  background:transparent;border:1px solid var(--border-a);color:var(--mid);
+  border-radius:2px;padding:8px 14px;font-family:var(--mono);font-size:9px;letter-spacing:2px;
+  cursor:pointer;transition:all .15s;flex-shrink:0;
+}
+.ab-play-btn:hover{border-color:var(--neon);color:var(--neon)}
+.ab-play-btn.playing{border-color:var(--neon);color:var(--neon);background:rgba(0,255,136,.08)}
+.ab-progress{flex:1;display:flex;flex-direction:column;gap:5px}
+.ab-bar{height:2px;background:var(--border);border-radius:1px;overflow:hidden;cursor:pointer}
+.ab-bar-fill{height:100%;background:var(--neon);border-radius:1px;width:0%;transition:width .1s linear}
+.ab-times{display:flex;justify-content:space-between}
+.ab-times span{font-size:8px;letter-spacing:1px;color:var(--lo)}
+
+.download-btn{
+  width:100%;background:transparent;border:1px solid var(--neon);color:var(--neon);
+  border-radius:2px;padding:14px;font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:background .15s,color .15s;
+  display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;
+}
+.download-btn:hover{background:var(--neon);color:var(--bg)}
+.process-another{
+  margin-top:10px;width:100%;background:transparent;border:1px solid var(--border-a);color:var(--mid);
+  border-radius:2px;padding:10px;font-family:var(--mono);font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;cursor:pointer;transition:border-color .15s,color .15s;
+}
+.process-another:hover{border-color:var(--hi);color:var(--hi)}
+.error-panel{display:none;background:var(--surface);border:1px solid var(--red);border-radius:2px;padding:20px;margin-bottom:32px}
+.error-panel.show{display:block}
+.error-msg{font-size:11px;color:var(--red);letter-spacing:1px}
+footer{border-top:1px solid var(--border);padding:24px 32px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.footer-logo{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:3px;color:var(--mid);text-transform:uppercase}
+.footer-note{font-size:8px;letter-spacing:2px;color:var(--lo);text-transform:uppercase}
+@media(max-width:600px){
+  .result-stats{grid-template-columns:1fr 1fr}
+  .chain-row{gap:3px}
+  .chain-step{padding:6px 10px;font-size:7px}
+  nav{padding:0 16px}
+  main{padding:32px 16px 60px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Saranta<em>/</em>Soundworks</a>
+  <div class="nav-r">
+    <div class="mastermind-logo">Master<em>/</em>Mind</div>
+  </div>
+</nav>
+
+<main>
+  <div class="hero">
+    <div class="hero-eyebrow">The Saranta Method</div>
+    <h1>Mastering.<br><span>Calibrated.</span> Automated.</h1>
+    <p>Upload your audio file — the signal chain analyzes, calibrates, and masters it to the -14 LUFS broadcast standard.</p>
+  </div>
+
+  <div class="chain-row">
+    <div class="chain-step active">Auto-Gain</div><div class="chain-arrow">→</div>
+    <div class="chain-step active">Saturation</div><div class="chain-arrow">→</div>
+    <div class="chain-step active">Filtering</div><div class="chain-arrow">→</div>
+    <div class="chain-step active">Mastering EQ</div><div class="chain-arrow">→</div>
+    <div class="chain-step active">Multiband Comp</div><div class="chain-arrow">→</div>
+    <div class="chain-step active">Massive Passive EQ</div><div class="chain-arrow">→</div>
+    <div class="chain-step active">SSL Bus Comp</div><div class="chain-arrow">→</div>
+    <div class="chain-step active">Stereo Width</div><div class="chain-arrow">→</div>
+    <div class="chain-step active">LUFS Norm</div><div class="chain-arrow">→</div>
+    <div class="chain-step active">True Peak Limit</div>
+  </div>
+
+  <div class="drop-zone" id="dropZone">
+    <input type="file" id="fileInput" accept="audio/*">
+    <div class="drop-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+      </svg>
+    </div>
+    <div class="drop-title">Upload Audio File</div>
+    <div class="drop-sub">Drag & drop or click to upload</div>
+    <div class="drop-formats">
+      <div class="format-tag">WAV</div><div class="format-tag">MP3</div>
+      <div class="format-tag">AIFF</div><div class="format-tag">FLAC</div><div class="format-tag">OGG</div>
+    </div>
+  </div>
+
+  <div class="file-card" id="fileCard">
+    <div class="fc-top">
+      <div class="fc-info">
+        <div class="fc-name" id="fcName">—</div>
+        <div class="fc-meta" id="fcMeta">—</div>
+      </div>
+      <button class="fc-remove" id="removeBtn">Remove</button>
+    </div>
+  </div>
+
+  <div class="upload-panel" id="uploadPanel">
+    <div class="upload-steps" id="uploadSteps"></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="uploadBar"></div></div>
+  </div>
+
+  <div class="waveform-wrap" id="waveformWrap" style="display:none!important">
+    <div class="wf-label">Input Signal</div>
+    <canvas class="waveform" id="waveCanvas" height="64"></canvas>
+  </div>
+
+  <button class="process-btn" id="processBtn" disabled style="display:none">
+    <span id="processBtnText">Select File</span>
+  </button>
+
+  <div class="progress-panel" id="progressPanel">
+    <div class="progress-steps" id="progressSteps"></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+  </div>
+
+  <div class="error-panel" id="errorPanel">
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <div class="result-panel" id="resultPanel">
+    <!-- A/B MONITOR -->
+    <div class="ab-panel" id="abPanel">
+      <div class="ab-header">
+        <div class="ab-title">// A/B Monitor</div>
+        <div class="ab-badge mastered" id="abBadge">MASTERED</div>
+      </div>
+      <div class="ab-btns">
+        <button class="ab-btn" id="abBtnA">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          A — Original
+        </button>
+        <button class="ab-btn sel-b" id="abBtnB">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          B — Mastered
+        </button>
+      </div>
+      <div class="ab-transport">
+        <button class="ab-play-btn" id="abPlayBtn">▶ PLAY</button>
+        <div class="ab-progress">
+          <div class="ab-bar" id="abBar" style="height:56px;position:relative;cursor:pointer;overflow:hidden;border-radius:2px;">
+            <canvas id="abWaveCanvas" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+            <div class="ab-bar-fill" id="abBarFill" style="position:absolute;top:0;left:0;height:100%;background:rgba(0,255,136,0.12);border-right:1px solid var(--neon);width:0%;transition:none;border-radius:0;"></div>
+          </div>
+          <div class="ab-times">
+            <span id="abCurTime">0:00</span>
+            <span id="abTotTime">0:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="download-btn" id="downloadBtn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download as WAV
+    </button>
+    <button class="process-btn" id="processAnotherBtn" style="margin-top:10px;margin-bottom:0">
+      <span>Process New File</span>
+    </button>
+  </div>
+</main>
+
+
+
+<script>
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let audioCtx = null, audioBuffer = null, processedBuffer = null, downloadUrl = null, currentFile = null;
+let abSide = 'B'; // 'A' = original, 'B' = mastered
+let abSource = null, abStartedAt = 0, abOffset = 0, abPlaying = false, abRaf = null, abGen = 0;
+
+// ─── DOM ──────────────────────────────────────────────────────────────────────
+const dropZone       = document.getElementById('dropZone');
+const fileInput      = document.getElementById('fileInput');
+const fileCard       = document.getElementById('fileCard');
+const fcName         = document.getElementById('fcName');
+const fcMeta         = document.getElementById('fcMeta');
+const removeBtn      = document.getElementById('removeBtn');
+const waveformWrap   = document.getElementById('waveformWrap');
+const waveCanvas     = document.getElementById('waveCanvas');
+const processBtn     = document.getElementById('processBtn');
+const processBtnText = document.getElementById('processBtnText');
+const progressPanel  = document.getElementById('progressPanel');
+const progressSteps  = document.getElementById('progressSteps');
+const progressBar    = document.getElementById('progressBar');
+const uploadPanel    = document.getElementById('uploadPanel');
+const uploadSteps    = document.getElementById('uploadSteps');
+const uploadBar      = document.getElementById('uploadBar');
+const resultPanel    = document.getElementById('resultPanel');
+const downloadBtn    = document.getElementById('downloadBtn');
+const processAnotherBtn = document.getElementById('processAnotherBtn');
+const errorPanel     = document.getElementById('errorPanel');
+const errorMsg       = document.getElementById('errorMsg');
+const abPanel        = document.getElementById('abPanel');
+const abBtnA         = document.getElementById('abBtnA');
+const abBtnB         = document.getElementById('abBtnB');
+const abBadge        = document.getElementById('abBadge');
+const abPlayBtn      = document.getElementById('abPlayBtn');
+const abBar          = document.getElementById('abBar');
+const abBarFill      = document.getElementById('abBarFill');
+const abCurTime      = document.getElementById('abCurTime');
+const abTotTime      = document.getElementById('abTotTime');
+
+// ─── FILE HANDLING ────────────────────────────────────────────────────────────
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if(f) handleFile(f); });
+fileInput.addEventListener('change', e => { if(e.target.files[0]) handleFile(e.target.files[0]); });
+removeBtn.addEventListener('click', resetAll);
+processBtn.addEventListener('click', runMastering);
+downloadBtn.addEventListener('click', downloadResult);
+processAnotherBtn.addEventListener('click', resetAll);
+abBtnA.addEventListener('click', () => selectSide('A'));
+abBtnB.addEventListener('click', () => selectSide('B'));
+abPlayBtn.addEventListener('click', togglePlayback);
+abBar.addEventListener('click', seekBar);
+
+function fmt(s) { const m=Math.floor(s/60); return `${m}:${String(Math.floor(s%60)).padStart(2,'0')}`; }
+function fmtBytes(b) { return b>1e6?(b/1e6).toFixed(1)+' MB':(b/1e3).toFixed(0)+' KB'; }
+
+const UPLOAD_STEPS = ['Reading File', 'Decoding Audio', 'Building Waveform'];
+
+function buildUploadSteps() {
+  uploadSteps.innerHTML = UPLOAD_STEPS.map((s,i) =>
+    `<div class="upload-step"><div class="us-icon pending" id="uic${i}">·</div><div class="us-label" id="ulb${i}">${s}</div></div>`
+  ).join('');
+}
+
+function setUploadStep(i, state) {
+  const ic=document.getElementById(`uic${i}`), lb=document.getElementById(`ulb${i}`);
+  if(!ic) return;
+  ic.className=`us-icon ${state}`; lb.className=`us-label ${state}`;
+  ic.textContent = state==='done'?'✓':state==='active'?'◉':'·';
+  uploadBar.style.width = `${Math.round(((i+(state==='done'?1:.5))/UPLOAD_STEPS.length)*100)}%`;
+}
+
+function hideUploadPanel() { uploadPanel.classList.remove('show'); }
+function showUploadPanel() { buildUploadSteps(); uploadPanel.classList.add('show'); uploadBar.style.width='0%'; }
+
+async function handleFile(file) {
+  currentFile = file;
+  dropZone.style.display = 'none';
+  fcName.textContent = file.name;
+  fcMeta.textContent = fmtBytes(file.size);
+  fileCard.classList.add('show');
+  resultPanel.style.display = 'none';
+  abPanel.classList.remove('show');
+  abStop();
+  hideError();
+  progressPanel.classList.remove('show');
+  progressBar.style.width = '0%';
+
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  try {
+    showUploadPanel();
+
+    setUploadStep(0,'active');
+    const arrayBuf = await file.arrayBuffer();
+    setUploadStep(0,'done');
+
+    setUploadStep(1,'active');
+    audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
+    setUploadStep(1,'done');
+
+    setUploadStep(2,'active');
+    fcMeta.textContent = `${fmtBytes(file.size)} · ${audioBuffer.numberOfChannels}ch · ${(audioBuffer.sampleRate/1000).toFixed(1)} kHz · ${fmt(audioBuffer.duration)}`;
+    drawWaveform(audioBuffer);
+    // waveformWrap intentionally hidden — no input signal display
+    setUploadStep(2,'done');
+    uploadBar.style.width = '100%';
+
+    await delay(400);
+    hideUploadPanel();
+    processBtn.disabled = false;
+    processBtnText.textContent = 'Start Mastering';
+    // Auto-start mastering immediately
+    runMastering();
+  } catch(err) { hideUploadPanel(); showError('File cannot be read: ' + err.message); }
+}
+
+function drawWaveform(buf) {
+  const ctx2 = waveCanvas.getContext('2d');
+  const W = waveCanvas.offsetWidth || 800, H = 64;
+  waveCanvas.width = W; waveCanvas.height = H;
+  ctx2.clearRect(0,0,W,H);
+  const data = buf.getChannelData(0);
+  const step = Math.floor(data.length / W);
+  ctx2.strokeStyle = 'rgba(0,255,136,0.6)'; ctx2.lineWidth = 1;
+  ctx2.beginPath();
+  for (let x=0; x<W; x++) {
+    let max=0;
+    for (let j=0;j<step;j++){const v=Math.abs(data[x*step+j]);if(v>max)max=v;}
+    const y1=H/2-max*(H/2-2), y2=H/2+max*(H/2-2);
+    if(x===0) ctx2.moveTo(x,y1); else ctx2.lineTo(x,y1);
+    ctx2.lineTo(x,y2);
+  }
+  ctx2.stroke();
+}
+
+// ─── PROGRESS STEPS ──────────────────────────────────────────────────────────
+const STEPS = ['Auto Input Gain','Saturation','Filtering','Mastering EQ','Multiband Comp','Massive Passive EQ','SSL Bus Comp','Stereo Width','LUFS Normalize','True Peak Limit','Render WAV'];
+
+function buildSteps() {
+  progressSteps.innerHTML = STEPS.map((s,i) =>
+    `<div class="progress-step"><div class="ps-icon pending" id="ic${i}">·</div><div class="ps-label" id="lb${i}">${s}</div></div>`
+  ).join('');
+}
+
+function setStep(i, state) {
+  const ic=document.getElementById(`ic${i}`), lb=document.getElementById(`lb${i}`);
+  if(!ic) return;
+  ic.className=`ps-icon ${state}`; lb.className=`ps-label ${state}`;
+  ic.textContent = state==='done'?'✓':state==='active'?'◉':'·';
+  progressBar.style.width = `${Math.round(((i+(state==='done'?1:.5))/STEPS.length)*100)}%`;
+}
+
+// ─── MASTERING PIPELINE ───────────────────────────────────────────────────────
+async function runMastering() {
+  if (!audioBuffer) return;
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state==='suspended') await audioCtx.resume();
+
+  processBtn.disabled = true; processBtnText.textContent = 'Processing...';
+  resultPanel.style.display = 'none';
+  abPanel.classList.remove('show'); abStop();
+  hideError(); buildSteps();
+  progressPanel.classList.add('show'); progressBar.style.width='0%';
+
+  const t0 = Date.now();
+  const numCh = audioBuffer.numberOfChannels, len = audioBuffer.length, sr = audioBuffer.sampleRate;
+
+  try {
+    const ch = [];
+    for (let c=0;c<numCh;c++) ch.push(new Float32Array(audioBuffer.getChannelData(c)));
+
+    setStep(0,'active'); await delay(120);
+    applyGain(ch, computeAutoGain(ch));
+    setStep(0,'done');
+
+    setStep(1,'active'); await delay(80);
+    applySaturation(ch, 0.40, 0.25, sr);
+    setStep(1,'done');
+
+    setStep(2,'active'); await delay(80);
+    applyHPF(ch, 30, sr);
+    setStep(2,'done');
+
+    setStep(3,'active'); await delay(80);
+    applyMasteringEQ(ch, sr);
+    setStep(3,'done');
+
+    setStep(4,'active'); await delay(150);
+    applyMultibandComp(ch, sr);
+    setStep(4,'done');
+
+    setStep(5,'active'); await delay(80);
+    applyMassivePassive(ch, sr);
+    setStep(5,'done');
+
+    setStep(6,'active'); await delay(120);
+    applySSLBusComp(ch, sr);
+    setStep(6,'done');
+
+    setStep(7,'active'); await delay(80);
+    if (ch.length>=2) applyStereoWidth(ch, 0.05);
+    setStep(7,'done');
+
+    setStep(8,'active'); await delay(80);
+    const lufsIn = measureLUFS(ch, sr);
+    // Normalize + limiter compensation loop:
+    // After normalizing, the true peak limiter may pull loudness down.
+    // We iterate up to 3 times to converge on the target.
+    let lufsOut = lufsIn;
+    for (let iter = 0; iter < 3; iter++) {
+      const current = measureLUFS(ch, sr);
+      const gainDb  = Math.max(-24, Math.min(24, -14 - current));
+      if (Math.abs(gainDb) < 0.05) break; // converged
+      applyGain(ch, dbToLin(gainDb));
+      applyTruePeakLimiter(ch, dbToLin(-1)); // apply limiter each iteration
+    }
+    lufsOut = measureLUFS(ch, sr);
+    setStep(8,'done');
+
+    // Limiter already applied in normalize loop — skip separate step
+    setStep(9,'active'); await delay(40);
+    setStep(9,'done');
+
+    setStep(10,'active'); await delay(100);
+    const outBuf = audioCtx.createBuffer(numCh, len, sr);
+    for (let c=0;c<numCh;c++) outBuf.copyToChannel(ch[c], c);
+    processedBuffer = outBuf;
+    const wavBlob = bufferToWav(outBuf);
+    if (downloadUrl) URL.revokeObjectURL(downloadUrl);
+    downloadUrl = URL.createObjectURL(wavBlob);
+    setStep(10,'done'); progressBar.style.width='100%';
+
+    const elapsed = ((Date.now()-t0)/1000).toFixed(1);
+    showResult();
+
+  } catch(err) {
+    console.error(err);
+    showError('Processing error: ' + err.message);
+    processBtn.disabled = false; processBtnText.textContent = 'Retry';
+  }
+}
+
+// ─── DSP ─────────────────────────────────────────────────────────────────────
+function dbToLin(db) { return Math.pow(10, db/20); }
+function linToDb(v)  { return 20*Math.log10(Math.max(1e-10, v)); }
+function delay(ms)   { return new Promise(r=>setTimeout(r,ms)); }
+
+function computeAutoGain(ch) {
+  let s=0, n=0;
+  for (const c of ch) for (const v of c) { s+=v*v; n++; }
+  return Math.min(Math.max(dbToLin(-18 - linToDb(Math.sqrt(s/n))), 0.1), 10);
+}
+function applyGain(ch, g) { for(const c of ch) for(let i=0;i<c.length;i++) c[i]*=g; }
+
+function applyHPF(ch, freq, sr) {
+  const hp = makeHP(freq, sr);
+  for (const c of ch) applyBQ(c, hp);
+}
+
+// M/S stereo width — mid untouched, side scaled
+function applyStereoWidth(ch, amount) {
+  const L=ch[0], R=ch[1];
+  for (let i=0;i<L.length;i++) {
+    const m=(L[i]+R[i])*.5, s=(L[i]-R[i])*.5*(1+amount);
+    L[i]=m+s; R[i]=m-s;
+  }
+}
+
+function makeBQ(type, freq, sr, gainDb, Q) {
+  const w0=2*Math.PI*freq/sr, alpha=Math.sin(w0)/(2*Q), A=Math.pow(10,gainDb/40);
+  let b0,b1,b2,a0,a1,a2;
+  if (type==='lowShelf') {
+    b0=A*((A+1)-(A-1)*Math.cos(w0)+2*Math.sqrt(A)*alpha);
+    b1=2*A*((A-1)-(A+1)*Math.cos(w0));
+    b2=A*((A+1)-(A-1)*Math.cos(w0)-2*Math.sqrt(A)*alpha);
+    a0=(A+1)+(A-1)*Math.cos(w0)+2*Math.sqrt(A)*alpha;
+    a1=-2*((A-1)+(A+1)*Math.cos(w0));
+    a2=(A+1)+(A-1)*Math.cos(w0)-2*Math.sqrt(A)*alpha;
+  } else if (type==='highShelf') {
+    b0=A*((A+1)+(A-1)*Math.cos(w0)+2*Math.sqrt(A)*alpha);
+    b1=-2*A*((A-1)+(A+1)*Math.cos(w0));
+    b2=A*((A+1)+(A-1)*Math.cos(w0)-2*Math.sqrt(A)*alpha);
+    a0=(A+1)-(A-1)*Math.cos(w0)+2*Math.sqrt(A)*alpha;
+    a1=2*((A-1)-(A+1)*Math.cos(w0));
+    a2=(A+1)-(A-1)*Math.cos(w0)-2*Math.sqrt(A)*alpha;
+  } else { // peaking
+    b0=1+alpha*A; b1=-2*Math.cos(w0); b2=1-alpha*A;
+    a0=1+alpha/A; a1=-2*Math.cos(w0); a2=1-alpha/A;
+  }
+  return [b0/a0,b1/a0,b2/a0,a1/a0,a2/a0];
+}
+function makeLP(freq,sr){const w0=2*Math.PI*freq/sr,Q=0.707,alpha=Math.sin(w0)/(2*Q),cosw=Math.cos(w0);const b0=(1-cosw)/2,b1=1-cosw,b2=(1-cosw)/2,a0=1+alpha,a1=-2*cosw,a2=1-alpha;return[b0/a0,b1/a0,b2/a0,a1/a0,a2/a0];}
+function makeHP(freq,sr){const w0=2*Math.PI*freq/sr,Q=0.707,alpha=Math.sin(w0)/(2*Q),cosw=Math.cos(w0);const b0=(1+cosw)/2,b1=-(1+cosw),b2=(1+cosw)/2,a0=1+alpha,a1=-2*cosw,a2=1-alpha;return[b0/a0,b1/a0,b2/a0,a1/a0,a2/a0];}
+
+function applyBQ(buf, [b0,b1,b2,a1,a2]) {
+  let x1=0,x2=0,y1=0,y2=0;
+  for (let i=0;i<buf.length;i++){
+    const x=buf[i], y=b0*x+b1*x1+b2*x2-a1*y1-a2*y2;
+    x2=x1;x1=x;y2=y1;y1=y;buf[i]=y;
+  }
+}
+
+function applyMasteringEQ(ch, sr) {
+  const filters=[makeBQ('lowShelf',120,sr,.4,1),makeBQ('peaking',486,sr,.4,.64),makeBQ('peaking',1100,sr,.6,1.4),makeBQ('highShelf',13400,sr,.6,1)];
+  const og=dbToLin(-.7);
+  for (const c of ch){ for(const f of filters) applyBQ(c,f); for(let i=0;i<c.length;i++) c[i]*=og; }
+}
+
+// ─── MANLEY MASSIVE PASSIVE EQ ───────────────────────────────────────────────
+// Passive EQ character: very wide/musical Q values (Q≈0.33 at widest bandwidth)
+// Shelving bands use classic passive shelf topology via lowShelf/highShelf
+// Peaking bands use very low Q for the Massive Passive "wide" bandwidth setting
+// Signal chain: 23Hz HPF → 68Hz +6dB → 580Hz -1.8dB → 3300Hz +5.0dB → 16kHz +3.8dB → -2.5dB output trim
+function applyMassivePassive(ch, sr) {
+  // 23 Hz Highpass — run twice for gentle 2-pole passive character
+  const hpf = makeHP(23, sr);
+
+  // Massive Passive widest bandwidth ≈ Q 0.33–0.40 for peaking, 0.5 for shelves
+  // 68 Hz: low shelf boost +6 dB — widest bandwidth → Q 0.5
+  const f1 = makeBQ('lowShelf', 68, sr, 6.0, 0.5);
+  // 580 Hz: peaking cut -1.8 dB — widest bandwidth → Q 0.33
+  const f2 = makeBQ('peaking', 580, sr, -1.8, 0.33);
+  // 3300 Hz: peaking boost +5.0 dB — widest bandwidth → Q 0.33
+  const f3 = makeBQ('peaking', 3300, sr, 5.0, 0.33);
+  // 16 kHz: high shelf boost +3.8 dB — widest bandwidth → Q 0.5
+  const f4 = makeBQ('highShelf', 16000, sr, 3.8, 0.5);
+
+  // Output gain trim -2.5 dB
+  const outGain = dbToLin(-2.5);
+
+  for (const c of ch) {
+    applyBQ(c, hpf);
+    applyBQ(c, hpf); // second pass for gentle 2-pole character
+    applyBQ(c, f1);
+    applyBQ(c, f2);
+    applyBQ(c, f3);
+    applyBQ(c, f4);
+    for (let i = 0; i < c.length; i++) c[i] *= outGain;
+  }
+}
+
+function applySaturation(ch, drive, mix, sr) {
+  // Band-limited saturation: only 200Hz–4600Hz gets driven.
+  // HPF @ 200Hz (2-pole) — keeps sub and kick punch untouched.
+  // LPF @ 4600Hz — Q=0.5 wide/gentle slope, no hiss on highs.
+  const hpf  = makeHP(200,  sr);
+  const lpf  = makeLP(4600, sr);
+  const lpf2 = makeLP(4600, sr); // second pass: soft ~2-pole rolloff
+
+  const d = drive * 3, denom = Math.tanh(1 + d);
+
+  for (const c of ch) {
+    // Build bandpassed copy: HPF x2 → LPF x2
+    const band = new Float32Array(c);
+    applyBQ(band, hpf);
+    applyBQ(band, hpf);
+    applyBQ(band, lpf);
+    applyBQ(band, lpf2);
+
+    // Add only the saturation difference (harmonics) back to original
+    for (let i = 0; i < c.length; i++) {
+      const sat = Math.tanh(band[i] * (1 + d)) / denom;
+      c[i] += (sat - band[i]) * mix;
+    }
+  }
+}
+
+function compressBand(buf, threshDb, ratio, atMs, relMs, mkupDb, sr, kneeDb) {
+  const knee     = kneeDb || 0;
+  const kneeHalf = knee / 2;
+  const makeup   = dbToLin(mkupDb);
+  const atC      = Math.exp(-1 / (sr * atMs  / 1000));
+  const relC     = Math.exp(-1 / (sr * relMs / 1000));
+  // Separate GR smoother to avoid zipper distortion
+  let grSmooth = 1;
+  for (let i = 0; i < buf.length; i++) {
+    const x    = Math.abs(buf[i]);
+    const xDb  = linToDb(x);
+    // Compute static gain reduction in dB domain
+    let grDb = 0;
+    if (xDb > threshDb - kneeHalf) {
+      let overDb = xDb - threshDb;
+      if (knee > 0 && overDb < kneeHalf) {
+        overDb = (overDb + kneeHalf) * (overDb + kneeHalf) / (2 * knee);
+      } else if (overDb < 0) {
+        overDb = 0;
+      }
+      grDb = -overDb * (1 - 1 / ratio);
+    }
+    const grTarget = dbToLin(grDb); // desired GR this sample
+    // Smooth GR with attack/release (not the signal)
+    grSmooth = grTarget < grSmooth
+      ? atC  * grSmooth + (1 - atC)  * grTarget   // attack: more compression
+      : relC * grSmooth + (1 - relC) * grTarget;   // release: less compression
+    buf[i] *= grSmooth * makeup;
+  }
+}
+
+function multiband(buf, sr, params) {
+  const {lo,mid,hi}=params, x1=200, x2=1900;
+  const lBuf=new Float32Array(buf), mBuf=new Float32Array(buf), hBuf=new Float32Array(buf);
+  [makeLP(x1,sr),makeLP(x1,sr)].forEach(f=>applyBQ(lBuf,f));
+  [makeHP(x1,sr),makeHP(x1,sr),makeLP(x2,sr),makeLP(x2,sr)].forEach(f=>applyBQ(mBuf,f));
+  [makeHP(x2,sr),makeHP(x2,sr)].forEach(f=>applyBQ(hBuf,f));
+  compressBand(lBuf,lo.threshold,lo.ratio,lo.attack,lo.release,lo.gain,sr,lo.knee);
+  compressBand(mBuf,mid.threshold,mid.ratio,mid.attack,mid.release,mid.gain,sr,mid.knee);
+  compressBand(hBuf,hi.threshold,hi.ratio,hi.attack,hi.release,hi.gain,sr,hi.knee);
+  for(let i=0;i<buf.length;i++) buf[i]=lBuf[i]+mBuf[i]+hBuf[i];
+}
+
+function applyMultibandComp(ch, sr) {
+  const p={
+    lo: {threshold:-16, ratio:3,   attack:40,  release:120, gain:4,   knee:6},
+    mid:{threshold:-19, ratio:4.5, attack:15,  release:80,  gain:1.5, knee:4},
+    hi: {threshold:-20, ratio:3,   attack:30,  release:120, gain:3,   knee:4}
+  };
+  for(const c of ch) multiband(c,sr,p);
+}
+
+// ─── SSL 4000G-STYLE BUS COMPRESSOR ──────────────────────────────────────────
+// SSL character: RMS detection, feed-forward, linked stereo, 60Hz S/C HPF,
+// soft-knee 2dB, program-dependent auto-release (dual-path: 50ms + 800ms).
+// Auto threshold targets ~-2dB average GR. Ratio 2:1, Attack 30ms, +2dB makeup.
+//
+// Distortion fix: GR curve is computed via a properly separated attack/release
+// RMS envelope — no sample-by-sample peak mixing. GR is smoothed independently
+// to avoid modulation artifacts.
+function applySSLBusComp(ch, sr) {
+  const ratio    = 2;
+  const attackMs = 30;
+  const makeupDb = 2;
+  const kneeDb   = 2;
+  const makeup   = dbToLin(makeupDb);
+  const kneeHalf = kneeDb / 2;
+
+  // ── 60 Hz S/C HPF (2-pole) — prevents bass from pumping the comp ─────────
+  const scHPF = makeHP(60, sr);
+  const scCh  = ch.map(c => {
+    const b = new Float32Array(c);
+    applyBQ(b, scHPF);
+    applyBQ(b, scHPF);
+    return b;
+  });
+
+  // ── RMS envelope with sliding window (~10ms ballistic) ───────────────────
+  // SSL uses RMS detection; we approximate with a leaky integrator (τ = 10ms)
+  const rmsTC   = Math.exp(-1 / (sr * 0.010)); // 10ms RMS averaging
+  const atC     = Math.exp(-1 / (sr * attackMs / 1000));
+  const relFastC = Math.exp(-1 / (sr * 0.050));  // 50ms fast release
+  const relSlowC = Math.exp(-1 / (sr * 0.800));  // 800ms slow release
+
+  // ── Auto-threshold: measure whole-file RMS on SC, target 4dB over ────────
+  // (ratio 2:1 → 4dB over → ~2dB GR)
+  let sumSq = 0;
+  const nMeas = scCh[0].length;
+  for (let c = 0; c < scCh.length; c++)
+    for (let i = 0; i < nMeas; i++) sumSq += scCh[c][i] * scCh[c][i];
+  const rmsGlobal = Math.sqrt(sumSq / (nMeas * scCh.length));
+  const threshDb  = linToDb(rmsGlobal) - 4;
+  const threshLin = dbToLin(threshDb);
+
+  // ── First pass: build GR curve ────────────────────────────────────────────
+  const numSamples = ch[0].length;
+  const grBuf      = new Float32Array(numSamples);
+
+  let rmsEnv   = 0;  // RMS power integrator (squared)
+  let grSmooth = 1;  // smoothed gain reduction (linear)
+  let relFastEnv = 0, relSlowEnv = 0;
+
+  for (let i = 0; i < numSamples; i++) {
+    // Linked-stereo instantaneous power (mean across channels)
+    let instPow = 0;
+    for (let c = 0; c < scCh.length; c++) instPow += scCh[c][i] * scCh[c][i];
+    instPow /= scCh.length;
+
+    // Leaky-integrator RMS (squared domain for accuracy)
+    rmsEnv = rmsTC * rmsEnv + (1 - rmsTC) * instPow;
+    const rmsLin = Math.sqrt(Math.max(0, rmsEnv));
+
+    // Target gain reduction (feed-forward, in dB)
+    let grTargetDb = 0;
+    if (rmsLin > threshLin) {
+      let overDb = linToDb(rmsLin) - threshDb;
+      if (overDb < kneeHalf) {
+        // Soft knee zone
+        overDb = (overDb + kneeHalf) * (overDb + kneeHalf) / (2 * kneeDb);
+      }
+      grTargetDb = -overDb * (1 - 1 / ratio);
+    }
+    const grTarget = dbToLin(grTargetDb); // 0..1 (attenuation)
+
+    // Attack / release ballistics on GR (not on signal level)
+    let grNew;
+    if (grTarget < grSmooth) {
+      // More compression needed → attack
+      grNew = atC * grSmooth + (1 - atC) * grTarget;
+      // Keep release trackers in sync during attack to avoid jump on release
+      relFastEnv = grNew;
+      relSlowEnv = grNew;
+    } else {
+      // Less compression needed → auto-release
+      relFastEnv = relFastC * relFastEnv + (1 - relFastC) * grTarget;
+      relSlowEnv = relSlowC * relSlowEnv + (1 - relSlowC) * grTarget;
+      // Blend: fast release when signal drops quickly (transient tail), slow for sustained
+      const blend = Math.max(0, Math.min(1,
+        (relFastEnv - relSlowEnv) / (Math.abs(relFastEnv) + Math.abs(relSlowEnv) + 1e-9)
+      ));
+      grNew = relFastEnv * blend + relSlowEnv * (1 - blend);
+    }
+    grSmooth = grNew;
+    grBuf[i] = grSmooth;
+  }
+
+  // ── Second pass: apply GR + makeup gain to audio channels ────────────────
+  for (const c of ch)
+    for (let i = 0; i < numSamples; i++) c[i] *= grBuf[i] * makeup;
+}
+
+// ─── ITU-R BS.1770-4 LUFS MEASUREMENT ────────────────────────────────────────
+// K-weighting: high-shelf pre-filter (Stage 1) + RLB high-pass (Stage 2)
+// Gated measurement: 400ms blocks, -70 LUFS absolute gate, -10 LU relative gate
+function measureLUFS(ch, sr) {
+  // Stage 1: Pre-filter — high-shelf +4dB @ 1681Hz (exact BS.1770 coefficients)
+  // Using makeBQ approximation with correct center freq & Q
+  const hs = makeBQ('highShelf', 1681, sr, 4.0, 0.707);
+  // Stage 2: RLB high-pass 2nd-order Butterworth @ 38.135Hz
+  const hp = makeHP(38.135, sr);
+
+  // Apply K-weighting to copies of all channels
+  const kch = ch.map(c => {
+    const b = new Float32Array(c);
+    applyBQ(b, hs);
+    applyBQ(b, hp);
+    return b;
+  });
+
+  // Gated loudness — 400ms blocks, 75% overlap (100ms hop)
+  const blockLen = Math.round(sr * 0.400);
+  const hopLen   = Math.round(sr * 0.100);
+  const nSamples = kch[0].length;
+
+  // Absolute gate: -70 LUFS = 10^((-70+0.691)/10) mean square
+  const absGate = Math.pow(10, (-70 + 0.691) / 10);
+
+  const blockPowers = [];
+  for (let start = 0; start + blockLen <= nSamples; start += hopLen) {
+    let sum = 0;
+    for (let c = 0; c < kch.length; c++)
+      for (let i = start; i < start + blockLen; i++)
+        sum += kch[c][i] * kch[c][i];
+    const power = sum / (blockLen * kch.length);
+    if (power > absGate) blockPowers.push(power);
+  }
+
+  if (blockPowers.length === 0) return -70; // silence
+
+  // Relative gate: -10 LU below ungated mean
+  const ungatedMean = blockPowers.reduce((a, b) => a + b, 0) / blockPowers.length;
+  const relGate = ungatedMean * Math.pow(10, -10 / 10);
+
+  const gated = blockPowers.filter(p => p >= relGate);
+  if (gated.length === 0) return -70;
+
+  const finalMean = gated.reduce((a, b) => a + b, 0) / gated.length;
+  return -0.691 + 10 * Math.log10(finalMean);
+}
+
+function applyLUFSNormalize(ch, sr, target) {
+  const lufsIn = measureLUFS(ch, sr);
+  // Clamp to reasonable range to avoid runaway gain on near-silence
+  const gainDb = Math.max(-24, Math.min(24, target - lufsIn));
+  applyGain(ch, dbToLin(gainDb));
+  const lufsOut = measureLUFS(ch, sr);
+  return { lufsIn, lufsOut };
+}
+
+function computeTruePeak(ch) {
+  let p=0;
+  for(const c of ch) for(const v of c){const a=Math.abs(v);if(a>p)p=a;}
+  return p;
+}
+
+function applyTruePeakLimiter(ch, ceil) {
+  const p=computeTruePeak(ch); if(p>ceil) applyGain(ch,ceil/p);
+  for(const c of ch) for(let i=0;i<c.length;i++) c[i]=Math.max(-ceil,Math.min(ceil,c[i]));
+}
+
+// ─── WAV ENCODER ─────────────────────────────────────────────────────────────
+function bufferToWav(buf) {
+  const nCh=buf.numberOfChannels, len=buf.length, sr=buf.sampleRate;
+  const bps=24, byz=bps/8, ba=nCh*byz, ds=len*ba;
+  const ab=new ArrayBuffer(44+ds), v=new DataView(ab);
+  const ws=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i));};
+  ws(0,'RIFF');v.setUint32(4,36+ds,true);ws(8,'WAVE');
+  ws(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,nCh,true);
+  v.setUint32(24,sr,true);v.setUint32(28,sr*ba,true);v.setUint16(32,ba,true);v.setUint16(34,bps,true);
+  ws(36,'data');v.setUint32(40,ds,true);
+  let off=44;
+  for(let i=0;i<len;i++) for(let c=0;c<nCh;c++){
+    const s=Math.max(-1,Math.min(1,buf.getChannelData(c)[i]));
+    const iv=Math.round(s<0?s*8388608:s*8388607);
+    v.setUint8(off,iv&0xFF);v.setUint8(off+1,(iv>>8)&0xFF);v.setUint8(off+2,(iv>>16)&0xFF);off+=3;
+  }
+  return new Blob([ab],{type:'audio/wav'});
+}
+
+// ─── A/B MONITOR ─────────────────────────────────────────────────────────────
+const abWaveCanvas = document.getElementById('abWaveCanvas');
+
+function drawABWaveform() {
+  const W = abWaveCanvas.offsetWidth || abBar.offsetWidth || 800;
+  const H = 56;
+  abWaveCanvas.width  = W * (window.devicePixelRatio || 1);
+  abWaveCanvas.height = H * (window.devicePixelRatio || 1);
+  abWaveCanvas.style.width  = W + 'px';
+  abWaveCanvas.style.height = H + 'px';
+  const ctx2 = abWaveCanvas.getContext('2d');
+  ctx2.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+  ctx2.clearRect(0, 0, W, H);
+
+  function drawBuf(buf, color) {
+    if (!buf) return;
+    const data = buf.getChannelData(0);
+    const step = Math.max(1, Math.floor(data.length / W));
+    ctx2.strokeStyle = color;
+    ctx2.lineWidth = 1;
+    ctx2.beginPath();
+    for (let x = 0; x < W; x++) {
+      let max = 0;
+      for (let j = 0; j < step; j++) { const v = Math.abs(data[x * step + j] || 0); if (v > max) max = v; }
+      const y1 = H / 2 - max * (H / 2 - 2);
+      const y2 = H / 2 + max * (H / 2 - 2);
+      if (x === 0) ctx2.moveTo(x, y1); else ctx2.lineTo(x, y1);
+      ctx2.lineTo(x, y2);
+    }
+    ctx2.stroke();
+  }
+
+  // Draw original (A) dimmed, mastered (B) on top
+  drawBuf(audioBuffer,    'rgba(255,170,0,0.25)');
+  drawBuf(processedBuffer,'rgba(0,255,136,0.55)');
+}
+
+function selectSide(side) {
+  if (side === abSide) return;
+  const wasPlaying = abPlaying;
+  let savedOffset = 0;
+  if (wasPlaying) {
+    savedOffset = audioCtx.currentTime - abStartedAt;
+    abPlaying = false;
+    stopAB();
+  }
+  abSide = side;
+  abBtnA.className = 'ab-btn' + (side==='A'?' sel-a':'');
+  abBtnB.className = 'ab-btn' + (side==='B'?' sel-b':'');
+  abBadge.textContent = side==='A'?'ORIGINAL':'MASTERED';
+  abBadge.className = 'ab-badge ' + (side==='A'?'original':'mastered');
+  if (wasPlaying) {
+    abOffset = savedOffset;
+    startAB();
+  } else {
+    abOffset = 0;
+    abBarFill.style.width = '0%';
+    abCurTime.textContent = '0:00';
+  }
+}
+
+function startAB() {
+  const buf = abSide==='A' ? audioBuffer : processedBuffer;
+  if (!buf||!audioCtx) return;
+  if (audioCtx.state==='suspended') audioCtx.resume();
+  abGen++; // increment before stopAB so onended from previous source is ignored
+  const myGen = abGen;
+  if(abSource){try{abSource.stop();}catch(e){} abSource=null;}
+  if(abRaf){cancelAnimationFrame(abRaf);abRaf=null;}
+  abSource = audioCtx.createBufferSource();
+  abSource.buffer = buf;
+  abSource.connect(audioCtx.destination);
+  const safe = Math.max(0, Math.min(abOffset, buf.duration - 0.01));
+  abSource.start(0, safe);
+  abStartedAt = audioCtx.currentTime - safe;
+  abPlaying = true;
+  abPlayBtn.textContent = '⏸ PAUSE'; abPlayBtn.classList.add('playing');
+  abTotTime.textContent = fmt(buf.duration);
+  abSource.onended = () => {
+    if (abGen !== myGen) return;
+    // Natural end (not a stop/pause)
+    abPlaying = false;
+    abOffset = 0;
+    abPlayBtn.textContent = '▶ PLAY';
+    abPlayBtn.classList.remove('playing');
+    abBarFill.style.width = '0%';
+    abCurTime.textContent = '0:00';
+  };
+  rafTick();
+}
+
+function stopAB() {
+  // Do NOT increment abGen here — only startAB does that.
+  // This prevents onended from firing offset reset on pause.
+  abGen++; // increment so the current onended is ignored
+  if(abSource){try{abSource.stop();}catch(e){} abSource=null;}
+  abPlaying=false; abPlayBtn.textContent='▶ PLAY'; abPlayBtn.classList.remove('playing');
+  if(abRaf){cancelAnimationFrame(abRaf);abRaf=null;}
+}
+
+function abStop() { abOffset=0; stopAB(); abBarFill.style.width='0%'; abCurTime.textContent='0:00'; }
+
+function togglePlayback() {
+  if (!audioCtx) return;
+  if (abPlaying) {
+    // Pause — save position, stop source
+    abOffset = audioCtx.currentTime - abStartedAt;
+    stopAB();
+  } else {
+    // Resume from saved offset
+    startAB();
+  }
+}
+
+function seekBar(e) {
+  const buf = abSide==='A' ? audioBuffer : processedBuffer;
+  if (!buf) return;
+  const rect = abBar.getBoundingClientRect();
+  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  abOffset = pct * buf.duration;
+  if (abPlaying) {
+    startAB();
+  } else {
+    abBarFill.style.width = `${pct * 100}%`;
+    abCurTime.textContent = fmt(abOffset);
+  }
+}
+
+function rafTick() {
+  if (!abPlaying) return;
+  const buf = abSide==='A' ? audioBuffer : processedBuffer;
+  if (!buf) return;
+  const el = audioCtx.currentTime - abStartedAt;
+  abBarFill.style.width = `${Math.min(100,(el/buf.duration)*100)}%`;
+  abCurTime.textContent = fmt(el);
+  abRaf = requestAnimationFrame(rafTick);
+}
+
+// ─── UI ───────────────────────────────────────────────────────────────────────
+function showResult() {
+  // Hide progress panel with fade
+  progressPanel.style.transition = 'opacity 0.4s';
+  progressPanel.style.opacity = '0';
+  setTimeout(() => {
+    progressPanel.classList.remove('show');
+    progressPanel.style.opacity = '';
+    progressPanel.style.transition = '';
+  }, 400);
+
+  // Init A/B to B (mastered), ready but not auto-playing
+  abSide='B'; abOffset=0;
+  abBtnA.className='ab-btn'; abBtnB.className='ab-btn sel-b';
+  abBadge.textContent='MASTERED'; abBadge.className='ab-badge mastered';
+  abBarFill.style.width='0%'; abCurTime.textContent='0:00';
+  abTotTime.textContent=fmt(processedBuffer.duration);
+  abPlayBtn.textContent='▶ PLAY'; abPlayBtn.classList.remove('playing');
+  abPanel.classList.add('show');
+
+  resultPanel.style.display='block';
+  processBtn.disabled=false; processBtnText.textContent='Reprocess';
+
+  // Draw waveform into seek bar after layout settles
+  setTimeout(drawABWaveform, 50);
+
+  resultPanel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function downloadResult() {
+  if (!downloadUrl) return;
+  const base = currentFile ? currentFile.name.replace(/\.[^.]+$/,'') : 'mastered';
+  const a = document.createElement('a'); a.href=downloadUrl; a.download=`${base}_mastered_saranta.wav`; a.click();
+}
+
+function showError(msg) { errorMsg.textContent=msg; errorPanel.classList.add('show'); }
+function hideError()    { errorPanel.classList.remove('show'); }
+
+function resetAll() {
+  abStop(); abOffset=0;
+  audioBuffer=null; processedBuffer=null; currentFile=null;
+  if(downloadUrl){URL.revokeObjectURL(downloadUrl);downloadUrl=null;}
+  fileCard.classList.remove('show');
+  waveformWrap.classList.remove('show');
+  progressPanel.classList.remove('show');
+  uploadPanel.classList.remove('show');
+  abPanel.classList.remove('show');
+  resultPanel.style.display='none';
+  // Clear AB waveform canvas
+  const ctx2 = abWaveCanvas.getContext('2d');
+  ctx2.clearRect(0, 0, abWaveCanvas.width, abWaveCanvas.height);
+  hideError(); fileInput.value='';
+  processBtn.disabled=true; processBtnText.textContent='Select File';
+  dropZone.style.display='';
+}
+</script>
+</body>
+</html>
