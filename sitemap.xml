@@ -15,6 +15,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+    <url>
+    <loc>https://sarantasoundworks.com/mastermind.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://sarantasoundworks.com/tips.html</loc>
     <changefreq>monthly</changefreq>
