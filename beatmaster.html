@@ -163,6 +163,9 @@ canvas{display:block;width:100%;touch-action:none}
 .ico{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;line-height:1}
 .ico svg{width:1em;height:1em;fill:currentColor}
 @media(max-width:600px){.step{height:36px}.row-label{padding:0 8px;font-size:7px}canvas{height:360px!important}.hit-btn{height:48px;font-size:8px}}
+.suite-home-link { position:fixed;bottom:20px;right:20px;z-index:9001;font-family:'Syne',sans-serif;font-weight:800;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#666680;text-decoration:none;transition:color 0.15s; }
+.suite-home-link:hover { color:#00ff88; }
+.suite-home-link em { color:#4488ff;font-style:normal; }
 </style>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
@@ -1537,25 +1540,6 @@ buildPresetUI();
 resizeCanvas();
 window.addEventListener('resize',resizeCanvas);
 </script>
-<a href="index.html" style="
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: #00ff88;
-  text-decoration: none;
-  background: rgba(0,255,136,0.06);
-  border: 1px solid rgba(0,255,136,0.35);
-  padding: 8px 14px;
-  border-radius: 2px;
-  transition: background 0.15s;
-  z-index: 999;
-" onmouseover="this.style.background='rgba(0,255,136,0.15)'" onmouseout="this.style.background='rgba(0,255,136,0.06)'">
-  Saranta Soundworks <span class="ico" style="font-size:10px"><svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><line x1="1" y1="9" x2="9" y2="1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="4,1 9,1 9,6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-</a>
+  <a href="index.html" class="suite-home-link">Saranta<em>/</em>Soundworks</a>
 </body>
 </html>
