@@ -146,6 +146,125 @@ html, body { height: 100%; overflow: hidden; background: #07070d; font-family: '
 .s-dot.ready { background:#00ff88; }
 .s-dot.playing { background:#00ff88;box-shadow:0 0 6px #00ff88;animation:spulse 1s infinite; }
 @keyframes spulse { 0%,100%{opacity:1}50%{opacity:0.5} }
+/* ═══ MOBILE RESPONSIVE — suite-level ═══ */
+@media (max-width: 600px) {
+
+  /* ── Header ── */
+  .suite-header {
+    height: auto;
+    min-height: 44px;
+    padding: 6px 10px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .suite-logo {
+    font-size: 11px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .suite-vsep { display: none; }
+
+  /* Transport: seek bar full width on second row */
+  .suite-transport {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 6px;
+    order: 3;
+  }
+  .suite-seek-wrap { width: 100%; order: 10; }
+  .suite-time { min-width: 0; font-size: 9px; }
+  .suite-vol { width: 52px; }
+  .suite-vol-label { display: none; }
+
+  /* File actions: compact */
+  .suite-file-actions {
+    padding: 0 0 0 6px;
+    border-left: none;
+    gap: 5px;
+    order: 2;
+  }
+  .suite-filename { max-width: 90px; font-size: 8px; }
+  .suite-btn { padding: 4px 8px; font-size: 9px; letter-spacing: 0.5px; }
+
+  /* ── Main area: sidebar goes to bottom ── */
+  .suite-main {
+    flex-direction: column-reverse;
+  }
+
+  /* Sidebar becomes horizontal tab bar at bottom */
+  .suite-sidebar {
+    width: 100%;
+    min-width: 0;
+    height: 48px;
+    min-height: 48px;
+    flex-direction: row;
+    border-right: none;
+    border-top: 1px solid #1a1a28;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-shrink: 0;
+  }
+  .sidebar-header { display: none; }
+  .sidebar-slots {
+    flex-direction: row;
+    padding: 0;
+    align-items: stretch;
+    width: 100%;
+  }
+  .chain-slot {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 4px 12px;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 60px;
+  }
+  .chain-slot.active {
+    border-left-color: transparent;
+    border-bottom-color: #00ff88;
+  }
+  .chain-slot-num { display: none; }
+  .chain-slot-drag { display: none; }
+  .chain-slot-name { font-size: 9px; letter-spacing: 0; }
+  .chain-toggle { width: 26px; height: 14px; }
+  .chain-toggle-thumb { width: 9px; height: 9px; }
+  .chain-toggle input:checked ~ .chain-toggle-thumb { transform: translateX(12px); }
+
+  /* Plugin panel takes remaining space */
+  .suite-panels { flex: 1; overflow: hidden; }
+
+  /* ── Upload overlay ── */
+  .suite-upload-ov { padding: 16px; justify-content: center; }
+  .suite-drop-zone {
+    padding: 32px 20px;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 100%;
+  }
+  .suite-drop-icon { font-size: 48px !important; margin-bottom: 12px; }
+  .suite-drop-title { font-size: 13px; }
+  .suite-drop-hint { font-size: 10px; }
+  .suite-home-link { bottom: 60px; right: 12px; font-size: 10px; }
+
+  /* ── Export panel ── */
+  .suite-export-box {
+    min-width: 0;
+    width: calc(100vw - 32px);
+    padding: 18px 16px;
+  }
+}
+
+/* Extra small (320px) */
+@media (max-width: 360px) {
+  .suite-btn { padding: 3px 6px; font-size: 8px; }
+  .chain-slot { min-width: 50px; padding: 4px 8px; }
+  .chain-slot-name { font-size: 8px; }
+}
+
 /* Hide plugin chrome */
 /* Hide plugin upload zones - we use host uploader */
 #panel-eq .upload-zone, #panel-tape .upload-zone, #panel-comp .upload-zone,
