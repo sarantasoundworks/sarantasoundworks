@@ -3584,11 +3584,11 @@ html, body { height: 100%; overflow: hidden; background: #07070d; font-family: '
 <div class="suite-wrap">
   <a href="index.html" class="suite-home-link">Saranta<em>/</em>Soundworks</a>
   <div class="suite-upload-ov" id="uploadOv">
-    <div class="suite-drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+    <div class="suite-drop-zone" id="dropZone">
       <div class="suite-drop-icon" style="color:#ffffff;font-size:64px">⟁</div>
       <div class="suite-drop-title">Drop audio file or click to load</div>
       <div class="suite-drop-hint">WAV · MP3 · FLAC · AIFF · OGG · M4A</div>
-      <input type="file" id="fileInput" accept="audio/*" style="display:none" onchange="if(this.files[0])suite_loadFile(this.files[0])">
+      <input type="file" id="fileInput" accept="audio/*" style="display:none">
     </div>
     <div class="suite-load-progress" id="suiteLoadProgress">
       <span class="suite-load-label" id="suiteLoadLabel">LOADING</span>
@@ -13802,7 +13802,9 @@ document.addEventListener('DOMContentLoaded',function(){
   tape_state.bypass = true;   // tape starts bypassed
   suite_renderChain();
   var dz=document.getElementById('dropZone'),fi=document.getElementById('fileInput');
-  dz.addEventListener('click',function(){fi.click();});
+  function dzTrigger(e){ e.stopPropagation(); fi.click(); }
+  dz.addEventListener('click', dzTrigger);
+  dz.addEventListener('touchend', function(e){ e.preventDefault(); fi.click(); });
   fi.addEventListener('change',function(e){if(e.target.files[0])suite_loadFile(e.target.files[0]);});
   dz.addEventListener('dragover',function(e){e.preventDefault();dz.classList.add('drag');});
   dz.addEventListener('dragleave',function(){dz.classList.remove('drag');});
