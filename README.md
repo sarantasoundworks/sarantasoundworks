@@ -2,7 +2,7 @@
 
 Personal website for **Saranta Soundworks**, the audio development and metal music production project of Burak Balta.
 
-> 🚧 Still under active development.
+>  Still under active development.
 
 ---
 
