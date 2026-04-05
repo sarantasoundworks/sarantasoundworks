@@ -266,6 +266,157 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
   .nav-tool-desktop { display: none; }
 }
 
+/* NOW PLAYING WIDGET */
+#now-playing-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 300;
+  width: 280px;
+  background: rgba(12, 12, 20, 0.92);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 14px 16px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,255,136,0.04);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  opacity: 0;
+  transform: translateY(12px);
+}
+#now-playing-widget.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+#now-playing-widget.fade-change {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.npw-eyebrow {
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.npw-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: blink 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.npw-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.npw-cover {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.npw-vinyl {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #1a1a28 18%, #0c0c14 19%, #0c0c14 35%, #111118 36%, #111118 50%, #0c0c14 51%, #0c0c14 65%, #111118 66%);
+  animation: spin 4s linear infinite;
+  position: relative;
+}
+.npw-vinyl::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.7;
+}
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.npw-info {
+  flex: 1;
+  min-width: 0;
+}
+.npw-title {
+  font-family: var(--disp);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.02em;
+  margin-bottom: 3px;
+}
+.npw-artist {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.npw-bar-wrap {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.npw-bar {
+  flex: 1;
+  height: 2px;
+  background: var(--border2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.npw-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 1s linear;
+}
+.npw-time {
+  font-family: var(--mono);
+  font-size: 8px;
+  color: var(--dim);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.npw-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--dim2);
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 4px;
+  transition: color 0.15s;
+}
+.npw-close:hover { color: var(--accent); }
+
+@media (max-width: 500px) {
+  #now-playing-widget { width: calc(100vw - 32px); right: 16px; bottom: 16px; }
+}
 
 </style>
 </head>
@@ -315,28 +466,28 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
 <!-- TICKER -->
 <div class="ticker">
   <div class="ticker-track">
-    <div class="tick"><span class="tick-dot"></span>Saranta Mastering Suite — Active Development</div>
+    <div class="tick"><span class="tick-dot"></span>Saranta Mastering Suite v0.3 — Active Development</div>
     <span class="tick-sep">//</span>
-    <div class="tick">EQ · Tape · Compressor · Clipper · Imager · LUFS</div>
+    <div class="tick">EQ · Tape · Compressor · Imager · LUFS</div>
     <span class="tick-sep">//</span>
     <div class="tick">Web Audio API</div>
     <span class="tick-sep">//</span>
-    <div class="tick">Death Metal · Deathcore · Djent · Heavy Meatl · Modern Production</div>
+    <div class="tick">Death Metal · Deathcore · Djent · Doom</div>
     <span class="tick-sep">//</span>
-    <div class="tick">Beatmaster — Sequencer & Runner</div>
+    <div class="tick">Istanbul, Turkey</div>
     <span class="tick-sep">//</span>
     <div class="tick">Free — No Install — Browser Native</div>
     <span class="tick-sep">//</span>
     <!-- Duplicate for seamless loop -->
-<div class="tick"><span class="tick-dot"></span>Saranta Mastering Suite — Active Development</div>
+    <div class="tick"><span class="tick-dot"></span>Saranta Mastering Suite v0.3 — Active Development</div>
     <span class="tick-sep">//</span>
-    <div class="tick">EQ · Tape · Compressor · Clipper · Imager · LUFS</div>
+    <div class="tick">EQ · Tape · Compressor · Imager · LUFS</div>
     <span class="tick-sep">//</span>
     <div class="tick">Web Audio API</div>
     <span class="tick-sep">//</span>
-    <div class="tick">Death Metal · Deathcore · Djent · Heavy Meatl · Modern Production</div>
+    <div class="tick">Death Metal · Deathcore · Djent · Doom</div>
     <span class="tick-sep">//</span>
-    <div class="tick">Beatmaster — Sequencer & Runner</div>
+    <div class="tick">Istanbul, Turkey</div>
     <span class="tick-sep">//</span>
     <div class="tick">Free — No Install — Browser Native</div>
     <span class="tick-sep">//</span>
@@ -348,19 +499,19 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
   <div class="sec-eyebrow">About</div>
   <h2 class="sec-title">Who I Am</h2>
   <div class="about-body">
-    <!-- burası güncellenip yayınlanacak
+    <p>Just a passionate musician. </p>
+    <!--
     <p>I'm <strong>Burak</strong> — audio developer and metal music producer based in Turkey. I build DSP tools that run entirely in the browser, designed around the specific demands of extreme metal production.</p>
     <p>The <strong>Saranta Mastering Suite</strong> is a full mastering-grade processing chain — parametric EQ, tape saturation, compression, stereo imaging, loudness metering — built from scratch with the Web Audio API. No DAW required, no install. Open the page, load your file, process the signal.</p>
-   -->
-    <p>Just a passionate musician.</p>
+  -->
     <div class="tags">
       <span class="tag">Death Metal</span>
       <span class="tag">Deathcore</span>
       <span class="tag">Djent</span>
       <span class="tag">Thrash</span>
       <span class="tag">Doom</span>
-      <span class="tag">Modern Production</span>
-      <span class="tag">Audio DSP</span>
+      <span class="tag">Web Audio API</span>
+      <span class="tag">DSP</span>
       <span class="tag">Plugin Dev</span>
       <span class="tag">Mixing</span>
       <span class="tag">Mastering</span>
@@ -435,12 +586,12 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
   <div>
     <div class="cta-label">// Free Tool — No Install</div>
     <div class="cta-title">Try the<br><em>Saranta Mastering Suite</em></div>
-    <p class="cta-sub">Load your audio and run it through the full processing chain in the browser. EQ, tape saturation, compression, clipper, stereo imaging, loudness metering, free, no install.</p>
+    <p class="cta-sub">Load your audio and run it through the full processing chain in the browser. EQ, tape saturation, compression, stereo imaging, loudness metering, free, no install.</p>
     <a href="tools.html" class="btn btn-primary" style="margin-top:24px; display:inline-block;">Open Saranta Mastering Suite ↗</a>
   </div>
   <div class="cta-specs">
-    <div class="cta-spec"><strong>6</strong> processing modules</div>
-    <div class="cta-spec"><strong>Drag & Drop</strong> adjustable signal chain</div>
+    <div class="cta-spec"><strong>5</strong> processing modules</div>
+    <div class="cta-spec"><strong>Serial</strong> audio routing</div>
     <div class="cta-spec"><strong>WAV</strong> input / export</div>
     <div class="cta-spec"><strong>Zero</strong> install required</div>
   </div>
@@ -454,12 +605,11 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
     <div>
       <div class="contact-sub">// Links</div>
       <ul class="clinks">
-        <li><span class="clink-k">Contact</span><a href="mailto:contact@sarantasoundworkscom">Contact</a></li>
+        <li><span class="clink-k">Email</span><a href="/cdn-cgi/l/email-protection#ff9c90918b9e9c8bbf8c9e8d9e918b9e8c908a919b88908d948cd19c9092"><span class="__cf_email__" data-cfemail="5d3e3233293c3e291d2e3c2f3c33293c2e322833392a322f362e733e3230">[email&#160;protected]</span></a></li>
         <li><span class="clink-k">GitHub</span><a href="https://github.com/sarantasoundworks" target="_blank">sarantasoundworks</a></li>
         <li><span class="clink-k">SoundCloud</span><a href="https://soundcloud.com/saranta-596980414" target="_blank">soundcloud.com/saranta</a></li>
         <li><span class="clink-k">Spotify</span><a href="https://open.spotify.com/intl-tr/artist/6l97qlvDhzQlezBQWjhp3e?si=F3Y-xXRbTvqm7SFkdmLNnA" target="_blank">Listen on Spotify</a></li>
         <li><span class="clink-k">Instagram</span><a href="https://instagram.com/sarantasoundworks" target="_blank">@sarantasoundworks</a></li>
-        <li><span class="clink-k">Upwork</span><a href="https://www.upwork.com/freelancers/~01a351c22e4724e8ed?mp_source=share" target="_blank">Burak Balta</a></li>
       </ul>
     </div>
     <div>
@@ -560,7 +710,182 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
   hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
 </script>
 
+<!-- NOW PLAYING WIDGET -->
+<div id="now-playing-widget">
+  <button class="npw-close" id="npw-close" aria-label="Kapat">&#x2715;</button>
+  <div class="npw-eyebrow"><span class="npw-dot"></span>Now Playing</div>
+  <div class="npw-body">
+    <div class="npw-cover"><div class="npw-vinyl"></div></div>
+    <div class="npw-info">
+      <div class="npw-title" id="npw-title">Loading...</div>
+      <div class="npw-artist" id="npw-artist">...</div>
+    </div>
+  </div>
+  <div class="npw-bar-wrap">
+    <div class="npw-bar"><div class="npw-bar-fill" id="npw-fill"></div></div>
+    <div class="npw-time" id="npw-time">0:00 / 0:00</div>
+  </div>
+</div>
 
+<script>
+(function() {
+  var playlist = [
+    { title: "Bleed",                     artist: "Meshuggah",                 duration: "7:44" },
+    { title: "Demiurge",                  artist: "Meshuggah",                 duration: "6:13" },
+    { title: "Blackhple",                 artist: "Architects",                duration: "3:21" },
+    { title: "Seeing Red",                artist: "Architects",                duration: "3:41" },
+    { title: "Emergence",                 artist: "Sleep Token",               duration: "6:27" },
+    { title: "The Summoning",             artist: "Sleep Token",               duration: "9:50" },
+    { title: "Icarus Lives",              artist: "Periphery",                 duration: "3:11" },
+    { title: "Zagreus",                   artist: "Periphery",                 duration: "8:20" },
+    { title: "Blood Eagle",               artist: "Periphery",                 duration: "5:59" },
+    { title: "Mr: God",                   artist: "Periphery",                 duration: "2:59" },
+    { title: "Cafo",                      artist: "Animals as Leaders",        duration: "6:42" },
+    { title: "Red Miso",                  artist: "Animals as Leaders",        duration: "4:32" },
+    { title: "Monomyth",                  artist: "Animals as Leaders",        duration: "3:27" },
+    { title: "The Woven Web",             artist: "Animals as Leaders",        duration: "4:08" },
+    { title: "Physical Education",        artist: "Animals as Leaders",        duration: "4:41" },
+    { title: "Kool-Aid",                  artist: "Bring Me the Horizon",      duration: "3:49" },
+    { title: "More Than I Could Chew",    artist: "Mastodon",                  duration: "6:52" },
+    { title: "Teardrinker",               artist: "Mastodon",                  duration: "5:21" },
+    { title: "The Motherload",            artist: "Mastodon",                  duration: "5:00" },
+    { title: "Oblivion",                  artist: "Mastodon",                  duration: "5:47" },
+    { title: "A Bloodsoaked Symphony",    artist: "Whitechapel",               duration: "4:29" },
+    { title: "Blackwater Park",           artist: "Opeth",                     duration: "12:09" },
+    { title: "Bleak",                     artist: "Opeth",                     duration: "9:16" },
+    { title: "Face Of Melinda",           artist: "Opeth",                     duration: "7:59" },
+    { title: "A Fair Judgement",          artist: "Opeth",                     duration: "10:22" },
+    { title: "Deliverance",               artist: "Opeth",                     duration: "13:37" },
+    { title: "Sorceress",                 artist: "Opeth",                     duration: "5:50" },
+    { title: "+ två vackra svanar +",     artist: "Vildhjarta",                duration: "5:14" },
+    { title: "+ sargasso +",              artist: "Vildhjarta",                duration: "6:46" },
+    { title: "Rodina",                    artist: "Slaughter To Prevail",      duration: "4:32" },
+    { title: "+ röda läppar, söta äpplen +", artist: "Vildhjarta",             duration: "3:49" },
+    { title: "Make Me Blind",             artist: "Humanity's Last Breath",    duration: "4:19" },
+    { title: "Hestehov",                  artist: "Mirar",                     duration: "3:18" },
+    { title: "Caramel",                   artist: "Sleep Token",               duration: "4:51" },
+    { title: "Hydra",                     artist: "Orbit Culture",             duration: "4:47" },
+    { title: "Infinite Baths",            artist: "Sleep Token",               duration: "8:24" },
+    { title: "Sacrifice Me",              artist: "Unprocessed",               duration: "3:59" },
+    { title: "Dark Signs",                artist: "Sleep Token",               duration: "4:29" },
+    { title: "Ride The Wave",             artist: "Spiritbox",                 duration: "4:54" },
+    { title: "Rule Of Nines",             artist: "Spiritbox",                 duration: "3:32" },
+    { title: "Gethsemane",                artist: "Sleep Token",               duration: "6:24" },
+    { title: "Green Serpent",             artist: "Jinjer",                    duration: "4:02" },
+    { title: "Aquila",                    artist: "Allt",                      duration: "4:08" },
+    { title: "+ ? regnet, the ? +",       artist: "Vildhjarta",                duration: "3:31" },
+    { title: "+ viktlös & evig +",        artist: "Vildhjarta",                duration: "6:39" },
+    { title: "Russian Grizzly In America",   artist: "Slaughter To Prevail",   duration: "4:15" },
+    { title: "Fata Morgana",              artist: "Spiritbox",                 duration: "4:22" },
+    { title: "The Apparition",                artist: "Sleep Token",           duration: "4:29" },
+    { title: "Anthracite",                artist: "Humanity's Last Breath",    duration: "3:27" },
+    { title: "gore of being",                artist: "ERRA",                   duration: "3:53" },
+    { title: "Labyrinthian",              artist: "Humanity's Last Breath",    duration: "4:01" },
+    { title: "All These Feelings",        artist: "Vildhjarta",                duration: "6:54" },
+    { title: "Remnant",                   artist: "Allt",                      duration: "4:05" },
+    { title: "Behelit",                   artist: "Slaughter To Prevail",      duration: "4:09" },
+    { title: "Sugar",                     artist: "Sleep Token",               duration: "4:52" },
+    { title: "Blood Sport",               artist: "Sleep Token",               duration: "4:08" },
+    { title: "Blood Spilled",             artist: "Humanity's Last Breath",    duration: "5:00" },
+    { title: "Echo Sonata",               artist: "ERRA",                      duration: "4:29" },
+    { title: "Jaded",                     artist: "Spiritbox",                 duration: "4:23" },
+    { title: "Dove",                      artist: "Karmanjakah",               duration: "4:06" },
+    { title: "under your skin",           artist: "Silent Planet",             duration: "3:36" },
+    { title: "Instill",                   artist: "Humanity's Last Breath",    duration: "4:42" },
+    { title: "Death Spiral",              artist: "Humanity's Last Breath",    duration: "4:01" },
+    { title: "Bearer",                    artist: "Humanity's Last Breath",    duration: "3:47" },
+    { title: "Väldet",                    artist: "Humanity's Last Breath",    duration: "2:58" },
+    { title: "Abyssal Mouth",             artist: "Humanity's Last Breath",    duration: "4:31" },
+    { title: "+ den spanska känslan +",   artist: "Vildhjarta",                duration: "7:27" },
+    { title: "den helige anden (under vatten)",       artist: "Vildhjarta",    duration: "5:27" },
+    { title: "kaos2",                     artist: "Vildhjarta",                duration: "4:02" },
+    { title: "Dimman (forte)",            artist: "Vildhjarta",                duration: "4:02" },
+    { title: "Antimatter",                artist: "Silent Planet",             duration: "3:42" },
+    { title: "SUPERBLOOM",                artist: "Silent Planet",             duration: "5:03" },
+    { title: "Dissipate",                 artist: "Polaris",                   duration: "4:24" },
+    { title: "Lucid",                     artist: "Polaris",                   duration: "4:00" },
+    { title: "Nightmare",                 artist: "Polaris",                   duration: "4:29" },
+    { title: "VIKING",                    artist: "Slaughter To Prevail",      duration: "4:31" },
+    { title: "Kid Of Darkness",           artist: "Slaughter To Prevail",      duration: "4:24" },
+    { title: "Baba Yaga",                 artist: "Slaughter To Prevail",      duration: "4:15" },
+    { title: "1984",                      artist: "Slaughter To Prevail",      duration: "3:35" },
+ 
+
+  ];
+
+  function parseDuration(str) {
+    var p = str.split(':').map(Number);
+    return p[0] * 60 + p[1];
+  }
+  function formatTime(sec) {
+    var m = Math.floor(sec / 60), s = sec % 60;
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  var widget   = document.getElementById('now-playing-widget');
+  var titleEl  = document.getElementById('npw-title');
+  var artistEl = document.getElementById('npw-artist');
+  var fillEl   = document.getElementById('npw-fill');
+  var timeEl   = document.getElementById('npw-time');
+  var closeBtn = document.getElementById('npw-close');
+
+  var currentSong = null;
+  var elapsed = 0;
+  var ticker = null;
+
+  function pickSong(fromStart) {
+    var song = playlist[Math.floor(Math.random() * playlist.length)];
+    var totalSec = parseDuration(song.duration);
+    elapsed = fromStart ? 0 : Math.floor(Math.random() * (totalSec * 0.7));
+    return { title: song.title, artist: song.artist, duration: song.duration, totalSec: totalSec };
+  }
+
+  function render() {
+    var pct = (elapsed / currentSong.totalSec) * 100;
+    fillEl.style.width = pct + '%';
+    timeEl.textContent = formatTime(elapsed) + ' / ' + currentSong.duration;
+  }
+
+  function switchSong() {
+    widget.classList.remove('visible');
+    widget.classList.add('fade-change');
+    setTimeout(function() {
+      currentSong = pickSong(true);
+      titleEl.textContent  = currentSong.title;
+      artistEl.textContent = currentSong.artist;
+      fillEl.style.transition = 'none';
+      render();
+      widget.classList.remove('fade-change');
+      widget.classList.add('visible');
+      setTimeout(function() { fillEl.style.transition = 'width 1s linear'; }, 60);
+    }, 420);
+  }
+
+  function tick() {
+    elapsed++;
+    if (elapsed >= currentSong.totalSec) { switchSong(); return; }
+    render();
+  }
+
+  function init() {
+    currentSong = pickSong(false);
+    titleEl.textContent  = currentSong.title;
+    artistEl.textContent = currentSong.artist;
+    fillEl.style.width = '0%';
+    render();
+    setTimeout(function() { widget.classList.add('visible'); }, 1400);
+    ticker = setInterval(tick, 1000);
+  }
+
+  closeBtn.addEventListener('click', function() {
+    widget.classList.remove('visible');
+    clearInterval(ticker);
+    setTimeout(function() { widget.style.display = 'none'; }, 420);
+  });
+
+  window.addEventListener('load', init);
+})();
+</script>
 
 </body>
 </html>
