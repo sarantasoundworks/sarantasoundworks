@@ -709,7 +709,7 @@ function multiband(buf, sr, params) {
 
 function applyMultibandComp(ch, sr) {
   const p={
-    lo: {threshold:-16, ratio:3,   attack:40,  release:120, gain:4,   knee:6},
+    lo: {threshold:-13, ratio:3.5,   attack:40,  release:120, gain:4,   knee:6},
     mid:{threshold:-19, ratio:4.5, attack:15,  release:80,  gain:1.5, knee:4},
     hi: {threshold:-20, ratio:3,   attack:30,  release:120, gain:3,   knee:4}
   };
