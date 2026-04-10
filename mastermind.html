@@ -165,6 +165,16 @@ canvas.waveform{width:100%;height:64px;display:block}
 .error-panel{display:none;background:var(--surface);border:1px solid var(--red);border-radius:2px;padding:20px;margin-bottom:32px}
 .error-panel.show{display:block}
 .error-msg{font-size:11px;color:var(--red);letter-spacing:1px}
+.final-eq-panel{display:none;background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:18px;margin-bottom:16px}
+.final-eq-panel.show{display:block}
+.eq-title{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--mid);margin-bottom:14px}
+.eq-knobs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.eq-knob-card{background:var(--elevated);border:1px solid var(--border);border-radius:4px;padding:14px 10px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s}
+.eq-knob-card:hover{border-color:rgba(0,255,136,0.3)}
+.eq-knob-label{font-family:var(--display);font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--mid);text-align:center}
+.eq-knob-wrap{position:relative;width:56px;height:56px;cursor:ns-resize;user-select:none}
+.eq-knob-svg{width:56px;height:56px}
+.eq-knob-value{font-family:var(--display);font-size:12px;font-weight:800;color:var(--neon);text-align:center;min-height:16px}
 footer{border-top:1px solid var(--border);padding:24px 32px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
 .footer-logo{font-family:var(--display);font-weight:700;font-size:11px;letter-spacing:3px;color:var(--mid);text-transform:uppercase}
 .footer-note{font-size:8px;letter-spacing:2px;color:var(--lo);text-transform:uppercase}
@@ -286,6 +296,46 @@ footer{border-top:1px solid var(--border);padding:24px 32px;display:flex;align-i
       </div>
     </div>
 
+    <!-- FINAL 3-BAND EQ -->
+    <div class="final-eq-panel" id="finalEqPanel">
+      <div class="eq-title">// Fine Tune</div>
+      <div class="eq-knobs">
+        <div class="eq-knob-card">
+          <div class="eq-knob-label">Low</div>
+          <div class="eq-knob-wrap" id="eqLowKnob" data-min="-12" data-max="12" data-val="0" data-param="low">
+            <svg class="eq-knob-svg" viewBox="0 0 56 56">
+              <circle cx="28" cy="28" r="26" fill="#0d0d18" stroke="#1a1a28" stroke-width="1"/>
+              <path class="eq-knob-track" d="" fill="none" stroke="var(--neon)" stroke-width="3" stroke-linecap="round"/>
+              <line class="eq-knob-pointer" x1="28" y1="28" x2="28" y2="12" stroke="var(--neon)" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="eq-knob-value" id="eqLowVal">0 dB</div>
+        </div>
+        <div class="eq-knob-card">
+          <div class="eq-knob-label">Mid</div>
+          <div class="eq-knob-wrap" id="eqMidKnob" data-min="-12" data-max="12" data-val="0" data-param="mid">
+            <svg class="eq-knob-svg" viewBox="0 0 56 56">
+              <circle cx="28" cy="28" r="26" fill="#0d0d18" stroke="#1a1a28" stroke-width="1"/>
+              <path class="eq-knob-track" d="" fill="none" stroke="var(--neon)" stroke-width="3" stroke-linecap="round"/>
+              <line class="eq-knob-pointer" x1="28" y1="28" x2="28" y2="12" stroke="var(--neon)" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="eq-knob-value" id="eqMidVal">0 dB</div>
+        </div>
+        <div class="eq-knob-card">
+          <div class="eq-knob-label">High</div>
+          <div class="eq-knob-wrap" id="eqHighKnob" data-min="-12" data-max="12" data-val="0" data-param="high">
+            <svg class="eq-knob-svg" viewBox="0 0 56 56">
+              <circle cx="28" cy="28" r="26" fill="#0d0d18" stroke="#1a1a28" stroke-width="1"/>
+              <path class="eq-knob-track" d="" fill="none" stroke="var(--neon)" stroke-width="3" stroke-linecap="round"/>
+              <line class="eq-knob-pointer" x1="28" y1="28" x2="28" y2="12" stroke="var(--neon)" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="eq-knob-value" id="eqHighVal">0 dB</div>
+        </div>
+      </div>
+    </div>
+
     <button class="download-btn" id="downloadBtn">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       Download as WAV
@@ -335,6 +385,15 @@ const abBar          = document.getElementById('abBar');
 const abBarFill      = document.getElementById('abBarFill');
 const abCurTime      = document.getElementById('abCurTime');
 const abTotTime      = document.getElementById('abTotTime');
+const finalEqPanel   = document.getElementById('finalEqPanel');
+const eqLowVal       = document.getElementById('eqLowVal');
+const eqMidVal       = document.getElementById('eqMidVal');
+const eqHighVal      = document.getElementById('eqHighVal');
+const eqLowKnob      = document.getElementById('eqLowKnob');
+const eqMidKnob      = document.getElementById('eqMidKnob');
+const eqHighKnob     = document.getElementById('eqHighKnob');
+
+let eqLowFilter = null, eqMidFilter = null, eqHighFilter = null;
 
 // ─── FILE HANDLING ────────────────────────────────────────────────────────────
 dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
@@ -349,6 +408,109 @@ abBtnA.addEventListener('click', () => selectSide('A'));
 abBtnB.addEventListener('click', () => selectSide('B'));
 abPlayBtn.addEventListener('click', togglePlayback);
 abBar.addEventListener('click', seekBar);
+
+// ─── EQ KNOB SYSTEM (tools.html style) ───────────────────────────────────────
+function eq_drawKnob(wrap) {
+  var min = parseFloat(wrap.dataset.min);
+  var max = parseFloat(wrap.dataset.max);
+  var val = parseFloat(wrap.dataset.val);
+  var norm = (val - min) / (max - min);
+  var startAngle = -225 * Math.PI / 180;
+  var endAngle   =  45  * Math.PI / 180;
+  var angle = startAngle + norm * (endAngle - startAngle);
+  var cx = 28, cy = 28, r = 22;
+
+  var arcStart = { x: cx + r * Math.cos(startAngle), y: cy + r * Math.sin(startAngle) };
+  var arcEnd   = { x: cx + r * Math.cos(angle),      y: cy + r * Math.sin(angle) };
+  var largeArc = norm * 270 > 180 ? 1 : 0;
+  var track = wrap.querySelector('.eq-knob-track');
+  if (!track) return;
+  if (norm > 0.001) {
+    track.setAttribute('d', 'M ' + arcStart.x + ' ' + arcStart.y + ' A ' + r + ' ' + r + ' 0 ' + largeArc + ' 1 ' + arcEnd.x + ' ' + arcEnd.y);
+  } else {
+    track.setAttribute('d', '');
+  }
+
+  var pointer = wrap.querySelector('.eq-knob-pointer');
+  if (!pointer) return;
+  var pointerLen = 16;
+  var px2 = cx + pointerLen * Math.cos(angle);
+  var py2 = cy + pointerLen * Math.sin(angle);
+  pointer.setAttribute('x1', cx);
+  pointer.setAttribute('y1', cy);
+  pointer.setAttribute('x2', px2.toFixed(2));
+  pointer.setAttribute('y2', py2.toFixed(2));
+}
+
+function eq_formatVal(v) {
+  var f = parseFloat(v);
+  return (f >= 0 ? '+' : '') + f.toFixed(1) + ' dB';
+}
+
+function eq_updateDisplay(param, val) {
+  var displayId = { low: 'eqLowVal', mid: 'eqMidVal', high: 'eqHighVal' };
+  var el = document.getElementById(displayId[param]);
+  if (el) el.textContent = eq_formatVal(val);
+}
+
+// Wire up drag on all eq knob wraps
+document.querySelectorAll('.eq-knob-wrap').forEach(function(wrap) {
+  eq_drawKnob(wrap);
+  var dragging = false, startY = 0, startVal = 0;
+  wrap.addEventListener('mousedown', function(e) {
+    dragging = true; startY = e.clientY;
+    startVal = parseFloat(wrap.dataset.val);
+    document.body.style.cursor = 'ns-resize';
+    e.preventDefault();
+  });
+  wrap.addEventListener('touchstart', function(e) {
+    dragging = true; startY = e.touches[0].clientY;
+    startVal = parseFloat(wrap.dataset.val);
+    e.preventDefault();
+  }, { passive: false });
+  document.addEventListener('mousemove', function(e) {
+    if (!dragging) return;
+    var min = parseFloat(wrap.dataset.min);
+    var max = parseFloat(wrap.dataset.max);
+    var range = max - min;
+    var delta = (startY - e.clientY) / 150 * range;
+    var newVal = Math.max(min, Math.min(max, startVal + delta));
+    wrap.dataset.val = newVal;
+    eq_drawKnob(wrap);
+    eq_updateDisplay(wrap.dataset.param, newVal);
+    applyRealTimeEQ();
+  });
+  document.addEventListener('touchmove', function(e) {
+    if (!dragging) return;
+    var min = parseFloat(wrap.dataset.min);
+    var max = parseFloat(wrap.dataset.max);
+    var range = max - min;
+    var delta = (startY - e.touches[0].clientY) / 150 * range;
+    var newVal = Math.max(min, Math.min(max, startVal + delta));
+    wrap.dataset.val = newVal;
+    eq_drawKnob(wrap);
+    eq_updateDisplay(wrap.dataset.param, newVal);
+    applyRealTimeEQ();
+  }, { passive: true });
+  document.addEventListener('mouseup', function() {
+    if (dragging) { dragging = false; document.body.style.cursor = ''; }
+  });
+  document.addEventListener('touchend', function() { dragging = false; });
+  wrap.addEventListener('dblclick', function(e) {
+    e.preventDefault();
+    wrap.dataset.val = 0;
+    eq_drawKnob(wrap);
+    eq_updateDisplay(wrap.dataset.param, 0);
+    applyRealTimeEQ();
+  });
+});
+
+function applyRealTimeEQ() {
+  if (!eqLowFilter || !eqMidFilter || !eqHighFilter) return;
+  eqLowFilter.gain.value = parseFloat(eqLowKnob.dataset.val);
+  eqMidFilter.gain.value = parseFloat(eqMidKnob.dataset.val);
+  eqHighFilter.gain.value = parseFloat(eqHighKnob.dataset.val);
+}
 
 function fmt(s) { const m=Math.floor(s/60); return `${m}:${String(Math.floor(s%60)).padStart(2,'0')}`; }
 function fmtBytes(b) { return b>1e6?(b/1e6).toFixed(1)+' MB':(b/1e3).toFixed(0)+' KB'; }
@@ -502,23 +664,28 @@ async function runMastering() {
 
     setStep(8,'active'); await delay(80);
     const lufsIn = measureLUFS(ch, sr);
-    // Normalize + limiter compensation loop:
-    // After normalizing, the true peak limiter may pull loudness down.
-    // We iterate up to 3 times to converge on the target.
-    let lufsOut = lufsIn;
-    for (let iter = 0; iter < 3; iter++) {
+    // Normalize: iterate to converge on target LUFS
+    for (let iter = 0; iter < 15; iter++) {
       const current = measureLUFS(ch, sr);
-      const gainDb  = Math.max(-24, Math.min(24, -14 - current));
-      if (Math.abs(gainDb) < 0.05) break; // converged
+      const gainDb = -14 - current;
+      if (Math.abs(gainDb) < 0.005) break;
       applyGain(ch, dbToLin(gainDb));
-      applyTruePeakLimiter(ch, dbToLin(-1)); // apply limiter each iteration
     }
-    lufsOut = measureLUFS(ch, sr);
+    const lufsAfterNorm = measureLUFS(ch, sr);
     setStep(8,'done');
 
-    // Limiter already applied in normalize loop — skip separate step
+    // True Peak Limit - -1dB headroom
     setStep(9,'active'); await delay(40);
+    applyTruePeakLimiter(ch, dbToLin(-1));
     setStep(9,'done');
+
+    // Final LUFS check and compensate for limiter's loudness reduction
+    const lufsAfterLimiter = measureLUFS(ch, sr);
+    const finalGain = -14 - lufsAfterLimiter;
+    if (Math.abs(finalGain) > 0.005) {
+      applyGain(ch, dbToLin(finalGain));
+    }
+    const lufsOut = measureLUFS(ch, sr);
 
     setStep(10,'active'); await delay(100);
     const outBuf = audioCtx.createBuffer(numCh, len, sr);
@@ -709,7 +876,7 @@ function multiband(buf, sr, params) {
 
 function applyMultibandComp(ch, sr) {
   const p={
-    lo: {threshold:-13, ratio:3.5,   attack:40,  release:120, gain:4,   knee:6},
+    lo: {threshold:-16, ratio:3,   attack:40,  release:120, gain:4,   knee:6},
     mid:{threshold:-19, ratio:4.5, attack:15,  release:80,  gain:1.5, knee:4},
     hi: {threshold:-20, ratio:3,   attack:30,  release:120, gain:3,   knee:4}
   };
@@ -816,42 +983,76 @@ function applySSLBusComp(ch, sr) {
 }
 
 // ─── ITU-R BS.1770-4 LUFS MEASUREMENT ────────────────────────────────────────
-// K-weighting: high-shelf pre-filter (Stage 1) + RLB high-pass (Stage 2)
-// Gated measurement: 400ms blocks, -70 LUFS absolute gate, -10 LU relative gate
+// K-weighting: high-shelf pre-filter + RLB high-pass (38.135Hz)
+// Gated measurement: 400ms blocks, 75% overlap
 function measureLUFS(ch, sr) {
-  // Stage 1: Pre-filter — high-shelf +4dB @ 1681Hz (exact BS.1770 coefficients)
-  // Using makeBQ approximation with correct center freq & Q
-  const hs = makeBQ('highShelf', 1681, sr, 4.0, 0.707);
-  // Stage 2: RLB high-pass 2nd-order Butterworth @ 38.135Hz
-  const hp = makeHP(38.135, sr);
-
-  // Apply K-weighting to copies of all channels
+  // K-weighting: apply filters to all channels
+  // High shelf: 1500Hz, +4dB, Q=0.707
+  const w0 = 2 * Math.PI * 1500 / sr;
+  const alpha = Math.sin(w0) / (2 * 0.707);
+  const A = Math.pow(10, 4 / 40);
+  const cosw = Math.cos(w0);
+  
+  // High shelf coefficients
+  const b0 = A * ((A + 1) + (A - 1) * cosw + 2 * Math.sqrt(A) * alpha);
+  const b1 = -2 * A * ((A - 1) + (A + 1) * cosw);
+  const b2 = A * ((A + 1) + (A - 1) * cosw - 2 * Math.sqrt(A) * alpha);
+  const a0 = (A + 1) - (A - 1) * cosw + 2 * Math.sqrt(A) * alpha;
+  const a1 = 2 * ((A - 1) - (A + 1) * cosw);
+  const a2 = (A + 1) - (A - 1) * cosw - 2 * Math.sqrt(A) * alpha;
+  
+  // RLB HPF @ 38.135Hz (2nd order Butterworth)
+  const w0h = 2 * Math.PI * 38.135 / sr;
+  const alphah = Math.sin(w0h) / (2 * 0.707);
+  const coswh = Math.cos(w0h);
+  const bh0 = (1 + coswh) / 2;
+  const bh1 = -(1 + coswh);
+  const bh2 = (1 + coswh) / 2;
+  const ah0 = 1 + alphah;
+  const ah1 = -2 * coswh;
+  const ah2 = 1 - alphah;
+  
+  // Apply K-weighting to copies
   const kch = ch.map(c => {
     const b = new Float32Array(c);
-    applyBQ(b, hs);
-    applyBQ(b, hp);
+    // Apply high shelf
+    let x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+    for (let i = 0; i < b.length; i++) {
+      const x = b[i];
+      const y = (b0 * x + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2) / a0;
+      x2 = x1; x1 = x; y2 = y1; y1 = y; b[i] = y;
+    }
+    // Apply HPF
+    x1 = 0; x2 = 0; y1 = 0; y2 = 0;
+    for (let i = 0; i < b.length; i++) {
+      const x = b[i];
+      const y = (bh0 * x + bh1 * x1 + bh2 * x2 - ah1 * y1 - ah2 * y2) / ah0;
+      x2 = x1; x1 = x; y2 = y1; y1 = y; b[i] = y;
+    }
     return b;
   });
 
-  // Gated loudness — 400ms blocks, 75% overlap (100ms hop)
+  // Gated loudness: 400ms blocks, 100ms hop
   const blockLen = Math.round(sr * 0.400);
-  const hopLen   = Math.round(sr * 0.100);
+  const hopLen = Math.round(sr * 0.100);
   const nSamples = kch[0].length;
 
-  // Absolute gate: -70 LUFS = 10^((-70+0.691)/10) mean square
+  // Absolute gate threshold (-70 LUFS)
   const absGate = Math.pow(10, (-70 + 0.691) / 10);
 
   const blockPowers = [];
   for (let start = 0; start + blockLen <= nSamples; start += hopLen) {
     let sum = 0;
-    for (let c = 0; c < kch.length; c++)
-      for (let i = start; i < start + blockLen; i++)
+    for (let c = 0; c < kch.length; c++) {
+      for (let i = start; i < start + blockLen; i++) {
         sum += kch[c][i] * kch[c][i];
+      }
+    }
     const power = sum / (blockLen * kch.length);
     if (power > absGate) blockPowers.push(power);
   }
 
-  if (blockPowers.length === 0) return -70; // silence
+  if (blockPowers.length === 0) return -70;
 
   // Relative gate: -10 LU below ungated mean
   const ungatedMean = blockPowers.reduce((a, b) => a + b, 0) / blockPowers.length;
@@ -968,13 +1169,41 @@ function startAB() {
   const buf = abSide==='A' ? audioBuffer : processedBuffer;
   if (!buf||!audioCtx) return;
   if (audioCtx.state==='suspended') audioCtx.resume();
-  abGen++; // increment before stopAB so onended from previous source is ignored
+  abGen++;
   const myGen = abGen;
   if(abSource){try{abSource.stop();}catch(e){} abSource=null;}
   if(abRaf){cancelAnimationFrame(abRaf);abRaf=null;}
   abSource = audioCtx.createBufferSource();
   abSource.buffer = buf;
-  abSource.connect(audioCtx.destination);
+  
+  // Create EQ filters for real-time processing
+  const eqLowNode = audioCtx.createBiquadFilter();
+  eqLowNode.type = 'peaking';
+  eqLowNode.frequency.value = 320;
+  eqLowNode.Q.value = 1;
+  eqLowNode.gain.value = parseFloat(eqLowKnob.dataset.val);
+  
+  const eqMidNode = audioCtx.createBiquadFilter();
+  eqMidNode.type = 'peaking';
+  eqMidNode.frequency.value = 2000;
+  eqMidNode.Q.value = 1;
+  eqMidNode.gain.value = parseFloat(eqMidKnob.dataset.val);
+  
+  const eqHighNode = audioCtx.createBiquadFilter();
+  eqHighNode.type = 'highshelf';
+  eqHighNode.frequency.value = 8000;
+  eqHighNode.gain.value = parseFloat(eqHighKnob.dataset.val);
+  
+  eqLowFilter = eqLowNode;
+  eqMidFilter = eqMidNode;
+  eqHighFilter = eqHighNode;
+  
+  // Chain: source -> EQ filters -> destination
+  abSource.connect(eqLowNode);
+  eqLowNode.connect(eqMidNode);
+  eqMidNode.connect(eqHighNode);
+  eqHighNode.connect(audioCtx.destination);
+  
   const safe = Math.max(0, Math.min(abOffset, buf.duration - 0.01));
   abSource.start(0, safe);
   abStartedAt = audioCtx.currentTime - safe;
@@ -983,7 +1212,6 @@ function startAB() {
   abTotTime.textContent = fmt(buf.duration);
   abSource.onended = () => {
     if (abGen !== myGen) return;
-    // Natural end (not a stop/pause)
     abPlaying = false;
     abOffset = 0;
     abPlayBtn.textContent = '▶ PLAY';
@@ -1064,14 +1292,95 @@ function showResult() {
   resultPanel.style.display='block';
   processBtn.disabled=false; processBtnText.textContent='Reprocess';
 
+  // Show final EQ panel
+  finalEqPanel.classList.add('show');
+  eqLowKnob.dataset.val=0; eqMidKnob.dataset.val=0; eqHighKnob.dataset.val=0;
+  eqLowVal.textContent='0 dB'; eqMidVal.textContent='0 dB'; eqHighVal.textContent='0 dB';
+  eq_drawKnob(eqLowKnob); eq_drawKnob(eqMidKnob); eq_drawKnob(eqHighKnob);
+
   // Draw waveform into seek bar after layout settles
   setTimeout(drawABWaveform, 50);
 
   resultPanel.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
+function applyFinalEQ() {
+  if (!processedBuffer || !audioCtx) return;
+  const sr = processedBuffer.sampleRate;
+  const numCh = processedBuffer.numberOfChannels;
+  
+  const ch = [];
+  for (let c = 0; c < numCh; c++) ch.push(new Float32Array(processedBuffer.getChannelData(c)));
+  
+  const low = parseFloat(eqLowKnob.dataset.val);
+  const mid = parseFloat(eqMidKnob.dataset.val);
+  const high = parseFloat(eqHighKnob.dataset.val);
+  
+  if (Math.abs(low) > 0.01 || Math.abs(mid) > 0.01 || Math.abs(high) > 0.01) {
+    apply3BandEQ(ch, sr, low, mid, high);
+  }
+  
+  const lufsBefore = measureLUFS(ch, sr);
+  const targetDb = -14 - lufsBefore;
+  if (Math.abs(targetDb) > 0.01) {
+    applyGain(ch, dbToLin(targetDb));
+  }
+  applyTruePeakLimiter(ch, dbToLin(-1));
+  
+  const newBuf = audioCtx.createBuffer(numCh, processedBuffer.length, sr);
+  for (let c = 0; c < numCh; c++) newBuf.copyToChannel(ch[c], c);
+  processedBuffer = newBuf;
+  
+  drawABWaveform();
+  const wavBlob = bufferToWav(processedBuffer);
+  if (downloadUrl) URL.revokeObjectURL(downloadUrl);
+  downloadUrl = URL.createObjectURL(wavBlob);
+  
+  abStop();
+  abTotTime.textContent = fmt(processedBuffer.duration);
+  abSide='B';
+  abBtnA.className='ab-btn'; abBtnB.className='ab-btn sel-b';
+}
+
+function apply3BandEQ(ch, sr, lowDb, midDb, highDb) {
+  const bands = [
+    { freq: 320, gain: lowDb, type: 'peaking' },
+    { freq: 2000, gain: midDb, type: 'peaking' },
+    { freq: 8000, gain: highDb, type: 'highShelf' }
+  ];
+  
+  for (const b of bands) {
+    if (Math.abs(b.gain) < 0.01) continue;
+    const f = makeBQ(b.type, b.freq, sr, b.gain, 1.0);
+    for (const c of ch) applyBQ(c, f);
+  }
+}
+
 function downloadResult() {
   if (!downloadUrl) return;
+  const low = parseFloat(eqLowKnob.dataset.val);
+  const mid = parseFloat(eqMidKnob.dataset.val);
+  const high = parseFloat(eqHighKnob.dataset.val);
+  
+  if (Math.abs(low) > 0.01 || Math.abs(mid) > 0.01 || Math.abs(high) > 0.01) {
+    applyFinalEQ();
+  } else {
+    const sr = processedBuffer.sampleRate;
+    const numCh = processedBuffer.numberOfChannels;
+    const ch = [];
+    for (let c = 0; c < numCh; c++) ch.push(new Float32Array(processedBuffer.getChannelData(c)));
+    
+    applyTruePeakLimiter(ch, dbToLin(-1));
+    
+    const newBuf = audioCtx.createBuffer(numCh, processedBuffer.length, sr);
+    for (let c = 0; c < numCh; c++) newBuf.copyToChannel(ch[c], c);
+    processedBuffer = newBuf;
+    
+    const wavBlob = bufferToWav(processedBuffer);
+    if (downloadUrl) URL.revokeObjectURL(downloadUrl);
+    downloadUrl = URL.createObjectURL(wavBlob);
+  }
+  
   const base = currentFile ? currentFile.name.replace(/\.[^.]+$/,'') : 'mastered';
   const a = document.createElement('a'); a.href=downloadUrl; a.download=`${base}_mastered_saranta.wav`; a.click();
 }
@@ -1088,6 +1397,7 @@ function resetAll() {
   progressPanel.classList.remove('show');
   uploadPanel.classList.remove('show');
   abPanel.classList.remove('show');
+  finalEqPanel.classList.remove('show');
   resultPanel.style.display='none';
   // Clear AB waveform canvas
   const ctx2 = abWaveCanvas.getContext('2d');
