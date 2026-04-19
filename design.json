@@ -1,0 +1,84 @@
+{
+  "marka_kimligi": {
+    "isim": "Saranta Soundworks",
+    "slogan": "Free Browser Audio Mastering Tools",
+    "anahtar_kelimeler": [
+      "mastering",
+      "audio suite",
+      "heavy music",
+      "metal mixing",
+      "browser-based",
+      "DAW",
+      "plugin",
+      "EQ",
+      "LUFS"
+    ],
+    "hedef_kitle": "Müzik yapımcıları, miks mühendisleri, beatmakerlar, heavy metal/hard rock müzisyenleri."
+  },
+  "gorsel_stil_ve_tema": {
+    "konsept": "Karanlık, fütüristik, teknik ve donanımsal ses işleme arayüzü.",
+    "ui_hissi": "Profesyonel bir dijital ses çalışma istasyonu (DAW) eklentisi. Analog donanım hissini modern web teknolojileri (kod blokları, monospace fontlar) ile harmanlayan bir yapı.",
+    "kenar_ve_koseler": "Sitede genel olarak keskin hatlar ve belirli oranda ('border-box') teknik sınırlar kullanılmış."
+  },
+  "renk_paleti": {
+    "arka_planlar": {
+      "bg_primary": "#07070d",
+      "bg_secondary": "#0c0c14",
+      "surface": "#111118",
+      "elevated": "#1a1a28"
+    },
+    "kenarliklar": {
+      "border_primary": "#1e1e2e",
+      "border_secondary": "#2a2a3a"
+    },
+    "vurgu_renkleri_ui": {
+      "neon_yesil_ana_vurgu": "#00ff88",
+      "mavi": "#4488ff",
+      "kirmizi_kick_ve_uyari": "#ff4466",
+      "turuncu_snare_ve_uyari": "#ffaa00",
+      "mor": "#cc44ff"
+    },
+    "metin_renkleri": {
+      "yuksek_kontrast_ana_metin": "#e8e8f0",
+      "orta_kontrast_alt_metin": "#666680",
+      "dusuk_kontrast_pasif": "#2a2a3a"
+    }
+  },
+  "tipografi": {
+    "ana_baslik_fontu": {
+      "aile": "'Syne', sans-serif",
+      "agirliklar": ["400", "600", "700", "800"],
+      "kullanim_alani": "Marka adı, büyük modül başlıkları, kahraman (hero) bölümleri.",
+      "karakteristik": "Geniş, modern, agresif ama temiz. Heavy metal ve modern elektronik hissini bir arada verir."
+    },
+    "teknik_font": {
+      "aile": "'Space Mono', monospace",
+      "agirliklar": ["400", "700"],
+      "kullanim_alani": "Parametre değerleri (dB, Hz, LUFS), sayaçlar, butonlar, açıklamalar ve UI metinleri.",
+      "karakteristik": "Terminal ekranı, yazılım kodu ve teknik analiz cihazı (metering) hissi yaratır."
+    }
+  },
+  "logo_tasarim_yonergeleri": {
+    "konsept_ozeti": "Sitenin kodlanmış/teknik doğası ile ses mühendisliğinin doğasını birleştiren minimalist bir amblem veya tipografik logo.",
+    "sembol_ve_ikonografi_fikirleri": [
+      "Parametrik EQ eğrisini andıran keskin, vektörel bir çizgi.",
+      "Bant doygunluğunu (tape saturation) veya ses dalgasını (waveform) simgeleyen dijital, monospaced bloklar.",
+      "Sitedeki 'Saranta_Soundworks' altbilgi kullanımına atıfta bulunan terminal alt çizgisi (underscore) '_'.",
+      "S ve S harflerinin frekans spektrumu gibi iç içe geçtiği geometrik bir monogram."
+    ],
+    "tipografik_yerlesim": {
+      "yaklasim_1": "'SARANTA' kelimesi 'Syne' fontuyla ekstra kalın (800 weight) ve büyük, 'SOUNDWORKS' kelimesi hemen altında veya yanında 'Space Mono' fontuyla daha küçük ve hizalı.",
+      "yaklasim_2": "Kod bloku estetiğinde, tamamen 'Space Mono' kullanılarak tasarlanmış, etrafında #1e1e2e renginde ince bir border bulunan bir kutu tasarımı."
+    },
+    "renk_kullanimi": {
+      "zemin": "Logo mutlaka #07070d veya saydam zemin üzerinde çalışacak şekilde tasarlanmalı.",
+      "ana_renk": "Yüksek kontrastlı beyaz/gri (#e8e8f0).",
+      "vurgu": "Logonun belirli bir noktasında (örneğin EQ eğrisinde veya alt çizgide) ana vurgu rengi olan neon yeşil (#00ff88) kullanılmalı."
+    },
+    "kacinilmasi_gerekenler": [
+      "Eski moda nota veya klasik kulaklık, mikrofon ikonları (site çok daha teknik ve plugin odaklı).",
+      "Fazla yumuşak, yuvarlak hatlı veya serifli (tırnaklı) fontlar.",
+      "Gereksiz gölgelendirmeler veya 3D efektler (tasarım 'flat' ve 'UI' odaklı kalmalı)."
+    ]
+  }
+}
