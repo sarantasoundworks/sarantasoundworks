@@ -2,7 +2,7 @@
 
 **Free browser-based audio mastering tools for heavy music.** No install, no DAW — open the page, load your file, and process.
 
-Built from scratch with the Web Audio API by [Burak Balta](https://github.com/sarantasoundworks).
+Built from scratch with the Web Audio API by [Burak Balta](https://github.com/buraxe).
 
 > Live at [sarantasoundworks.com](https://sarantasoundworks.com)
 
