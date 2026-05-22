@@ -17,6 +17,17 @@
             --accent: #00ff88;
             --accent2: #4488ff;
             --border: #1e1e2e;
+            --dim: #a0a0b0;
+            --bg-rgb: 7,7,13;
+        }
+        html[data-theme="light"] {
+            --bg: #f5f5f7;
+            --text: #1a1a2e;
+            --accent: #00cc6a;
+            --accent2: #3366cc;
+            --border: #d8d8de;
+            --dim: #555566;
+            --bg-rgb: 245,245,247;
         }
         body { 
             background: var(--bg); 
@@ -29,13 +40,30 @@
         }
         h1 { font-family: 'Syne', sans-serif; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 10px; }
         h2 { font-family: 'Syne', sans-serif; color: var(--accent2); margin-top: 40px; font-size: 1.2rem; }
-        p, li { font-size: 14px; color: #a0a0b0; }
+        p, li { font-size: 14px; color: var(--dim); }
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
         .date { font-size: 12px; opacity: 0.6; margin-bottom: 30px; }
+        .theme-toggle {
+            position: fixed; top: 16px; right: 16px; z-index: 200;
+            display: flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px; border-radius: 3px;
+            background: transparent; border: 1px solid var(--border);
+            color: var(--dim); cursor: pointer; font-size: 14px; line-height: 1;
+            transition: all 0.15s; padding: 0;
+        }
+        .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+        .theme-icon-light { display: none; }
+        .theme-icon-dark { display: inline; }
+        html[data-theme="light"] .theme-icon-light { display: inline; }
+        html[data-theme="light"] .theme-icon-dark { display: none; }
     </style>
 </head>
 <body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+      <span class="theme-icon-light">☀</span>
+      <span class="theme-icon-dark">☾</span>
+    </button>
     <h1>Privacy Policy</h1>
     <div class="date">Last Updated: March 29, 2026</div>
 
@@ -64,5 +92,26 @@
     <div style="margin-top: 50px; border-top: 1px solid var(--border); padding-top: 20px;">
         <a href="index.html">← Back to Home</a>
     </div>
+<script>
+(function() {
+  var html = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var stored = localStorage.getItem('saranta-theme');
+  if (stored === 'light') { html.setAttribute('data-theme', 'light'); }
+  if (toggle) {
+    toggle.addEventListener('click', function() {
+      var isLight = html.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        html.removeAttribute('data-theme');
+        localStorage.setItem('saranta-theme', 'dark');
+      } else {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem('saranta-theme', 'light');
+      }
+    });
+  }
+})();
+</script>
+
 </body>
 </html>

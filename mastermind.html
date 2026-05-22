@@ -14,30 +14,65 @@
   --hi:#e8e8f0;--mid:#666680;--lo:#2a2a3a;
   --border:#1e1e2e;--border-a:#2a2a3a;
   --display:'Syne',sans-serif;--mono:'Space Mono',monospace;
+  --bg-rgb:7,7,13;--neon-rgb:0,255,136;--blue-rgb:68,136,255;--warn-rgb:255,170,0;
+}
+html[data-theme="light"]{
+  --bg:#f5f5f7;--bg2:#ffffff;--surface:#f0f0f2;--elevated:#e8e8ec;
+  --border:#d8d8de;--border-a:#c8c8d0;
+  --neon:#00cc6a;--blue:#3366cc;--red:#cc3355;--warn:#cc7a00;
+  --hi:#1a1a2e;--mid:#555566;--lo:#9999aa;
+  --bg-rgb:245,245,247;--neon-rgb:0,180,100;--blue-rgb:51,102,204;--warn-rgb:204,122,0;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--hi);font-family:var(--mono);min-height:100vh;overflow-x:hidden}
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:linear-gradient(rgba(0,255,136,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.025) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(var(--neon-rgb),.04) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--neon-rgb),.04) 1px,transparent 1px);
   background-size:40px 40px;
+}
+html[data-theme="light"] body::before{
+  background-image:linear-gradient(rgba(var(--neon-rgb),.08) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--neon-rgb),.08) 1px,transparent 1px);
 }
 body::after{
   content:'';position:fixed;top:-200px;left:-200px;width:600px;height:600px;
-  background:radial-gradient(circle,rgba(0,255,136,.05) 0%,transparent 65%);
+  background:radial-gradient(circle,rgba(var(--neon-rgb),.06) 0%,transparent 65%);
   pointer-events:none;z-index:0;
+}
+html[data-theme="light"] body::after{
+  background:radial-gradient(circle,rgba(var(--neon-rgb),.12) 0%,transparent 65%);
 }
 nav{
   position:sticky;top:0;z-index:100;height:48px;
-  background:rgba(7,7,13,.97);border-bottom:1px solid var(--border);
+  background:rgba(var(--bg-rgb),.97);border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;padding:0 32px;
   backdrop-filter:blur(8px);
 }
-.logo{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--neon);text-decoration:none}
-.logo em{color:var(--blue);font-style:normal}
-.mastermind-logo{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--neon)}
-.mastermind-logo em{color:var(--blue);font-style:normal}
-.nav-r{display:flex;align-items:center;gap:16px}
+.nav-logo{font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--neon);text-decoration:none}
+.nav-logo em{color:var(--blue);font-style:normal}
+.nav-links{display:flex;align-items:center;gap:2px;list-style:none}
+.nav-links a{font-family:var(--display);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mid);text-decoration:none;padding:5px 12px;border-radius:2px;border:1px solid transparent;transition:all .15s}
+.nav-links a:hover{color:var(--hi);border-color:var(--border-a);background:var(--surface)}
+.nav-tool-btn{font-family:var(--display);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:rgba(var(--neon-rgb),.08);border:1px solid var(--neon);color:var(--neon);text-decoration:none;padding:6px 16px;border-radius:2px;transition:background .15s}
+.nav-tool-btn:hover{background:rgba(var(--neon-rgb),.18)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--mid);transition:all .2s}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);background:var(--neon)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);background:var(--neon)}
+.mobile-menu{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(var(--bg-rgb),.98);border-bottom:1px solid var(--border);backdrop-filter:blur(8px);z-index:199;padding:16px 24px;flex-direction:column;gap:4px}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mid);text-decoration:none;padding:10px 0;border-bottom:1px solid var(--border);transition:color .15s}
+.mobile-menu a:last-child{border-bottom:none;color:var(--neon)}
+.mobile-menu a:hover{color:var(--hi)}
+@media(max-width:900px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+
+  .nav-tool-desktop{display:none}
+  .hamburger{display:flex}
+  .theme-toggle{margin-left:auto;margin-right:8px}
+}
+
 .dot{width:6px;height:6px;border-radius:50%;background:var(--neon);animation:breath 2s ease-in-out infinite}
 @keyframes breath{0%,100%{opacity:1}50%{opacity:.2}}
 .nav-tag{font-size:9px;letter-spacing:2px;color:var(--mid);text-transform:uppercase}
@@ -55,7 +90,7 @@ main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:48px 24px
   border:1px dashed var(--border-a);border-radius:2px;padding:56px 32px;text-align:center;cursor:pointer;
   transition:border-color .15s,background .15s;position:relative;margin-bottom:32px;background:var(--surface);
 }
-.drop-zone:hover,.drop-zone.drag-over{border-color:var(--neon);background:rgba(0,255,136,.03)}
+.drop-zone:hover,.drop-zone.drag-over{border-color:var(--neon);background:rgba(var(--neon-rgb),.03)}
 .drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .drop-icon{width:48px;height:48px;margin:0 auto 16px;border:1px solid var(--border-a);border-radius:2px;display:flex;align-items:center;justify-content:center;transition:border-color .15s}
 .drop-zone:hover .drop-icon,.drop-zone.drag-over .drop-icon{border-color:var(--neon)}
@@ -90,9 +125,9 @@ canvas.waveform{width:100%;height:64px;display:block}
 .progress-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
 .progress-step{display:flex;align-items:center;gap:12px}
 .ps-icon{width:20px;height:20px;border-radius:50%;border:1px solid var(--border-a);display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;transition:all .3s}
-.ps-icon.done{border-color:var(--neon);background:rgba(0,255,136,.15);color:var(--neon)}
+.ps-icon.done{border-color:var(--neon);background:rgba(var(--neon-rgb),.15);color:var(--neon)}
 .ps-icon.active{border-color:var(--neon);animation:pulse-border 1s ease-in-out infinite}
-@keyframes pulse-border{0%,100%{border-color:var(--neon)}50%{border-color:rgba(0,255,136,.3)}}
+@keyframes pulse-border{0%,100%{border-color:var(--neon)}50%{border-color:rgba(var(--neon-rgb),.3)}}
 .ps-icon.pending{color:var(--lo)}
 .ps-label{font-size:10px;letter-spacing:1px;color:var(--mid);transition:color .3s;text-transform:uppercase}
 .ps-label.active,.ps-label.done{color:var(--hi)}
@@ -103,7 +138,7 @@ canvas.waveform{width:100%;height:64px;display:block}
 .upload-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
 .upload-step{display:flex;align-items:center;gap:12px}
 .us-icon{width:20px;height:20px;border-radius:50%;border:1px solid var(--border-a);display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;transition:all .3s}
-.us-icon.done{border-color:var(--neon);background:rgba(0,255,136,.15);color:var(--neon)}
+.us-icon.done{border-color:var(--neon);background:rgba(var(--neon-rgb),.15);color:var(--neon)}
 .us-icon.active{border-color:var(--neon);animation:pulse-border 1s ease-in-out infinite}
 .us-icon.pending{color:var(--lo)}
 .us-label{font-size:10px;letter-spacing:1px;color:var(--mid);transition:color .3s;text-transform:uppercase}
@@ -133,8 +168,8 @@ canvas.waveform{width:100%;height:64px;display:block}
   transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;
 }
 .ab-btn:hover{border-color:var(--hi);color:var(--hi)}
-.ab-btn.sel-a{border-color:var(--warn);color:var(--warn);background:rgba(255,170,0,.06)}
-.ab-btn.sel-b{border-color:var(--neon);color:var(--neon);background:rgba(0,255,136,.06)}
+.ab-btn.sel-a{border-color:var(--warn);color:var(--warn);background:rgba(var(--warn-rgb),.06)}
+.ab-btn.sel-b{border-color:var(--neon);color:var(--neon);background:rgba(var(--neon-rgb),.06)}
 .ab-transport{display:flex;align-items:center;gap:10px}
 .ab-play-btn{
   background:transparent;border:1px solid var(--border-a);color:var(--mid);
@@ -142,7 +177,7 @@ canvas.waveform{width:100%;height:64px;display:block}
   cursor:pointer;transition:all .15s;flex-shrink:0;
 }
 .ab-play-btn:hover{border-color:var(--neon);color:var(--neon)}
-.ab-play-btn.playing{border-color:var(--neon);color:var(--neon);background:rgba(0,255,136,.08)}
+.ab-play-btn.playing{border-color:var(--neon);color:var(--neon);background:rgba(var(--neon-rgb),.08)}
 .ab-progress{flex:1;display:flex;flex-direction:column;gap:5px}
 .ab-bar{height:2px;background:var(--border);border-radius:1px;overflow:hidden;cursor:pointer}
 .ab-bar-fill{height:100%;background:var(--neon);border-radius:1px;width:0%;transition:width .1s linear}
@@ -170,7 +205,7 @@ canvas.waveform{width:100%;height:64px;display:block}
 .eq-title{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--mid);margin-bottom:14px}
 .eq-knobs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
 .eq-knob-card{background:var(--elevated);border:1px solid var(--border);border-radius:4px;padding:14px 10px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color 0.2s}
-.eq-knob-card:hover{border-color:rgba(0,255,136,0.3)}
+.eq-knob-card:hover{border-color:rgba(var(--neon-rgb),0.3)}
 .eq-knob-label{font-family:var(--display);font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--mid);text-align:center}
 .eq-knob-wrap{position:relative;width:56px;height:56px;cursor:ns-resize;user-select:none}
 .eq-knob-svg{width:56px;height:56px}
@@ -185,16 +220,51 @@ footer{border-top:1px solid var(--border);padding:24px 32px;display:flex;align-i
   nav{padding:0 16px}
   main{padding:32px 16px 60px}
 }
+
+/* THEME TOGGLE */
+.theme-toggle {
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 3px;
+  background: transparent; border: 1px solid var(--border-a);
+  color: var(--mid); cursor: pointer; font-size: 14px; line-height: 1;
+  transition: all 0.15s; padding: 0; margin-left: 8px;
+}
+.theme-toggle:hover { border-color: var(--neon); color: var(--neon); }
+.theme-icon-light { display: none; }
+.theme-icon-dark { display: inline; }
+html[data-theme="light"] .theme-icon-light { display: inline; }
+html[data-theme="light"] .theme-icon-dark { display: none; }
+
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="logo">Saranta<em>/</em>Soundworks</a>
-  <div class="nav-r">
-    <div class="mastermind-logo">Master<em>/</em>Mind</div>
-  </div>
+  <a href="index.html" class="nav-logo">Saranta<em>/</em>Soundworks</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#music">Music</a></li>
+    <li><a href="tips.html">Tips</a></li>
+    <li><a href="tools.html">Tools</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="mastering-suite.html" class="nav-tool-btn nav-tool-desktop">Launch Mastering Suite ↗</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+    <span class="theme-icon-light">☀</span>
+    <span class="theme-icon-dark">☾</span>
+  </button>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#about" onclick="closeMobile()">About</a>
+  <a href="index.html#music" onclick="closeMobile()">Music</a>
+  <a href="tips.html" onclick="closeMobile()">Tips</a>
+  <a href="tools.html" onclick="closeMobile()">Tools</a>
+  <a href="index.html#contact" onclick="closeMobile()">Contact</a>
+  <a href="mastering-suite.html">Launch Mastering Suite ↗</a>
+</div>
 
 <main>
   <div class="hero">
@@ -304,7 +374,7 @@ footer{border-top:1px solid var(--border);padding:24px 32px;display:flex;align-i
           <div class="eq-knob-label">Low</div>
           <div class="eq-knob-wrap" id="eqLowKnob" data-min="-12" data-max="12" data-val="0" data-param="low">
             <svg class="eq-knob-svg" viewBox="0 0 56 56">
-              <circle cx="28" cy="28" r="26" fill="#0d0d18" stroke="#1a1a28" stroke-width="1"/>
+              <circle cx="28" cy="28" r="26" fill="var(--surface)" stroke="var(--elevated)" stroke-width="1"/>
               <path class="eq-knob-track" d="" fill="none" stroke="var(--neon)" stroke-width="3" stroke-linecap="round"/>
               <line class="eq-knob-pointer" x1="28" y1="28" x2="28" y2="12" stroke="var(--neon)" stroke-width="2.5" stroke-linecap="round"/>
             </svg>
@@ -315,7 +385,7 @@ footer{border-top:1px solid var(--border);padding:24px 32px;display:flex;align-i
           <div class="eq-knob-label">Mid</div>
           <div class="eq-knob-wrap" id="eqMidKnob" data-min="-12" data-max="12" data-val="0" data-param="mid">
             <svg class="eq-knob-svg" viewBox="0 0 56 56">
-              <circle cx="28" cy="28" r="26" fill="#0d0d18" stroke="#1a1a28" stroke-width="1"/>
+              <circle cx="28" cy="28" r="26" fill="var(--surface)" stroke="var(--elevated)" stroke-width="1"/>
               <path class="eq-knob-track" d="" fill="none" stroke="var(--neon)" stroke-width="3" stroke-linecap="round"/>
               <line class="eq-knob-pointer" x1="28" y1="28" x2="28" y2="12" stroke="var(--neon)" stroke-width="2.5" stroke-linecap="round"/>
             </svg>
@@ -326,7 +396,7 @@ footer{border-top:1px solid var(--border);padding:24px 32px;display:flex;align-i
           <div class="eq-knob-label">High</div>
           <div class="eq-knob-wrap" id="eqHighKnob" data-min="-12" data-max="12" data-val="0" data-param="high">
             <svg class="eq-knob-svg" viewBox="0 0 56 56">
-              <circle cx="28" cy="28" r="26" fill="#0d0d18" stroke="#1a1a28" stroke-width="1"/>
+              <circle cx="28" cy="28" r="26" fill="var(--surface)" stroke="var(--elevated)" stroke-width="1"/>
               <path class="eq-knob-track" d="" fill="none" stroke="var(--neon)" stroke-width="3" stroke-linecap="round"/>
               <line class="eq-knob-pointer" x1="28" y1="28" x2="28" y2="12" stroke="var(--neon)" stroke-width="2.5" stroke-linecap="round"/>
             </svg>
@@ -1407,5 +1477,38 @@ function resetAll() {
   dropZone.style.display='';
 }
 </script>
+<script>
+(function() {
+  var html = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var stored = localStorage.getItem('saranta-theme');
+  if (stored === 'light') { html.setAttribute('data-theme', 'light'); }
+  if (toggle) {
+    toggle.addEventListener('click', function() {
+      var isLight = html.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        html.removeAttribute('data-theme');
+        localStorage.setItem('saranta-theme', 'dark');
+      } else {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem('saranta-theme', 'light');
+      }
+    });
+  }
+  var hamburger = document.getElementById('hamburger');
+  var mobileMenu = document.getElementById('mobileMenu');
+  if (hamburger) {
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+  }
+  window.closeMobile = function() {
+    if (hamburger) hamburger.classList.remove('open');
+    if (mobileMenu) mobileMenu.classList.remove('open');
+  };
+})();
+</script>
+
 </body>
 </html>
