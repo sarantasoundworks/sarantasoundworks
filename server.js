@@ -31,7 +31,7 @@ const server = http.createServer((req, res) => {
       res.writeHead(200, { 
         'Content-Type': contentType,
         'Cross-Origin-Opener-Policy': 'same-origin',
-        'Cross-Origin-Embedder-Policy': 'require-corp'
+        'Cross-Origin-Embedder-Policy': 'credentialless'
       });
       res.end(content);
     }

@@ -418,6 +418,28 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
   #now-playing-widget { width: calc(100vw - 32px); right: 16px; bottom: 16px; }
 }
 
+/* TOOLS SHOWCASE */
+.tools-showcase { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 72px 64px; }
+.tools-showcase-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; margin-bottom: 40px; }
+.tsc-card { background: var(--bg3); border: 1px solid var(--border2); border-radius: 3px; padding: 22px; display: flex; flex-direction: column; gap: 10px; transition: border-color 0.2s, background 0.2s; }
+.tsc-card:hover { border-color: var(--accent); background: var(--bg4); }
+.tsc-badge { font-family: var(--disp); font-size: 8px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); display: flex; align-items: center; gap: 8px; }
+.tsc-badge::before { content: '//'; color: var(--dim2); font-size: 10px; }
+.dot-green::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px rgba(0,255,136,0.5); }
+.dot-orange::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #ff9900; box-shadow: 0 0 6px rgba(255,153,0,0.5); }
+.dot-blue::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent3); box-shadow: 0 0 6px rgba(68,136,255,0.5); }
+.dot-red::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #ff4466; box-shadow: 0 0 6px rgba(255,68,102,0.5); }
+.dot-purple::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #8844ff; box-shadow: 0 0 6px rgba(136,68,255,0.5); }
+.tsc-name { font-family: var(--disp); font-size: 14px; font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; color: var(--text); }
+.tsc-card:hover .tsc-name { color: var(--accent); }
+.tsc-desc { font-size: 11px; color: var(--dim); line-height: 1.7; }
+.tools-showcase-cta { text-align: center; }
+
+@media (max-width: 900px) {
+  .tools-showcase { padding: 48px 24px; }
+  .tools-showcase-grid { grid-template-columns: 1fr; }
+}
+
 </style>
 </head>
 <body>
@@ -458,7 +480,7 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
     Independent audio plugin development and metal music production. Browser-based DSP tools built from scratch — no install, no DAW, just open and process.
   </p>
   <div class="hero-actions">
-    <a href="tools.html" class="btn btn-primary">Open Mastering Suite ↗</a>
+    <a href="mastering-suite.html" class="btn btn-primary">Open Mastering Suite ↗</a>
     <a href="#about" class="btn btn-ghost">About</a>
   </div>
 </section>
@@ -582,7 +604,7 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
             loading="lazy"></iframe>
         </div>
       -->
-      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/artist/6l97qlvDhzQlezBQWjhp3e?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/artist/6l97qlvDhzQlezBQWjhp3e?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" credentialless referrerpolicy="no-referrer"></iframe>
     </div>
 
     <!-- SOUNDCLOUD -->
@@ -598,70 +620,48 @@ footer { padding: 22px 64px; border-top: 1px solid var(--border); background: va
           </iframe>
         </div>
       -->
-      <iframe width="100%" height="352" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%253Aplaylists%253A2213706881&color=%2300ff88&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/saranta-596980414" title="Saranta" target="_blank" style="color: #cccccc; text-decoration: none;">Saranta</a> · <a href="https://soundcloud.com/saranta-596980414/sets/saranta-soundworks" title="Saranta Soundworks" target="_blank" style="color: #cccccc; text-decoration: none;">Saranta Soundworks</a></div>
+      <iframe width="100%" height="352" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%253Aplaylists%253A2213706881&color=%2300ff88&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true" credentialless referrerpolicy="no-referrer"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/saranta-596980414" title="Saranta" target="_blank" style="color: #cccccc; text-decoration: none;">Saranta</a> · <a href="https://soundcloud.com/saranta-596980414/sets/saranta-soundworks" title="Saranta Soundworks" target="_blank" style="color: #cccccc; text-decoration: none;">Saranta Soundworks</a></div>
     </div>
 
   </div>
 </section>
 
 
-<!-- CTA BANNER -->
-<div class="cta-banner">
-  <div>
-    <div class="cta-label">// Free Tool — No Install</div>
-    <div class="cta-title">Try the<br><em>Saranta Mastering Suite</em></div>
-    <p class="cta-sub">Load your audio and run it through the full processing chain in the browser. EQ, tape saturation, compression, clipper, stereo imaging, loudness metering, free, no install.</p>
-    <a href="tools.html" class="btn btn-primary" style="margin-top:24px; display:inline-block;">Open Saranta Mastering Suite ↗</a>
+<!-- TOOLS SHOWCASE -->
+<section class="tools-showcase" id="tools">
+  <div class="sec-eyebrow">Toolkit</div>
+  <h2 class="sec-title">Everything We Build</h2>
+  <div class="tools-showcase-grid">
+    <div class="tsc-card">
+      <div class="tsc-badge dot-green">Browser App</div>
+      <div class="tsc-name">Saranta Mastering Suite</div>
+      <div class="tsc-desc">Full browser-based mastering chain. EQ, tape saturation, compression, clipper, stereo imager, LUFS meter — all running in your browser.</div>
+    </div>
+    <div class="tsc-card">
+      <div class="tsc-badge dot-orange">Browser App</div>
+      <div class="tsc-name">BeatMaster</div>
+      <div class="tsc-desc">16-step sequencer and rhythm game. Build drum patterns, jam with presets, export MIDI, or test your timing in game mode.</div>
+    </div>
+    <div class="tsc-card">
+      <div class="tsc-badge dot-blue">Browser App</div>
+      <div class="tsc-name">MasterMind</div>
+      <div class="tsc-desc">One-click automated mastering. Upload a track, get a broadcast-ready -14 LUFS master in seconds. A/B compare and fine-tune.</div>
+    </div>
+    <div class="tsc-card">
+      <div class="tsc-badge dot-red">REAPER Plugins</div>
+      <div class="tsc-name">JSFX Pack</div>
+      <div class="tsc-desc">Custom JSFX plugins for REAPER — compressors, EQ utilities, metering tools and more. Free, open source, heavy music focused.</div>
+    </div>
+    <div class="tsc-card">
+      <div class="tsc-badge dot-purple">Guide</div>
+      <div class="tsc-name">The Saranta Method</div>
+      <div class="tsc-desc">A practical mixing and production guide for heavy music. Drums, bass, guitars, vocals, synths, orchestral, post FX and mastering.</div>
+    </div>
   </div>
-  <div class="cta-specs">
-    <div class="cta-spec"><strong>6</strong> processing modules</div>
-    <div class="cta-spec"><strong>Reorderable</strong> signal chain</div>
-    <div class="cta-spec"><strong>WAV</strong> input / export</div>
-    <div class="cta-spec"><strong>Zero</strong> install required</div>
+  <div class="tools-showcase-cta">
+    <a href="tools.html" class="btn btn-primary">Explore All Tools ↗</a>
   </div>
-</div> 
-<div class="cta-banner">
-  <div>
-    <div class="cta-label">// Creative Tool — Step Sequencer</div>
-    <div class="cta-title">Try the<em>BeatMaster Sequencer</em></div>
-    <p class="cta-sub">A browser-based rhythm machine designed for rapid groove prototyping. Build drum patterns using the intuitive step interface, experiment with built-in presets, and play back in real-time. Not Enough? Gamify it and enjoy the beat.</p>
-    <a href="beatmaster.html" class="btn btn-primary" style="margin-top:24px; display:inline-block;">Open BeatMaster ↗</a>
-  </div>
-  <div class="cta-specs">
-    <div class="cta-spec"><strong>Step</strong> Sequencer</div>
-    <div class="cta-spec"><strong>Groove</strong> Presets</div>
-    <div class="cta-spec"><strong>Real-time</strong> Playback</div>
-    <div class="cta-spec"><strong>Web</strong> Based</div>
-  </div>
-</div>
-<div class="cta-banner">
-  <div>
-    <div class="cta-label">// Pro Audio — Mastering Engine</div>
-    <div class="cta-title">Try the<em>MasterMind Processor</em></div>
-    <p class="cta-sub">The flagship mastering processor for Saranta Soundworks. Upload your tracks to run them through high-end algorithms, perform instant A/B comparisons, and export broadcast-ready WAV files.</p>
-    <a href="mastermind.html" class="btn btn-primary" style="margin-top:24px; display:inline-block;">Open MasterMind ↗</a>
-  </div>
-  <div class="cta-specs">
-    <div class="cta-spec"><strong>A/B</strong> Comparison</div>
-    <div class="cta-spec"><strong>Visual</strong> Waveform</div>
-    <div class="cta-spec"><strong>High-End</strong> DSP</div>
-    <div class="cta-spec"><strong>WAV</strong> Export</div>
-  </div>
-</div>
-<div class="cta-banner">
-  <div>
-    <div class="cta-label">// Educational — Production Guide</div>
-    <div class="cta-title">Explore the<em>Saranta Method</em></div>
-    <p class="cta-sub">A comprehensive technical guide for modern heavy music production. Master the art of mixing drums, guitars, bass, and vocals with specialized techniques tailored for metal and extreme genres.</p>
-    <a href="tips.html" class="btn btn-primary" style="margin-top:24px; display:inline-block;">Read Mixing Tips ↗</a>
-  </div>
-  <div class="cta-specs">
-    <div class="cta-spec"><strong>Metal</strong> Production</div>
-    <div class="cta-spec"><strong>Mixing</strong> Workflows</div>
-    <div class="cta-spec"><strong>Mastering</strong> Tips</div>
-    <div class="cta-spec"><strong>Free</strong> Resource</div>
-  </div>
-</div>
+</section>
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
