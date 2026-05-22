@@ -11,8 +11,8 @@ const mimeTypes = {
   '.css': 'text/css'
 };
 
-const needsIsolation = path => {
-  const name = path.basename(path);
+const needsIsolation = p => {
+  const name = path.basename(p);
   return name === 'mastering-suite.html' || name === 'multiband-worklet.js';
 };
 
