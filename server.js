@@ -11,8 +11,13 @@ const mimeTypes = {
   '.css': 'text/css'
 };
 
+const needsIsolation = path => {
+  const name = path.basename(path);
+  return name === 'mastering-suite.html' || name === 'multiband-worklet.js';
+};
+
 const server = http.createServer((req, res) => {
-  let filePath = req.url === '/' ? '/mastering-suite.html' : req.url;
+  let filePath = req.url === '/' ? '/index.html' : req.url;
   filePath = path.join(__dirname, filePath);
 
   const ext = path.extname(filePath);
@@ -28,11 +33,12 @@ const server = http.createServer((req, res) => {
         res.end('500 Internal Error');
       }
     } else {
-      res.writeHead(200, { 
-        'Content-Type': contentType,
-        'Cross-Origin-Opener-Policy': 'same-origin',
-        'Cross-Origin-Embedder-Policy': 'credentialless'
-      });
+      const headers = { 'Content-Type': contentType };
+      if (needsIsolation(filePath)) {
+        headers['Cross-Origin-Opener-Policy'] = 'same-origin';
+        headers['Cross-Origin-Embedder-Policy'] = 'credentialless';
+      }
+      res.writeHead(200, headers);
       res.end(content);
     }
   });
