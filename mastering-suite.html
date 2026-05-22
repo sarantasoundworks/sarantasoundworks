@@ -14306,7 +14306,7 @@ function suite_initMBand(ctx){
         mband_state.atomicView = new Int32Array(mband_state.sharedBuffer);
       }
     };
-  } catch(e) { console.error('MBand init error:', e); _plugins['mband'] = { inputNode: ctx.createGain(), outputNode: ctx.createGain() }; }
+  } catch(e) { console.error('MBand init error:', e); var _d=ctx.createGain(); _plugins['mband'] = { inputNode: _d, outputNode: _d }; }
   mband_buildBandUI();
   mband_initScrubs();
   setTimeout(function(){ mband_startVizLoop(); }, 100);
@@ -14323,35 +14323,7 @@ function mband_initBypass(){
 
 document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('mband_bypassToggle').addEventListener('click', function(){
-    var wasBypassed = _bypassed.has('mband');
     suite_toggleBypass('mband');
-    mband_initBypass();
-    // Update MB Comp enabled state when bypass toggled
-    if(wasBypassed !== _bypassed.has('mband')){
-      var isBypassed = _bypassed.has('mband');
-      // When bypassed, all bands disabled; when enabled, preserve current states
-      if(isBypassed){
-        // Save current enabled states before disabling
-        if(!window.mband_savedEnabledStates) window.mband_savedEnabledStates = [];
-        for(var i = 0; i < 4; i++) window.mband_savedEnabledStates.push(mband_state.bands[i].enabled);
-        for(var i = 0; i < 4; i++) mband_state.bands[i].enabled = false;
-      } else {
-        // Restore previous enabled states
-        if(window.mband_savedEnabledStates && window.mband_savedEnabledStates.length === 4){
-          for(var i = 0; i < 4; i++) mband_state.bands[i].enabled = window.mband_savedEnabledStates[i];
-        }
-      }
-      mband_updateBandUI();
-      // Send enabled states to worklet
-      if(mband_state.workletNode && mband_state.workletNode.port){
-        var enabledArray = [];
-        for(var i = 0; i < 4; i++) enabledArray.push(mband_state.bands[i].enabled);
-        mband_state.workletNode.port.postMessage({
-          type: 'enabled',
-          enabled: enabledArray
-        });
-      }
-    }
   });
 });
 function mband_buildBandUI(){
@@ -15170,6 +15142,26 @@ function suite_toggleBypass(key){
     if(cTog)cTog.classList.toggle('on',comp_compParams.enabled);
     if(cLbl)cLbl.textContent=comp_compParams.enabled?'COMP ON':'BYPASSED';
   }
+  if(key==='mband'){
+    if(mband_state.bands && mband_state.bands.length === 4){
+      if(isBypassed){
+        if(!window.mband_savedEnabledStates) window.mband_savedEnabledStates = [];
+        window.mband_savedEnabledStates.length = 0;
+        for(var i = 0; i < 4; i++) window.mband_savedEnabledStates.push(mband_state.bands[i].enabled);
+        for(var i = 0; i < 4; i++) mband_state.bands[i].enabled = false;
+      } else {
+        if(window.mband_savedEnabledStates && window.mband_savedEnabledStates.length === 4){
+          for(var i = 0; i < 4; i++) mband_state.bands[i].enabled = window.mband_savedEnabledStates[i];
+        }
+      }
+      mband_updateBandUI();
+      mband_sendParams();
+    }
+    var mTog=document.getElementById('mband_bypassSwitch');
+    var mLbl=document.getElementById('mband_bypassLabel');
+    if(mTog)mTog.classList.toggle('on', !isBypassed);
+    if(mLbl)mLbl.textContent=isBypassed?'OFF':'ON';
+  }
   // ────────────────────────────────────────────────────────────────────────
   if(_ctx)suite_rewireChain();else suite_renderChain();
 }
@@ -15338,6 +15330,7 @@ document.addEventListener('DOMContentLoaded',function(){
   console.log('[App] DOM ready');
   // Sync internal plugin bypass states with initial _bypassed set
   tape_state.bypass = true;   // tape starts bypassed
+  if(typeof mband_initBypass === 'function') mband_initBypass();
   suite_renderChain();
   var dz=document.getElementById('dropZone'),fi=document.getElementById('fileInput');
   console.log('[App] dropZone:', !!dz, 'fileInput:', !!fi);
@@ -16190,7 +16183,10 @@ window.suite_loadFile = async function(file) {
     for(var si = 0; si < steps.length; si++){
       var sn = steps[si][0], sf = steps[si][1];
       setProgress(50 + si * 8, 'INIT: ' + sn.toUpperCase() + '…');
-      try{ sf(); } catch(se){ console.error(sn, se); }
+      try{
+        var _r = sf();
+        if(_r && typeof _r.then === 'function') await _r;
+      } catch(se){ console.error(sn, se); }
     }
     
     setProgress(100, 'READY');
