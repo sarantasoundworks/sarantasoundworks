@@ -14301,9 +14301,8 @@ function suite_initMBand(ctx){
     mband_state.analyser.connect(out);
     _plugins['mband'] = { inputNode: inp, outputNode: out };
     mband_state.workletNode.port.onmessage = function(e) {
-      if (e.data.type === 'sharedBuffer') {
-        mband_state.sharedBuffer = e.data.buffer;
-        mband_state.atomicView = new Int32Array(mband_state.sharedBuffer);
+      if (e.data.type === 'gr') {
+        mband_state.grValues = e.data.values;
       }
     };
   } catch(e) { console.error('MBand init error:', e); var _d=ctx.createGain(); _plugins['mband'] = { inputNode: _d, outputNode: _d }; }
@@ -14653,9 +14652,8 @@ function mband_startVizLoop(){
 var bandGRvals = [0,0,0,0];
     for(var b=0;b<4;b++){
       var en = mband_state.bands[b].enabled !== false;
-      if(mband_state.atomicView && en){
-        var rawGR = Atomics.load(mband_state.atomicView, b + 1);
-        var grDB = rawGR / 100;
+      if(mband_state.grValues && mband_state.grValues.length === 4 && en){
+        var grDB = mband_state.grValues[b];
         if(grDB < 0) grDB = 0;
         // Smooth like Comp plugin: fast attack, slow release
         if(grDB > grSmooth[b]) grSmooth[b] = grSmooth[b] * 0.6 + grDB * 0.4;

@@ -11,11 +11,6 @@ const mimeTypes = {
   '.css': 'text/css'
 };
 
-const needsIsolation = p => {
-  const name = path.basename(p);
-  return name === 'mastering-suite.html' || name === 'multiband-worklet.js';
-};
-
 const server = http.createServer((req, res) => {
   let filePath = req.url === '/' ? '/index.html' : req.url;
   filePath = path.join(__dirname, filePath);
@@ -33,12 +28,7 @@ const server = http.createServer((req, res) => {
         res.end('500 Internal Error');
       }
     } else {
-      const headers = { 'Content-Type': contentType };
-      if (needsIsolation(filePath)) {
-        headers['Cross-Origin-Opener-Policy'] = 'same-origin';
-        headers['Cross-Origin-Embedder-Policy'] = 'credentialless';
-      }
-      res.writeHead(200, headers);
+      res.writeHead(200, { 'Content-Type': contentType });
       res.end(content);
     }
   });

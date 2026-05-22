@@ -12,12 +12,10 @@ let bandGains = [0, 0, 0, 0];
 let bandEnabled = [1, 1, 1, 1];
 let bandSpectral = [false, false, false, false];
 
-let sharedBuffer = null;
-let atomicView = null;
-let useSharedBuffer = false;
-
 let envLevel = new Float32Array(BAND_COUNT);
 let subEnv = new Float32Array(BAND_COUNT * SUB_BANDS);
+
+let grMsgCounter = 0;
 
 var fState = [];
 function resetFilters() {
@@ -80,11 +78,7 @@ class MultibandProcessor extends AudioWorkletProcessor {
     super();
     for (var i = 0; i < BAND_COUNT; i++) envLevel[i] = 0;
     for (var i = 0; i < BAND_COUNT * SUB_BANDS; i++) subEnv[i] = 0;
-    try {
-      sharedBuffer = new SharedArrayBuffer(4096);
-      atomicView = new Int32Array(sharedBuffer);
-      useSharedBuffer = true;
-    } catch(e) { useSharedBuffer = false; }
+    grMsgCounter = 0;
 
     this.port.onmessage = (e) => {
       if (e.data.type === 'params') {
@@ -100,9 +94,6 @@ class MultibandProcessor extends AudioWorkletProcessor {
         if (e.data.spectral) for (var i = 0; i < BAND_COUNT; i++) bandSpectral[i] = !!e.data.spectral[i];
       }
     };
-    if (useSharedBuffer && sharedBuffer) {
-      try { this.port.postMessage({ type: 'sharedBuffer', buffer: sharedBuffer }); } catch(e) {}
-    }
     this.port.postMessage({ type: 'ready' });
   }
 
@@ -206,17 +197,14 @@ class MultibandProcessor extends AudioWorkletProcessor {
       }
     }
 
-    if (useSharedBuffer && atomicView) {
+    grMsgCounter++;
+    if (grMsgCounter >= 10) {
+      grMsgCounter = 0;
+      var grVals = [];
       for (var b = 0; b < BAND_COUNT; b++) {
-        var avgGR = len > 0 ? bandGR[b] / len : 0;
-        // Store as raw dB value (negative for reduction), scaled by 100 for precision
-        Atomics.store(atomicView, b + 1, Math.round(avgGR * 100));
+        grVals.push(len > 0 ? bandGR[b] / len : 0);
       }
-      var off = BAND_COUNT + 1;
-      for (var s = 0; s < BAND_COUNT * SUB_BANDS; s++) {
-        var avgSubGR = len > 0 ? subGR[s] / len : 0;
-        Atomics.store(atomicView, off + s, Math.floor(-avgSubGR));
-      }
+      this.port.postMessage({ type: 'gr', values: grVals });
     }
 
     return true;
