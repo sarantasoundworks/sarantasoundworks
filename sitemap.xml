@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://sarantasoundworks.com/mastering-suite.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://sarantasoundworks.com/tools.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>

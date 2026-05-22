@@ -2,7 +2,7 @@
 
 **Free browser-based audio mastering tools for heavy music.** No install, no DAW — open the page, load your file, and process.
 
-Built from scratch with the Web Audio API by [Burak Balta](https://github.com/buraxe).
+Built from scratch with the Web Audio API by [Burak Balta](https://github.com/sarantasoundworks).
 
 > Live at [sarantasoundworks.com](https://sarantasoundworks.com)
 
@@ -10,7 +10,7 @@ Built from scratch with the Web Audio API by [Burak Balta](https://github.com/bu
 
 ## Tools
 
-### Mastering Suite (`tools.html`)
+### Mastering Suite (`mastering-suite.html`)
 
 A full mastering-grade signal chain that runs entirely in the browser. Drag-and-drop reorderable module rack with per-module bypass toggles.
 
@@ -19,7 +19,7 @@ A full mastering-grade signal chain that runs entirely in the browser. Drag-and-
 | **Parametric EQ Studio** | 8-band parametric EQ with dynamic EQ, Auto EQ (genre-matched ISO 266 LTAS curves), FFT analyzer, solo/bypass per band, oversampling |
 | **Tape Saturator** | Analog tape emulation with drive, bias, mix, tape speed modes, input/output metering and clip detection |
 | **Compressor** | Full dynamics processor with threshold, ratio, attack, release, knee, makeup gain |
-| **Multiband Compressor** | 4-band (low/mid/high) multiband dynamics with independent threshold, ratio, attack, release, gain and knee per band |
+| **Multiband Compressor** | 3-band (low/mid/high) multiband dynamics with independent threshold, ratio, attack, release, gain and knee per band |
 | **Clipper** | Soft/hard clipper for transparent loudness maximization and transient control |
 | **Stereo Imager** | M/S-based stereo width control |
 | **LUFS Meter** | ITU-R BS.1770-4 compliant integrated loudness metering |
@@ -63,7 +63,7 @@ A structured mixing guide based on the Saranta Method — covering drums, bass, 
 
 ```
 ├── index.html              Landing page
-├── tools.html              Mastering Suite
+├── mastering-suite.html              Mastering Suite
 ├── mastermind.html         Auto mastering
 ├── beatmaster.html         Step sequencer & rhythm game
 ├── tips.html               Mixing guide

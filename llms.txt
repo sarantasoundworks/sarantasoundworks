@@ -1,0 +1,120 @@
+# Saranta Soundworks
+
+> Free browser-based audio mastering tools and plugins for heavy music production. No install, no DAW — open the page, load your file, and process.
+
+## Overview
+
+Saranta Soundworks is an independent audio development project by Burak Balta, focused on building professional DSP tools that run entirely in the browser. The project is tailored for extreme metal and heavy music production, offering a suite of free utilities including a full mastering chain, a step sequencer, an auto-mastering engine, and REAPER JSFX plugins.
+
+All browser tools are built with vanilla HTML/CSS/JS and the Web Audio API. No frameworks, no build step, no server-side audio processing. Everything happens client-side.
+
+---
+
+## Site Structure
+
+| Page | Path | Description |
+|------|------|-------------|
+| Landing Page | `/index.html` | About, music embeds (Spotify/SoundCloud), contact form, tool CTA banners |
+| Tools Hub | `/tools.html` | Central hub linking to all browser tools and the JSFX plugin pack |
+| Mastering Suite | `/mastering-suite.html` | Full browser-based mastering signal chain with 6+ modules |
+| BeatMaster | `/beatmaster.html` | 16-step sequencer and rhythm game |
+| MasterMind | `/mastermind.html` | One-click automated mastering pipeline |
+| Mixing Tips | `/tips.html` | The Saranta Method — structured mixing guide for heavy music |
+| Privacy | `/privacy.html` | Privacy policy |
+
+---
+
+## Browser Tools
+
+### Saranta Mastering Suite
+- **URL:** `https://sarantasoundworks.com/mastering-suite.html`
+- **Type:** WebApplication (Web Audio API)
+- A full mastering-grade signal chain with drag-and-drop reorderable module rack:
+  - **Parametric EQ Studio** — 8-band parametric EQ with dynamic EQ, Auto EQ (genre-matched ISO 266 LTAS curves), FFT analyzer, solo/bypass per band, oversampling
+  - **Tape Saturator** — Analog tape emulation with drive, bias, mix, tape speed modes, input/output metering and clip detection
+  - **Compressor** — Full dynamics processor with threshold, ratio, attack, release, knee, makeup gain
+  - **Multiband Compressor** — 3-band (low/mid/high) multiband dynamics with independent threshold, ratio, attack, release, gain and knee per band
+  - **Clipper** — Soft/hard clipper for transparent loudness maximization and transient control
+  - **Stereo Imager** — M/S-based stereo width control
+  - **LUFS Meter** — ITU-R BS.1770-4 compliant integrated loudness metering
+- Supports WAV input and export. No install required.
+
+### BeatMaster
+- **URL:** `https://sarantasoundworks.com/beatmaster.html`
+- **Type:** WebApplication (Web Audio API + Firebase)
+- Browser-based step sequencer and rhythm game:
+  - 16-step grid with 4 channels (kick, snare, hi-hat, perc), up to 4 bars
+  - Adjustable BPM (60–200), preset grooves, MIDI export
+  - **Game mode:** Notes fall in lanes — hit them in time. Combos, multipliers, HP system, BPM escalation, particle effects
+  - **Wild Mode:** Procedurally generated patterns that regenerate every loop
+  - **Global Leaderboard:** Firebase-powered score tracking
+
+### MasterMind
+- **URL:** `https://sarantasoundworks.com/mastermind.html`
+- **Type:** WebApplication (Web Audio API)
+- One-click automated mastering pipeline. Upload any audio file and get a broadcast-standard -14 LUFS master in seconds.
+- **Signal chain:** Auto-Gain → Saturation → HPF → Mastering EQ → 3-Band Multiband Comp → Manley Massive Passive EQ → SSL 4000G Bus Comp → Stereo Width → LUFS Normalization → True Peak Limiter
+- Includes A/B monitoring with original/mastered toggle and a 3-band fine-tune EQ for final adjustments.
+
+---
+
+## REAPER Plugins
+
+### Saranta Soundworks JSFX Pack
+- **Repository:** `https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack`
+- A collection of custom JSFX plugins for REAPER, built for heavy music production. Includes compressors, EQ utilities, metering tools, and more. Free and open source.
+- Direct download: `https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack/archive/refs/heads/main.zip`
+
+---
+
+## Mixing Guide
+
+### Tips for Heavy Music — The Saranta Method
+- **URL:** `https://sarantasoundworks.com/tips.html`
+- A structured mixing guide covering drums, bass, guitars, vocals, synths, orchestral elements, post FX, and mastering techniques specifically for metal and extreme music.
+
+---
+
+## Tech Stack
+
+- **Frontend:** Vanilla HTML/CSS/JS — zero frameworks, zero build step
+- **Audio Engine:** Web Audio API + custom DSP (biquad filters, compressors, LUFS measurement, tape saturation algorithms)
+- **Fonts:** Space Mono + Syne (Google Fonts)
+- **Hosting:** Cloudflare Pages
+- **Backend:** Cloudflare Functions (contact form, Firebase config proxy)
+- **Database:** Firebase Firestore (BeatMaster leaderboard)
+- **WASM (experimental):** `multiband-processor.cpp` — C++ multiband compressor compiled to WASM via Emscripten
+
+---
+
+## Brand Identity
+
+- **Name:** Saranta Soundworks
+- **Founder:** Burak Balta
+- **Location:** Turkey
+- **Focus:** Heavy music production (Death Metal, Deathcore, Djent, Thrash, Doom)
+- **Tagline:** "Free Browser Audio Mastering Tools"
+- **Primary Accent:** `#00ff88` (green)
+- **Secondary Accent:** `#4488ff` (blue)
+- **Typography:** Syne (display), Space Mono (monospace)
+- **Design Style:** Dark, minimal, technical, grid-based
+
+---
+
+## Contact & Links
+
+- **Website:** `https://sarantasoundworks.com`
+- **Email:** `contact@sarantasoundworks.com`
+- **GitHub:** `https://github.com/sarantasoundworks`
+- **SoundCloud:** `https://soundcloud.com/saranta-596980414`
+- **Spotify:** `https://open.spotify.com/intl-tr/artist/6l97qlvDhzQlezBQWjhp3e`
+- **Instagram:** `https://instagram.com/sarantasoundworks`
+- **Upwork:** `https://www.upwork.com/freelancers/~01a351c22e4724e8ed`
+
+---
+
+## License
+
+All projects are licensed under the MIT License unless otherwise stated.
+
+*© 2026 Burak Balta — Saranta Soundworks*
