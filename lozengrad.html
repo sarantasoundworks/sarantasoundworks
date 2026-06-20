@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lozengrad JSFX — Free REAPER Plugins by Saranta Soundworks</title>
+<meta name="description" content="Lozengrad JSFX Plugin Series — Free, open-source audio DSP plugins for REAPER. Compressors, EQs, saturators, filters, metering tools and more by Saranta Soundworks.">
+<meta name="keywords" content="JSFX, REAPER plugins, free audio plugins, compressor, EQ, saturator, clipper, limiter, reaper jsfx, lozengrad, saranta soundworks">
+<meta name="author" content="Burak Balta — Saranta Soundworks">
+<link rel="canonical" href="https://sarantasoundworks.com/lozengrad.html">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sarantasoundworks.com/lozengrad.html">
+<meta property="og:title" content="Lozengrad JSFX — Free REAPER Plugins by Saranta Soundworks">
+<meta property="og:description" content="Free, open-source JSFX plugins for REAPER. Compressors, EQs, saturators, filters, metering and more. Built for heavy music production.">
+<meta property="og:image" content="https://sarantasoundworks.com/og-image.jpg">
+<meta property="og:site_name" content="Saranta Soundworks">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lozengrad JSFX — Free REAPER Plugins">
+<meta name="twitter:description" content="Free, open-source JSFX plugins for REAPER. Compressors, EQs, saturators, filters, metering and more.">
+<meta name="twitter:image" content="https://sarantasoundworks.com/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #07070d;
+  --bg2:     #0c0c14;
+  --bg3:     #111118;
+  --bg4:     #1a1a28;
+  --border:  #1e1e2e;
+  --border2: #2a2a3a;
+  --accent:  #00ff88;
+  --accent3: #4488ff;
+  --accent4: #ff9900;
+  --accent5: #ff4466;
+  --text:    #e8e8f0;
+  --dim:     #666680;
+  --dim2:    #2a2a3a;
+  --mono:    'Space Mono', monospace;
+  --disp:    'Syne', sans-serif;
+  --bg-rgb: 7,7,13;
+  --accent-rgb: 0,255,136;
+  --accent3-rgb: 68,136,255;
+}
+html[data-theme="light"] {
+  --bg: #f5f5f7;
+  --bg2: #ffffff;
+  --bg3: #f0f0f2;
+  --bg4: #e8e8ec;
+  --border: #d8d8de;
+  --border2: #c8c8d0;
+  --accent: #00cc6a;
+  --accent3: #3366cc;
+  --accent4: #cc7a00;
+  --accent5: #cc3355;
+  --text: #1a1a2e;
+  --dim: #555566;
+  --dim2: #9999aa;
+  --bg-rgb: 245,245,247;
+  --accent-rgb: 0,180,100;
+  --accent3-rgb: 51,102,204;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+@media (max-width: 1200px) {
+  .page-container { border: none; max-width: 100%; }
+}
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 48px;
+  background: rgba(var(--bg-rgb),0.96);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+.nav-logo { font-family: var(--disp); font-weight: 800; font-size: 13px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; text-decoration: none; }
+.nav-logo em { color: var(--accent3); font-style: normal; }
+.nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+.nav-links a {
+  font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--dim); text-decoration: none; padding: 5px 12px; border-radius: 2px; border: 1px solid transparent;
+  transition: all 0.15s;
+}
+.nav-links a:hover { color: var(--text); border-color: var(--border2); background: var(--bg4); }
+.nav-tool-btn {
+  font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  background: rgba(var(--accent-rgb),0.08); border: 1px solid var(--accent); color: var(--accent);
+  text-decoration: none; padding: 6px 16px; border-radius: 2px; transition: background 0.15s;
+}
+.nav-tool-btn:hover { background: rgba(var(--accent-rgb),0.18); }
+
+/* HERO */
+.hero {
+  min-height: 28vh; display: flex; flex-direction: column; justify-content: flex-start;
+  padding: 120px 64px 48px; position: relative; overflow: hidden;
+}
+.grid-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(var(--accent-rgb),0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--accent-rgb),0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.grid-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 55% 45% at 8% 88%, rgba(var(--accent-rgb),0.08) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 30% at 85% 15%, rgba(var(--accent3-rgb),0.06) 0%, transparent 65%);
+}
+html[data-theme="light"] .grid-bg {
+  background-image:
+    linear-gradient(rgba(var(--accent-rgb),0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--accent-rgb),0.06) 1px, transparent 1px);
+}
+html[data-theme="light"] .grid-bg::after {
+  background:
+    radial-gradient(ellipse 55% 45% at 8% 88%, rgba(var(--accent-rgb),0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 30% at 85% 15%, rgba(var(--accent3-rgb),0.08) 0%, transparent 65%);
+}
+.hero-eyebrow {
+  position: relative; display: flex; align-items: center; gap: 10px;
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
+}
+.hero-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--accent); opacity: 0.5; }
+.hero-title {
+  font-family: var(--disp); font-size: clamp(36px, 6vw, 80px); font-weight: 800;
+  line-height: 0.95; letter-spacing: -0.02em; text-transform: uppercase; color: var(--text);
+  position: relative; margin-bottom: 20px;
+}
+.hero-title .hl { color: var(--accent); text-shadow: 0 0 40px rgba(var(--accent-rgb),0.2); }
+.hero-sub { max-width: 560px; color: var(--dim); font-size: 12px; line-height: 2; position: relative; margin-bottom: 32px; }
+.hero-actions { display: flex; gap: 12px; position: relative; flex-wrap: wrap; align-items: center; }
+
+/* BUTTONS */
+.btn { font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 13px 28px; border-radius: 2px; cursor: pointer; text-decoration: none; display: inline-block; border: 1px solid; transition: all 0.15s; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #07070d; }
+.btn-primary:hover { filter: brightness(1.15); transform: translateY(-1px); }
+.btn-ghost { background: transparent; border-color: var(--border2); color: var(--dim); }
+.btn-ghost:hover { border-color: var(--dim); color: var(--text); }
+.btn-external { background: transparent; border-color: var(--accent3); color: var(--accent3); }
+.btn-external:hover { background: rgba(var(--accent3-rgb),0.12); border-color: var(--accent3); transform: translateY(-1px); }
+
+/* SECTION TOPBAR */
+.section-topbar {
+  position: sticky; top: 48px; z-index: 100;
+  background: rgba(var(--bg-rgb),0.97); border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; gap: 0;
+  padding: 0 64px;
+  overflow-x: auto;
+}
+.section-topbar::-webkit-scrollbar { display: none; }
+.topbar-item {
+  font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--dim); text-decoration: none;
+  padding: 14px 18px; border-bottom: 2px solid transparent;
+  transition: all 0.15s; white-space: nowrap; display: flex; align-items: center; gap: 8px;
+}
+.topbar-item:hover { color: var(--text); border-bottom-color: var(--border2); }
+.topbar-item.active { color: var(--accent); border-bottom-color: var(--accent); }
+.topbar-item .tb-num { font-size: 8px; color: var(--dim2); font-weight: 400; }
+.topbar-sep { color: var(--dim2); font-size: 11px; flex-shrink: 0; padding: 0 4px; }
+
+/* PLUGIN SECTIONS */
+.plugins-section { padding: 40px 64px 80px; position: relative; z-index: 1; }
+.plugins-section:nth-child(odd) { background: var(--bg); }
+.plugins-section:nth-child(even) { background: var(--bg2); }
+
+.sec-eyebrow { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.sec-eyebrow::after { content: ''; width: 16px; height: 1px; background: var(--accent); opacity: 0.5; }
+.sec-title { font-family: var(--disp); font-size: clamp(22px, 3vw, 36px); font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; color: var(--text); margin-bottom: 40px; line-height: 1.05; }
+
+.plugin-section {
+  padding: 48px 64px;
+  border-bottom: 1px solid var(--border);
+}
+.plugin-section:last-of-type { border-bottom: none; }
+.plugin-badge {
+  font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--dim); display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+}
+.plugin-badge::before { content: '//'; color: var(--dim2); font-size: 10px; }
+.plugin-dot {
+  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+}
+.dot-green { background: var(--accent); box-shadow: 0 0 6px rgba(var(--accent-rgb),0.5); }
+.dot-blue { background: var(--accent3); box-shadow: 0 0 6px rgba(var(--accent3-rgb),0.5); }
+.dot-red { background: var(--accent5); box-shadow: 0 0 6px rgba(255,68,102,0.5); }
+.dot-orange { background: var(--accent4); box-shadow: 0 0 6px rgba(255,153,0,0.5); }
+.dot-purple { background: #8844ff; box-shadow: 0 0 6px rgba(136,68,255,0.5); }
+.dot-cyan { background: #44ffcc; box-shadow: 0 0 6px rgba(68,255,204,0.5); }
+.dot-pink { background: #ff44aa; box-shadow: 0 0 6px rgba(255,68,170,0.5); }
+.plugin-name {
+  font-family: var(--disp); font-size: 24px; font-weight: 800;
+  letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 16px;
+}
+.plugin-desc {
+  font-size: 12px; color: var(--dim); line-height: 2; max-width: 720px;
+}
+
+/* BANNER */
+.jsfx-banner {
+  max-width: 1200px;
+  margin: 0 auto 48px;
+  padding: 28px 32px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.jsfx-banner:hover { border-color: var(--accent3); }
+.jsfx-left { flex: 1; min-width: 240px; }
+.jsfx-title {
+  font-family: var(--disp); font-size: 16px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 8px;
+}
+.jsfx-desc { font-size: 11px; color: var(--dim); line-height: 1.8; max-width: 560px; }
+.jsfx-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+
+/* FOOTER */
+footer {
+  padding: 22px 64px; border-top: 1px solid var(--border);
+  background: var(--bg2); display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+}
+.foot-logo { font-family: var(--disp); font-weight: 800; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); }
+.foot-logo em { color: var(--accent3); font-style: normal; }
+.foot-copy { font-size: 9px; color: var(--dim2); letter-spacing: 1px; }
+.foot-links { display: flex; gap: 16px; }
+.foot-links a { font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.15s; }
+.foot-links a:hover { color: var(--accent); }
+
+/* HAMBURGER */
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+.hamburger span { display: block; width: 22px; height: 1.5px; background: var(--dim); transition: all 0.2s; }
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--accent); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--accent); }
+.mobile-menu {
+  display: none; position: fixed; top: 48px; left: 0; right: 0;
+  background: rgba(var(--bg-rgb),0.98); border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px); z-index: 199; padding: 16px 24px;
+  flex-direction: column; gap: 4px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: var(--disp); font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--dim); text-decoration: none;
+  padding: 10px 0; border-bottom: 1px solid var(--border); transition: color 0.15s;
+}
+.mobile-menu a:last-child { border-bottom: none; color: var(--accent); }
+.mobile-menu a:hover { color: var(--text); }
+
+/* THEME TOGGLE */
+.theme-toggle {
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 3px;
+  background: transparent; border: 1px solid var(--border2);
+  color: var(--dim); cursor: pointer; font-size: 14px; line-height: 1;
+  transition: all 0.15s; padding: 0; margin-left: 8px;
+}
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.theme-icon-light { display: none; }
+.theme-icon-dark { display: inline; }
+html[data-theme="light"] .theme-icon-light { display: inline; }
+html[data-theme="light"] .theme-icon-dark { display: none; }
+
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 24px 36px; }
+  .plugins-section { padding: 24px 24px 60px; }
+  .jsfx-banner { padding: 24px; margin-bottom: 36px; }
+  footer { padding: 24px; flex-direction: column; gap: 12px; }
+  .hamburger { display: flex; }
+  .theme-toggle { margin-left: auto; margin-right: 8px; }
+  .stats-bar { padding: 16px 20px; gap: 20px; }
+}
+
+@media (max-width: 600px) {
+  .hero-title { font-size: 2.2rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-container">
+
+<nav>
+  <a href="index.html" class="nav-logo">Saranta<em>/</em>Soundworks</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#music">Music</a></li>
+    <li><a href="tips.html">Tips</a></li>
+    <li><a href="tools.html" style="color:var(--accent);">Tools</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="mastering-suite.html" class="nav-tool-btn nav-tool-desktop">Launch Mastering Suite ↗</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+    <span class="theme-icon-light">☀</span>
+    <span class="theme-icon-dark">☾</span>
+  </button>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#about" onclick="closeMobile()">About</a>
+  <a href="index.html#music" onclick="closeMobile()">Music</a>
+  <a href="tips.html">Tips</a>
+  <a href="tools.html" style="color:var(--accent);">Tools</a>
+  <a href="index.html#contact" onclick="closeMobile()">Contact</a>
+  <a href="mastering-suite.html">Launch Mastering Suite ↗</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="grid-bg"></div>
+  <div class="hero-eyebrow">JSFX Plugin Series</div>
+  <h1 class="hero-title">
+    Lozengrad<br>
+    <span class="hl">JSFX</span>
+  </h1>
+  <p class="hero-sub">
+    A collection of custom audio DSP plugins built for REAPER by Saranta Soundworks. Each plugin is designed with heavy music production in mind — from transparent compression to spectral shaping, analog-style saturation to precision limiting.
+  </p>
+  <div class="hero-actions">
+    <a href="https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack" target="_blank" rel="noopener noreferrer" class="btn btn-external">View on GitHub ↗</a>
+    <a href="https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack/archive/refs/heads/main.zip" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download ZIP ↓</a>
+  </div>
+</section>
+
+<!-- SECTION TOPBAR -->
+<nav class="section-topbar" id="plugin-topbar">
+  <a href="#amfi" class="topbar-item"><span class="tb-num">01</span> Amfi</a>
+  <span class="topbar-sep">/</span>
+  <a href="#balans-eq" class="topbar-item"><span class="tb-num">02</span> Balans EQ</a>
+  <span class="topbar-sep">/</span>
+  <a href="#equinox" class="topbar-item"><span class="tb-num">03</span> EQuinox</a>
+  <span class="topbar-sep">/</span>
+  <a href="#feeltre" class="topbar-item"><span class="tb-num">04</span> Feeltre</a>
+  <span class="topbar-sep">/</span>
+  <a href="#kompresor-v2" class="topbar-item"><span class="tb-num">05</span> Kompresor V2</a>
+  <span class="topbar-sep">/</span>
+  <a href="#kompresor" class="topbar-item"><span class="tb-num">06</span> Kompresor</a>
+  <span class="topbar-sep">/</span>
+  <a href="#mb-saturasyon-v2" class="topbar-item"><span class="tb-num">07</span> MB Sat V2</a>
+  <span class="topbar-sep">/</span>
+  <a href="#mb-saturasyon" class="topbar-item"><span class="tb-num">08</span> MB Sat</a>
+  <span class="topbar-sep">/</span>
+  <a href="#klip" class="topbar-item"><span class="tb-num">09</span> Klip</a>
+  <span class="topbar-sep">/</span>
+  <a href="#microdelay" class="topbar-item"><span class="tb-num">10</span> MicroDelay</a>
+  <span class="topbar-sep">/</span>
+  <a href="#pedal" class="topbar-item"><span class="tb-num">11</span> Pedal</a>
+  <span class="topbar-sep">/</span>
+  <a href="#retrospec" class="topbar-item"><span class="tb-num">12</span> RetroSpec</a>
+  <span class="topbar-sep">/</span>
+  <a href="#spektra" class="topbar-item"><span class="tb-num">13</span> Spektra</a>
+  <span class="topbar-sep">/</span>
+  <a href="#spyke" class="topbar-item"><span class="tb-num">14</span> Spyke</a>
+  <span class="topbar-sep">/</span>
+  <a href="#trafo" class="topbar-item"><span class="tb-num">15</span> Trafo</a>
+  <span class="topbar-sep">/</span>
+  <a href="#hudut" class="topbar-item"><span class="tb-num">16</span> Hudut</a>
+</nav>
+
+<!-- PLUGINS -->
+<section class="plugin-section" id="amfi">
+  <div class="plugin-badge"><span class="plugin-dot dot-green"></span>01 — Guitar Amp Sim</div>
+  <div class="plugin-name">Lozengrad Amfi</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Amfi</strong> is a complete guitar amplifier simulation plugin with a multi-stage signal chain: noise gate → pre-EQ → cascading soft-clip distortion → auto gain → mid EQ → cabinet simulator → post-EQ → Mid Spice → bus compressor → master volume. All EQ stages use RBJ biquads with pre-computed fixed coefficients.</p>
+
+    <p><strong>Noise Gate (slider1, slider2):</strong> An envelope follower with 2 ms attack, 75 ms release, and 15 ms hold time. When the input level drops below the gate threshold (−40 to 0 dB), the gate closes smoothly, muting the input before the gain stage. Placed before Input Gain to prevent noise amplification.</p>
+
+    <p><strong>Pre-EQ (fixed):</strong> A fixed analog-style shaping network before the distortion stage, designed to tighten the sound and prevent low-end muddiness. Consists of 4 cascaded HPF biquads at 95 Hz (Q=0.4), a peaking notch at 95 Hz (−4.2 dB, Q=0.11), a low-shelf at 108 Hz (−7 dB, Q=2.1), narrow peaks at 291 Hz (+1 dB, Q=0.75) and 120 Hz (+4.5 dB, Q=0.7), a wide presence peak at 2000 Hz (+13 dB, Q=0.2), and an LPF at 2026 Hz (Q=0.75).</p>
+
+    <p><strong>Amp / Distortion (slider4):</strong> Three-stage cascading hard clipping with progressive gain staging. Signal is multiplied by <code>3 × drive</code>, clipped to ±1, scaled by ×2.5, clipped again, scaled by ×2, and clipped a third time. This creates a saturation curve that transitions from clean to overdriven to fully distorted as Drive increases (0–24 dB).</p>
+
+    <p><strong>Auto Gain:</strong> An envelope follower with a 90% smoothing factor normalizes the post-distortion level using <code>auto_gain = 1 / (envelope + 0.1)</code>, then scales by 0.5 for a consistent output level across different drive settings.</p>
+
+    <p><strong>Mid EQ (fixed):</strong> A fixed EQ placed between the distortion and cabinet stages, shaping the overall midrange character. Includes a 60 Hz HPF (Q=0.71), a low-shelf at 120 Hz (+6 dB, Q=1.3), peaks at 90.5 Hz (+6 dB, Q=0.6), 364 Hz (+1.3 dB, Q=0.6), 850 Hz (−3 dB, Q=0.35), 1320 Hz (+1.5 dB, Q=0.75), and 7400 Hz (+1.2 dB, Q=0.75). Scaled by 0.7079 after processing.</p>
+
+    <p><strong>Cabinet Simulators (slider9):</strong> Three cabinet impulse response models built entirely from cascaded biquad filters. <strong>Cab1</strong> models a modern high-gain 4×12" with 4 cascaded HPFs at 65 Hz (Q=0.7), a subtle low-end bump at 98 Hz (+1.5 dB), deep mid scoop at 492 Hz (−6 dB) and 552 Hz (−5.5 dB), presence peaks at 1515 Hz (+3 dB) and 2592 Hz (+1.3 dB), wide cuts at 2446 Hz (−3 dB, Q=6.7) and 3390 Hz (−1.6 dB, Q=5.2), and dual LPFs at 6000 Hz (Q=0.7). Output gain: +1.3335. <strong>Cab2</strong> models a vintage open-back 2×12" with 3 HPFs at 107 Hz (Q=0.83), a low-shelf at 428 Hz (+6 dB), and broad peaks at 224 Hz (+1 dB, Q=1.4), 635 Hz (+5.4 dB, Q=2.2), 1658 Hz (+5.7 dB, Q=2.2), 3840 Hz (+5.7 dB, Q=1.8), and 8500 Hz (+6 dB, Q=3.0), with dual LPFs at 5350 Hz (Q=0.8). Output gain: 0.6683. <strong>Cab3</strong> models a closed-back 1×12" with 2 HPFs at 75 Hz (Q=0.7), a complex midrange with peaks at 173 Hz (+2 dB), 245 Hz (+4.5 dB, Q=0.3 — sharp), 1864 Hz (+3.5 dB), 3200 Hz (+3 dB), and cuts at 354 Hz (−2 dB), 581 Hz (−6 dB, Q=5.8), 2800 Hz (−2.5 dB, Q=9.9), 6500 Hz (−5.8 dB, Q=11.9), and 11000 Hz (−3.8 dB, Q=11.0), plus dual LPFs at 5500 Hz (Q=0.7). Output gain: 0.7943.</p>
+
+    <p><strong>Post-EQ (slider5, slider6, slider7):</strong> A 3-band tone stack after the cabinet: low-shelf at 100 Hz (Q=0.707), peaking at 500 Hz (Q=1.0), and high-shelf at 3200 Hz (Q=0.707), each with ±9 dB gain range. Coefficients are recomputed on every slider change for the selected Low/Mid/High values.</p>
+
+    <p><strong>Mid Spice (slider10):</strong> A parallel saturation processor that applies a bandpass filter at 500 Hz (Q=0.8), drives the filtered signal with 0–24 dB of gain, applies soft clipping via the cubic Taylor approximation <code>x − x³/6</code> (modeling the first term of a sine wave clipping characteristic), and blends the saturated mid band back into the dry signal. An output gain compensator <code>1 / (1 + (drive − 1) · 0.5)</code> prevents level jump.</p>
+
+    <p><strong>Bus Compressor (slider11, slider12, slider13):</strong> An API 2500-style bus compressor at the end of the chain. Uses RMS detection (10 ms window) with a soft knee (6 dB), 4:1 ratio, 10 ms attack, and 100 ms release. Slider13 displays the metered gain reduction in dB (read-only). When disabled, the compressor is fully bypassed with unity gain.</p>
+
+    <p><strong>Master Volume (slider8):</strong> Final output level with −24 to +24 dB range, scaled by 0.355 to prevent digital clipping through the full signal chain.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="balans-eq">
+  <div class="plugin-badge"><span class="plugin-dot dot-blue"></span>02 — Parametric EQ</div>
+  <div class="plugin-name">Lozengrad Balans EQ</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Balans EQ</strong> is an 8-band parametric equalizer with HPF, LPF, Low Shelf, High Shelf, and Bell filter types per band, built-in FFT spectrum analysis, and a real-time combined EQ curve overlay. Each band uses standard RBJ biquad filters in Direct Form I topology with stability clamping, cascaded in series for the full 8-band response.</p>
+
+    <p><strong>Band Architecture:</strong> Eight independent biquad filter instances per channel (16 total) process the signal in series cascade. Each band can be individually set to one of five types: <strong>HPF</strong> (high-pass, 12dB/oct), <strong>LPF</strong> (low-pass, 12dB/oct), <strong>Low Shelf</strong> (shelving with gain ±24dB), <strong>High Shelf</strong> (shelving with gain ±24dB), and <strong>Bell</strong> (peaking with gain ±24dB). The frequency range spans 20Hz to 20kHz with logarithmic slider mapping, Q ranges from 0.1 to 10, and gain from −24 to +24dB.</p>
+
+    <p><strong>Parameter Management:</strong> The plugin uses a save-on-switch architecture — when you select a band (slider 1), the current slider values are saved to that band's persistent storage, then the new band's stored values are loaded into the sliders. This allows editing one band at a time with a compact slider layout while maintaining independent parameters for all eight bands. Frequency is computed from the normalized slider position as <code>freq = 20 · 1000^(slider3)</code> for logarithmic mapping.</p>
+
+    <p><strong>Biquad Implementation:</strong> Each filter type uses the Robert Bristow-Johnson (RBJ) cookbook formulas with sin/cos precomputations. The HPF and LPF use a 12dB/oct structure (<code>b0 = (1±cos)/2</code> family), while shelves and peaking use the full A-weighted formulas with sqrt(A) terms. All coefficients are normalized by <code>a0</code> and clamped for stability: <code>|a2| < 0.99999</code> and <code>|a1| < 1 + a2</code>. On coefficient changes, the filter state is attenuated by 99% to prevent zipper noise.</p>
+
+    <p><strong>FFT Spectrum Analyzer:</strong> A 2048-point Hann-windowed FFT processes the mid signal (average of L+R) after EQ at sample rate. Magnitude bins are precomputed into pixel positions for the 640px-wide spectrum display, drawn as blue bars with 4-pixel spacing. The display updates at the FFT hop rate (every 2048 samples).</p>
+
+    <p><strong>EQ Curve Overlay:</strong> The combined magnitude response of all 8 bands is computed on coefficient changes by evaluating each band's <code>get_magnitude(f)</code> function at 320 logarithmically spaced frequencies across the display. The product of all 8 band magnitudes is converted to dB and drawn as an orange/yellow curve over the spectrum analyzer, with ±18dB range and a center 0dB reference line.</p>
+
+    <p><strong>Output Protection:</strong> A simple soft limiter clamps samples to ±0.99 at the output, providing basic protection against inter-sample overs from aggressive EQ boosts.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="equinox">
+  <div class="plugin-badge"><span class="plugin-dot dot-blue"></span>03 — Tone EQ</div>
+  <div class="plugin-name">Lozengrad EQuinox</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad EQuinox</strong> is a simple tone-shaping EQ with adjustable low and high frequency bands, a built-in FFT spectrum analyzer, and a real-time EQ curve overlay. It provides straightforward bass and treble control with selectable frequency points, designed for quick tonal adjustments without the complexity of a full parametric EQ.</p>
+
+    <p><strong>Low Band:</strong> A two-filter combination shapes the low end. A <strong>Low Shelf</strong> boost at the selected frequency (30–150 Hz) with Q=0.707 provides the primary low-end emphasis, followed by a <strong>Peak Filter</strong> cut at 1.5× the low frequency with Q=1.5. This pair creates a resonant low-end shape — the shelf lifts the sub-bass region while the peak notch attenuates the lower-mids just above it, resulting in a tight, focused low end with reduced muddiness. The Amount control (0–10) maps directly to both the boost and cut gain in dB.</p>
+
+    <p><strong>High Band:</strong> Similarly, a two-filter pair shapes the highs. A <strong>Peak Filter</strong> boost at the selected frequency (3–10 kHz) with Q=1.0 provides the primary high-frequency emphasis, followed by a <strong>High Shelf</strong> cut at 1.2× the high frequency with Q=0.707. This creates a "presence peak" shape — the bell boost lifts the target frequency range while the shelf gently rolls off the air frequencies above it, preventing excessive sibilance or harshness. The Amount control works the same way, with positive values producing both the boost and the complementary cut.</p>
+
+    <p><strong>Signal Flow:</strong> Input → Low Shelf Boost → Peak Cut (low corrective notch) → Peak Boost (high presence) → High Shelf Cut (air roll-off) → Safety limiter (±0.944) → Output. Each filter uses standard RBJ biquad formulas (low shelf, high shelf, and peak) with Direct Form I topology. The asymmetric filter pairing creates the characteristic "smile curve" shaping typical of analog tone stacks.</p>
+
+    <p><strong>FFT Spectrum Analyzer:</strong> A 2048-point Hann-windowed FFT processes the mid signal after EQ, with per-pixel spectrum display across the full 640px width. Magnitude is normalized and displayed in dB from −72dB (bottom) to 0dB (top) with a 0dB center reference line. The analyzer updates every 2048 samples.</p>
+
+    <p><strong>EQ Curve Overlay:</strong> The combined magnitude response of all four filters is computed in real-time by evaluating each filter's <code>get_magnitude(f)</code> at every horizontal pixel. The product of all four magnitudes is converted to dB and drawn as an orange curve over the spectrum analyzer, with ±15dB range and the 0dB center line for reference. This gives instant visual feedback of the total EQ contour.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="feeltre">
+  <div class="plugin-badge"><span class="plugin-dot dot-blue"></span>04 — Multi-Mode Filter</div>
+  <div class="plugin-name">Lozengrad Feeltre</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Feeltre</strong> is a multi-mode filter with eight selectable filter types — LPF, HPF, BPF, APF, Tilt EQ, Low Shelf, High Shelf, and Tilt Shelf — with continuous frequency, Q, and gain control, plus a built-in FFT spectrum analyzer with real-time EQ curve overlay.</p>
+
+    <p><strong>Filter Types:</strong> <strong>LPF</strong> (12dB/oct low-pass, standard RBJ biquad), <strong>HPF</strong> (12dB/oct high-pass), <strong>BPF</strong> (constant-skirt band-pass, gain peaks at center frequency), <strong>APF</strong> (all-pass, passes all frequencies with phase shift centered on the frequency). <strong>Tilt EQ</strong> uses a first-order shelving structure (<code>b0 = G·g + 1</code>, <code>a0 = g + G</code> with <code>g = tan(w0/2)</code>) that provides a smooth spectral tilt with ±12dB range — this is a one-pole filter with no Q control. <strong>Low Shelf</strong> and <strong>High Shelf</strong> are standard RBJ second-order shelves with Q. <strong>Tilt Shelf</strong> combines a Low Shelf boost at the selected frequency with a complementary High Shelf cut at the same frequency (same gain magnitude, opposite sign) using two filters in series — creates a steeper tilt than the first-order Tilt EQ.</p>
+
+    <p><strong>Frequency Mapping:</strong> The frequency slider uses a custom log mapping with a power curve: <code>freq = 20 · 1000^(slider2^0.8205)</code>. This provides finer resolution in the low-mid range where filter sweeps are most critical, while covering the full 20Hz–20kHz range. The mapping exponent 0.8205 creates a slight bias toward lower frequencies compared to a pure logarithmic scale.</p>
+
+    <p><strong>Gain Behavior:</strong> For filter types 0–3 (LPF, HPF, BPF, APF), the Gain slider acts as <strong>post-gain</strong> — it's applied after the filter as a simple level adjustment. For types 4–7 (Tilt EQ, Low Shelf, High Shelf, Tilt Shelf), Gain is the actual <strong>filter gain</strong> — it shapes the magnitude response. In Tilt Shelf mode, the gain is split: +gain on the low shelf, −gain on the complementary high shelf, creating the tilt.</p>
+
+    <p><strong>FFT Spectrum Analyzer:</strong> A 2048-point Hann-windowed FFT processes the mid signal after filtering, with per-pixel spectrum display from −72dB to 0dB, a 0dB center reference line, and blue magnitude bars at every pixel across the 640px width. Updates every 2048 samples.</p>
+
+    <p><strong>EQ Curve Overlay:</strong> The combined magnitude response is computed per-pixel using each filter's <code>get_magnitude(f)</code> function. For Tilt Shelf mode, the product of both filter magnitudes is used. The resulting curve is drawn in orange over the spectrum analyzer with ±15dB range. The display also shows the current frequency value as an on-screen readout.</p>
+
+    <p><strong>Output Protection:</strong> A safety limiter at ±0.944 prevents digital clipping. The filter state is reset whenever the filter type changes to prevent audible clicks from stale delay lines.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="kompresor-v2">
+  <div class="plugin-badge"><span class="plugin-dot dot-red"></span>05 — Compressor / Limiter</div>
+  <div class="plugin-name">Lozengrad Kompresor V2</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Kompresor V2</strong> is a VCA-style compressor/limiter engineered for aggressive music production. Its advanced detector architecture, program-dependent release, dynamic saturation engine, and transient restoration make it equally capable of transparent bus compression and character-driven drum smashing.</p>
+
+    <p><strong>Detector System:</strong> At the core of V2 is the <strong>Detector Blend</strong> (slider 8), which crossfades between peak and RMS detection paths. The RMS detector uses crest factor normalization to keep the threshold consistent regardless of blend ratio — so compression stays predictable across the entire blend range. <strong>Detector Thrust</strong> (slider 7) applies a 150Hz or 200Hz biquad high-pass filter to the detector signal, preventing kick and bass from over-triggering the compressor. This is critical in dense mixes where low-end energy would otherwise cause excessive gain reduction.</p>
+
+    <p><strong>Dual-Stage Release:</strong> Unlike conventional single-time-constant releases, V2's release time dynamically adapts to gain reduction depth. When compression is deep, the release speeds up by up to 4x for quick transient recovery. Near unity gain, it returns to the user-set release time, minimizing pumping artifacts. The transition is continuous and seamless, computed as <code>release_eff = release_fast * gr_depth + release * (1 - gr_depth)</code>.</p>
+
+    <p><strong>Dynamic Saturation:</strong> As gain reduction increases, drive is automatically boosted through a unity-gain-normalized tanh function. At light compression the saturator is nearly transparent; at heavy GR it introduces rich harmonic density, emulating the natural behavior of an overdriven VCA chip. The normalization factor (<code>tanh(x*drive) / drive</code>) ensures output level stays consistent regardless of drive amount.</p>
+
+    <p><strong>Punch Compensation (slider 9):</strong> Restores transient energy lost to compression by tracking the delta between fast-attack (0.5ms) and slow-attack (5ms) envelopes on the input signal. When punch is dialed in, this delta is added back to the processed signal, preserving the impact of drums and percussive elements even at high ratios and fast attack times.</p>
+
+    <p><strong>Feedforward / Feedback (slider 10):</strong> Feedforward mode reads the detector from the input signal for aggressive, precise compression ideal for leveling and peak control. Feedback mode reads the detector from the compressed output, creating a smoother, more musical response with natural harmonics. Feedback also engages an additional envelope follower stage for improved gain tracking continuity.</p>
+
+    <p><strong>Headroom Staging (slider 11):</strong> Low mode cuts 4.5dB at the input and compensates at the output, lowering the noise floor for cleaner operation. High mode pads the input and boosts the output, raising the noise floor but yielding a softer, more analog character. Normal mode passes through with no headroom adjustment.</p>
+
+    <p><strong>Auto Makeup (slider 12):</strong> Instantly (sub-millisecond attack) tracks gain reduction and releases over ~300ms. This gives immediate response to transient GR changes while maintaining a stable average level over time. The makeup gain is computed from a smoothed average of the instantaneous GR.</p>
+
+    <p><strong>Knee (slider 6):</strong> Three knee modes — Hard (0dB range, brick-wall transition), Medium (9dB gradual curve), and Soft (18dB smooth taper). The knee position is interpolated within the transition band using a quadratic curve, and the effective ratio ramps from 1:1 at the knee low boundary to the full ratio at the knee high boundary.</p>
+
+    <p><strong>GFX Display:</strong> A scrolling waveform oscilloscope (green) and gain reduction histogram (red) using a 600-sample ring buffer updated at ~250Hz. The waveform includes reference grid lines at 0, -6, -12, -18, -24, and -36dB. A floating GR readout in the bottom-right corner shows the current gain reduction in dB with real-time smoothing.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="kompresor">
+  <div class="plugin-badge"><span class="plugin-dot dot-red"></span>06 — Compressor / Limiter</div>
+  <div class="plugin-name">Lozengrad Kompresor</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Kompresor</strong> (the original, V1) is a VCA-style compressor/limiter with feedforward/feedback detection, a selectable high-pass sidechain filter (Thrust), dual-stage program-dependent release, a soft knee with three widths, and a subtle analog output stage saturation. It covers the full range from transparent bus compression to aggressive drum limiting.</p>
+
+    <p><strong>Signal Flow:</strong> Input → Headroom Trim → RMS Envelope Detection → Thrust HPF → [Feedforward / Feedback] → Dual-Stage Release → Soft Knee Gain Computer → Gain Apply → Make-Up → Analog Saturation → Parallel Mix → Output.</p>
+
+    <p><strong>Detector Thrust (slider6):</strong> An IIR biquad HPF placed in the detector path with three modes: <strong>Normal</strong> bypasses the filter (raw level detection); <strong>Medium</strong> applies a 150 Hz HPF (Q=0.707) to reduce bass trigger sensitivity; <strong>Loud</strong> applies a 200 Hz HPF (Q=0.5) for aggressive low-cut on the detector. This prevents kick drums and bass from over-triggering compression, allowing the compressor to respond more to midrange and transient content.</p>
+
+    <p><strong>Tone Type (slider7):</strong> <strong>Feedforward</strong> mode applies the derived gain reduction directly to the input — clean and precise, with immediate transient response. <strong>Feedback</strong> mode feeds the compressed output back into the detector, creating a smoother, more musical compression with natural harmonic emphasis, characteristic of analog VCA designs.</p>
+
+    <p><strong>Dual-Stage Release:</strong> The release time is program-dependent: when the compressor is deep in gain reduction (gain near minimum), a fast release coefficient (4× faster than the user setting, minimum 5 ms) takes over for quick transient recovery. As gain approaches unity, the release blends back to the user-specified time. This prevents pumping on fast transients like drums while maintaining smooth decay on sustained material.</p>
+
+    <p><strong>Soft Knee (slider5):</strong> Three knee widths: <strong>Hard</strong> (0 dB) — brickwall transition at threshold; <strong>Medium</strong> (9 dB) — gradual onset over a 9 dB window; <strong>Soft</strong> (18 dB) — very smooth, subtle compression onset over an 18 dB window. The knee is computed via linear interpolation of the compression ratio over the knee window.</p>
+
+    <p><strong>Headroom (slider8):</strong> Scales the internal signal level before and after compression: <strong>Low</strong> (−4.5 dB input, +4.5 dB output) for conservative headroom; <strong>Normal</strong> (unity); <strong>High</strong> (+4.5 dB input, −4.5 dB output) to push the detector harder for more aggressive response.</p>
+
+    <p><strong>Output Saturation:</strong> A fixed analog-style tanh soft-clipper at the output stage with 1.08× drive (~0.7 dB). Implemented as <code>tanh(x · 1.08) / tanh(1.08)</code>, it adds barely-perceptible even/odd harmonics, only coloring signal peaks while remaining transparent at normal levels. The denominator normalizes the output to match the unity gain point of the saturation curve.</p>
+
+    <p><strong>Parallel Mix (slider10):</strong> Allows blending 0–100% of the compressed signal with the dry input, enabling New York-style parallel compression without external routing.</p>
+
+    <p><strong>GFX Display:</strong> A 32-pixel-tall gain reduction meter showing a horizontal bar graph with dB grid lines every 3 dB (0 to −24 dB). The current GR value is displayed numerically in the top-left corner. The meter uses exponential smoothing with a 300 ms decay constant for a clean, readable display.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="mb-saturasyon-v2">
+  <div class="plugin-badge"><span class="plugin-dot dot-purple"></span>07 — Multiband Saturation</div>
+  <div class="plugin-name">Lozengrad MB Saturasyon V2</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad MB Saturasyon V2</strong> is a complete rewrite of the original multiband saturator, featuring real oversampling, LR4 Linkwitz-Riley crossovers, four physically-inspired saturation models per band, a Character macro, and a hybrid auto gain system. It processes Low, Mid, and High bands independently with per-band mode, drive, and character controls, then sums them through a selectable output stage.</p>
+
+    <p><strong>Crossover Network:</strong> Three bands are split using cascaded biquad filters in an LR4 (Linkwitz-Riley 4th-order, 24dB/oct) configuration — two biquad stages per crossover point per channel. The Low/Mid crossover is adjustable from 50–500 Hz, and the Mid/High from 800–8000 Hz. Filter coefficients are recalculated on slider changes, and all delay lines are flushed on crossover or mode changes to prevent clicks. The crossover operates at the oversampled rate when oversampling is active.</p>
+
+    <p><strong>Saturation Modes (sliders 3, 7, 11):</strong> Each band independently selects one of four modes. <strong>Tape</strong> uses a piecewise transfer function with threshold/ratio saturation (threshold decreases and ratio increases with Character), followed by tanh normalization — emulates analog tape compression and saturation. <strong>Tube</strong> uses asymmetric exponential curves with DC bias and negative envelope feedback — creates even-order harmonics with a warm, asymmetric vacuum tube character. <strong>Soft</strong> applies a knee-based polynomial below threshold and tanh beyond — clean at low levels, rounding off at higher ones. <strong>Hard</strong> uses tanh with a limit ceiling that narrows as Character increases, plus an optional post-boost at high Character — aggressive, in-your-face clipping. All saturators accept a drive (0–24 dB) and Character (0–100%) parameter per band.</p>
+
+    <p><strong>Character Macro (sliders 2, 6, 10):</strong> A continuous control that morphs the saturation character from clean (0%) through vintage (50%) to aggressive (100%). Each saturation mode interprets Character differently: Tape adjusts the knee threshold and ratio, Tube increases asymmetry and bias, Soft narrows the linear region, Hard reduces the ceiling limit. This gives a single macro knob for tonal shaping without needing to change modes.</p>
+
+    <p><strong>Hybrid Auto Gain (sliders 4, 8, 12):</strong> Per-band automatic makeup gain that blends short-term RMS and peak tracking. An envelope follower measures the input RMS level of the band, compares it to the output RMS of the saturated band, and computes a target gain. The gain is smoothed with a one-pole filter (0.999 coefficient, ~1000-sample time constant). The target is clamped between -12dB and +12dB (factor 0.25–4.0). This ensures perceived loudness stays consistent regardless of drive setting.</p>
+
+    <p><strong>Oversampling (slider 18):</strong> Selectable 1x, 2x, 4x, or AUTO. In AUTO mode, the oversampling factor is determined by the highest saturation mode index: Tape/Tube (mode 0–1) use 2x, Soft/Hard (mode 2–3) use 4x. When oversampling is active, the input is linearly interpolated between samples (fractional delay based on oversample index), processed through the crossover and saturation at the higher rate, then decimated by averaging all oversampled results back to the original rate. This significantly reduces aliasing from the nonlinear saturation functions.</p>
+
+    <p><strong>Output Stage (slider 19):</strong> Four post-saturation bus processors. <strong>Transparent</strong> passes the summed bands through unchanged. <strong>Soft Clip</strong> applies a tanh function with a 0.95 ceiling for a final gentle rounding. <strong>Transformer</strong> uses a cubic nonlinearity <code>x + 0.03 · x · |x|</code> clamped to ±1.0 — simulates core saturation of an audio transformer. <strong>Tape</strong> applies a final tanh at 0.85 ceiling — emulates the global saturation of analog tape across the full signal.</p>
+
+    <p><strong>Listen & Delta Modes (sliders 20, 21):</strong> Listen mode allows soloing individual bands (All / Solo Low / Solo Mid / Solo High) for targeted EQ and gain staging. Delta mode outputs the difference between the processed signal and the dry signal — useful for hearing exactly what the saturation adds, or for parallel processing with external mix control. The dry path uses a 4-sample delay line to phase-align with the wet path's crossover filter latency.</p>
+
+    <p><strong>Signal Flow:</strong> Input Gain → Linear interpolation (if oversampling) → LR4 crossover (LP1 → LP2 for Low, HP1 → LP2 for Mid, HP1 → HP2 for High) → Per-band saturation (drive + character + mode) → Auto gain → Band sum → Listen solo → Delta subtract → Output stage → Dry/Wet mix → Output Volume. All bands share identical processing structure with independent parameters.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="mb-saturasyon">
+  <div class="plugin-badge"><span class="plugin-dot dot-purple"></span>08 — Multiband Saturation</div>
+  <div class="plugin-name">Lozengrad MB Saturasyon</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad MB Saturasyon</strong> (the original, V1) is a 3-band multiband saturator that splits the signal with Linkwitz-Riley 4th-order (24 dB/oct) crossovers, applies one of four saturation modes to all bands with independent drive and gain control, and recombines them. It features selectable oversampling (2× or 4×), per-band RMS auto gain, solo listen modes, and dry/wet mix.</p>
+
+    <p><strong>Crossover Network:</strong> Three bands are split using cascaded biquad filters in an LR4 configuration — two biquad stages per crossover point per channel. The Low/Mid crossover sweeps 50–500 Hz and the Mid/High crossover sweeps 800–8000 Hz. Coefficients are recalculated at the oversampled rate when either crossover frequency or OS mode changes.</p>
+
+    <p><strong>Saturation Modes (slider15):</strong> A single mode applies to all three bands. <strong>Soft Clip</strong> uses <code>x / (1 + |x|)</code> — an algebraic soft clipper with smooth rounding at the threshold. <strong>Tube</strong> uses an asymmetric exponential: <code>x > 0 ? 1 − exp(−x) : −1 + exp(x)</code> — creates even-order harmonics with a warm vacuum tube character. <strong>Tape</strong> uses <code>(2/π) · atan(x)</code> — arctangent saturation modeling analog tape's gradual compression-like saturation curve. <strong>Hard Clip</strong> applies a brickwall <code>max(−1, min(1, x))</code> clamp for aggressive square-wave clipping.</p>
+
+    <p><strong>Per-Band Controls:</strong> Each band has independent Drive (0–24 dB, slider4/7/10) and Band Gain (−24 to +24 dB, slider5/8/11), plus a per-band Auto Gain toggle (slider6/9/12). The Auto Gain system uses an RMS envelope follower comparing input and output RMS levels per band, smoothed with a 0.999 pole, and normalizes the saturated output to match the input level — compensating for the volume change introduced by saturation while preserving the harmonic character.</p>
+
+    <p><strong>Oversampling (slider17):</strong> Selectable Off, 2×, or 4×. The entire processing chain (crossover, saturation, auto gain) runs inside an <code>os_factor</code> loop, and the accumulated samples are averaged down: <code>wet = sum / os_factor</code>. Unlike V2's multi-rate polyphase cascade, V1 uses a simple uniform oversampling approach.</p>
+
+    <p><strong>Listen Mode (slider16):</strong> Solo All Bands, Solo Low, Solo Mid, or Solo High — useful for dialing in individual band settings without removing the crossover interaction.</p>
+
+    <p><strong>Signal Flow:</strong> Input Gain → LR4 Crossover (Low / Mid / High) → [Saturation + Auto Gain + Band Gain per band] → Sum → Listen Solo → Output Gain → Dry/Wet Mix. Input Gain spans −24 to +24 dB, Output Volume spans −24 to +24 dB, and Mix ranges from 0–100%.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="klip">
+  <div class="plugin-badge"><span class="plugin-dot dot-orange"></span>09 — Clipper / Limiter</div>
+  <div class="plugin-name">Lozengrad Klip</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Klip</strong> is a precision clipper/limiter built for transparent peak control and aggressive saturation alike. Four distinct clipping modes, selectable oversampling, harmonic tilt shaping, and frequency-weighted clipping make it suitable for everything from mastering ceiling control to drum bus destruction.</p>
+
+    <p><strong>Clipping Modes (slider 4):</strong> Hard Clip applies a brick-wall <code>max(-1, min(1, x))</code> clamp — pure square-wave hard clipping. Soft Clip uses a cubic polynomial <code>x - x³/3</code> for a rounded knee with natural saturation harmonics. Tube Clip implements <code>x / (1 + |x|)</code>, an algebraic approximation of vacuum tube saturation with smooth asymptotic clipping. Tape Clip uses <code>(2/π) · atan(x · π/2)</code> to emulate analog tape's soft saturation curve with a gradual, musical compression-like feel.</p>
+
+    <p><strong>Harmonic Tilt (slider 6):</strong> Shapes the even-order harmonic content of the clipped signal by applying a cubic nonlinearity and DC bias before the clipping stage. At low values, the tilt is minimal and the clipper stays clean. At higher values, asymmetric saturation introduces rich even-order harmonics, adding warmth and analog character. The output is normalized to prevent level buildup from the nonlinear pre-processing.</p>
+
+    <p><strong>Frequency Weight (slider 7):</strong> Implements a pre-emphasis / de-emphasis filter around the clipping stage. A first-order difference equation <code>pre = in - α · prev_in</code> boosts high frequencies before clipping and <code>post = out + α · prev_out</code> restores them after. This makes high-frequency clipping artifacts less audible by shaping the noise floor — the clipper works harder on pre-emphasized highs while the de-emphasis masks foldback distortion. The alpha coefficient scales linearly up to 0.874.</p>
+
+    <p><strong>Oversampling (slider 5):</strong> Selectable 1x, 2x, or 4x oversampling using a 23-tap symmetric half-band FIR interpolator/decimator. The half-band filter coefficients provide a flat passband up to ~0.45π with >60dB stopband attenuation. At 2x and 4x modes, the zero-stuffed samples pass through the HBF structure before and after clipping to reduce aliasing. PDC (plugin delay compensation) is reported to the host: 11 samples at 2x, 16 samples at 4x.</p>
+
+    <p><strong>GFX Display:</strong> Scrolling waveform oscilloscope (600-sample ring buffer at ~250Hz update rate) with a horizontal threshold line. Signal below threshold draws in green; signal exceeding the threshold draws in red above the threshold line, giving instant visual feedback on how much material is being clipped. Reference gridlines at 0, -6, -12, -18, -24, -36dB for level orientation.</p>
+
+    <p><strong>Signal Flow:</strong> Input Gain → Pre-emphasis (Frequency Weight) → Threshold scaling → Clipping (with Harmonic Tilt) → Output scaling → De-emphasis → Dry/Wet Mix → Output Gain. The threshold operates as a gain-scaling stage before clipping: the signal is divided by the threshold, clipped, then multiplied back, making threshold act as a drive control relative to the hard ceiling.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="microdelay">
+  <div class="plugin-badge"><span class="plugin-dot dot-cyan"></span>10 — Stereo Width / Depth</div>
+  <div class="plugin-name">Lozengrad MicroDelay</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad MicroDelay</strong> is a procedural micro-delay modulation engine for stereo width and depth enhancement. Instead of conventional LFO-based chorus or delay, it uses a discretized Mackey-Glass delay differential equation (DDE) to generate deterministic chaotic modulation — producing organic, non-repeating stereo expansion that avoids the periodic "seasickness" of traditional LFO modulation.</p>
+
+    <p><strong>Core Architecture:</strong> The signal is encoded into Mid/Side (<code>M = L + R</code>, <code>S = L - R</code>). The Side channel is fed through a variable-length delay line modulated by the Mackey-Glass system, then blended with the original Side before Mid/Side decoding. This means the delay modulation only affects the stereo difference signal, preserving mono compatibility while creating rich, evolving spatial depth.</p>
+
+    <p><strong>Mackey-Glass Modulation Engine:</strong> A chaotic DDE originally developed to model physiological dynamics, adapted here for audio modulation. The equation <code>x[n] = x[n-d] · β / ((1 + x[n-d]^γ) · (1 + α))</code> is solved with γ = 10, producing deterministic non-periodic behavior. <strong>Mod Rate</strong> maps to the MG parameters α (0.08–0.30), β (0.20–0.80), and delay d (10–30 samples), controlling chaotic speed. A 1-pole LPF (0.5–8 Hz cutoff, also driven by Mod Rate) bandlimits the output to the sub-audio range. Adaptive RMS normalization keeps the modulation signal approximately within [-1, 1] regardless of the chaotic state.</p>
+
+    <p><strong>Hybrid Interpolation:</strong> The delay line uses two interpolation strategies selected by delay length. Below 10ms (or fewer than 2 samples), a <strong>3rd-order Lagrange interpolator</strong> evaluates 4 sample points with Horner-form polynomial evaluation — preserves high-frequency content at short delays where precision matters most. At 10ms and above, a <strong>1st-order Thiran all-pass filter</strong> (<code>H(z) = (a + z⁻¹) / (1 + a·z⁻¹)</code>) handles fractional delay with flat group delay and minimal CPU cost. The Thiran coefficient a is computed from the fractional delay part. Filter state is reset on transition from Lagrange to prevent clicks.</p>
+
+    <p><strong>Phase Alignment (HQ Mode):</strong> In HQ mode (slider 5), a compensatory Thiran all-pass is applied to the Mid channel using the same fractional delay as the Side path. This ensures group delay matching between the two paths, maintaining phase coherence at the expense of additional latency. In Live mode, the Mid channel passes through unprocessed and the Haas effect provides the spatial perception — zero added latency but with slight phase offset between channels.</p>
+
+    <p><strong>Width Control:</strong> The delayed Side signal is scaled by <code>p_width × 2</code> and added to the original Side. At 0%, no delayed side is added (bypass). At 50%, the delayed side is at unity relative to the original. At 100%, the delayed side is 2× the original, creating maximum stereo expansion. The <strong>Base Delay</strong> sets the center delay time (5–35ms), and <strong>Mod Depth</strong> controls how far the modulation deviates from the base delay (as a percentage of the usable range between 5ms and 35ms).</p>
+
+    <p><strong>Signal Flow:</strong> Input → M/S Encode → Mackey-Glass DDE modulation → Delay line with hybrid interpolation → Phase alignment (HQ: Thiran on Mid) → Width blend (original Side + modulated Side) → M/S Decode → Dry/Wet mix → Anti-aliasing LPF (~16kHz, exponential decay) → Output. A fade-in ramp (10ms) prevents clicks on initialization or parameter changes.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="pedal">
+  <div class="plugin-badge"><span class="plugin-dot dot-orange"></span>11 — Multi-Pedal Distortion</div>
+  <div class="plugin-name">Lozengrad Pedal</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Pedal</strong> is a multi-pedal distortion plugin that models 7 distinct guitar pedal circuits, each with its own clipping topology, tone shaping network, and component-level EQ. It integrates a shared pre-processing stage and a global post-EQ (Low/Mid/High) that works across all modes.</p>
+
+    <p><strong>Shared Signal Chain:</strong> All pedal modes pass through Input Level → Pre-EQ HPF (80Hz, first-order) → DC Blocker (0.997 alpha) → [pedal-specific processing] → Anti-Alias LPF (at 0.48× sample rate, Q=0.707) → Tone Stack (peaking + low-shelf, tone-dependent) → Post-EQ (Low peaking @ 100Hz, Mid peaking at sweepable frequency, High peaking @ 5kHz) → DC Blocker → 0 dBFS limiter. The post-EQ is shared across all modes with independent ±15dB per band and a sweepable mid frequency (200–5000 Hz).</p>
+
+    <p><strong>Vintage Clip (mode 0):</strong> Models a classic two-stage op-amp clipper. Signal passes through soft clipping (<code>g · (27 + g²) / (27 + 9·g²)</code> with DC bias) followed by hard clipping (<code>g / (1 + g⁸)^(1/8)</code> at 3× pre-gain). The tone stack uses two filters: a peaking EQ (400–1000 Hz, −6 to 0 dB) and a low-shelf (2–4 kHz, 0 to +8 dB), both interpolated by the Tone control.</p>
+
+    <p><strong>Turbo Clip (mode 1):</strong> Extends Vintage Clip with a mid-boost stage between the two clippers. After soft clip, the signal passes through a peaking filter at 900 Hz (Q=1.0, +6 dB), a notch at 2500 Hz (Q=2.0, −6 dB), and a low-shelf at 200 Hz (Q=0.7, −3 dB) — modeling the frequency-shaping network of a turbo distortion pedal. Final output goes through a second soft clip followed by hard clip.</p>
+
+    <p><strong>Orange Drive (mode 2):</strong> Models a classic two-stage distortion. Soft clipping is followed by hard clipping at ±0.7 threshold. The tone network blends a 720 Hz LPF and 1060 Hz HPF (both first-order), where the Tone control crossfades between the two — full counter-clockwise = low-pass (dark), full clockwise = high-pass (bright). The blend is scaled by 1.4× post-gain.</p>
+
+    <p><strong>Green Drive (mode 3):</strong> Models a classic overdrive with asymmetric soft clipping (<code>g / √(1 + g²)</code> with separate positive/negative gain). The clipped signal is blended with dry at a 70/30 ratio (the classic parallel mix). Tone control drives a peaking EQ at 1500 Hz (±10 dB). Output passes through a 47pF LPF (25 kHz, modeling the C4 capacitor) and a 5 kHz LPF (modeling op-amp bandwidth limiting).</p>
+
+    <p><strong>Slam Boost (mode 4):</strong> Models a clean boost/overdrive with a tight front-end character. First-order HPF at 300 Hz removes low-end mud, followed by a peaking EQ at 1000 Hz (Q=1.0, ±10 dB via Tone). No clipping stage — pure EQ shaping with post-gain. Designed as a front-end boost for tightening high-gain amp tones.</p>
+
+    <p><strong>Modern Drive (mode 5):</strong> Models a precision drive architecture with tight low-end and aggressive midrange. First-order HPF at 400 Hz tightens the low end, then soft clipping (<code>g / √(1 + g²)</code> with Gain pre-gain). A peaking EQ at 800 Hz (Q=1.5, +4 dB) provides mid presence, and a second peaking at 1000 Hz (Q=1.0, ±10 dB via Tone) acts as a "Bright" control. Post-gain of 4× compensates for HPF and clipping losses.</p>
+
+    <p><strong>Grind Distortion (mode 6):</strong> Models a dual-gyrator distortion with aggressive mid-range shaping. First-order HPF at 35 Hz removes DC/subsonic content. Two gyrator-based peaking filters (simulated inductor EQ) at 250 Hz (Q=2.0, gain proportional to distortion control) and 1 kHz (Q=2.0) shape the mid-range before clipping. Soft clipping (<code>g / √(1 + g²)</code>) followed by hard clipping at ±0.4 threshold creates the signature aggressive distortion. Post-gain of 2×.</p>
+
+    <p><strong>Oversampling (slider 5):</strong> Selectable 4× or 8× oversampling (not yet implemented in the processing path, slider is prepared for future anti-aliasing enhancement).</p>
+
+    <p><strong>GFX Display:</strong> Two response curve plots. The top plot shows the pedal-specific tone stack frequency response (dependent on pedal mode and Tone slider). The bottom plot shows the shared 3-band Post-EQ response (Low/Mid/High). Both plots span 20 Hz–20 kHz with a center 0 dB reference line, and the curves update in real-time as parameters change.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="retrospec">
+  <div class="plugin-badge"><span class="plugin-dot dot-pink"></span>12 — FFT Visualizer</div>
+  <div class="plugin-name">Lozengrad RetroSpec</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad RetroSpec</strong> is a purely cosmetic FFT spectrum visualizer with 11 absurd visual styles and 12 color themes. It does absolutely nothing to your audio — it passes through untouched while displaying your music as ASCII art, hex dumps, Chinese characters, or even a smiley face. Made for fun, not for mixing. <code>ext_tail_size = -1</code> ensures REAPER knows this plugin adds zero latency and zero processing.</p>
+
+    <p><strong>Under the hood:</strong> A 2048-point FFT with Hann windowing runs on the mono-summed input. Magnitude bins are smoothed (fast attack 0.5, slow decay 0.95) with peak hold (0.993 decay) and a 4.5 dB/oct slope compensation for a natural-looking spectrum. But honestly, none of that matters — you're here for the eye candy.</p>
+
+    <p><strong>Visual Styles (slider1):</strong> <strong>Terminal</strong> — classic ASCII block bars (#, *, .). <strong>Blocks</strong> — Unicode block shades (█, ▓, ▒, ░). <strong>Matrix</strong> — random hexadecimal digits raining down like the Matrix. <strong>Retro</strong> — spinning animation (|, /, -, \) for that old-school modem feel. <strong>Mask: Smile</strong> — the spectrum reveals a smiling face hidden in the noise. <strong>Mask: Crescent</strong> — a crescent moon and star appear from the frequencies. <strong>Mask: Skull</strong> — your music draws a skull. Because why not. <strong>Radar</strong> — polar radar display with concentric circles and a + at the center. <strong>Hanzi</strong> — Chinese characters scaling from 一 (one) to 龘 (dragon flight) as the signal gets louder. <strong>Wormhole</strong> — concentric pulsing rings that expand and contract with the spectrum. <strong>HexDump</strong> — completely random hex digits pretending to be meaningful data.</p>
+
+    <p><strong>Color Themes (slider2):</strong> 13 carefully curated themes: Gruvbox, Tokyo Night, Dracula, Matrix (green-on-black), Cyberpunk, Nord, Solarized, Monokai, One Dark, Catppuccin, Ayu, Everforest, and Rose Pine. Each theme defines 10 color slots (bg, bg0, fg, fg2, green, green2, yellow, red, aqua, orange) mapped to the spectrum's amplitude gradient.</p>
+
+    <p><strong>Does it make your music sound better?</strong> No. <strong>Does it look cool?</strong> Absolutely.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="spektra">
+  <div class="plugin-badge"><span class="plugin-dot dot-blue"></span>13 — Spectral Density Controller</div>
+  <div class="plugin-name">Lozengrad Spektra</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Spektra</strong> is an FFT-based intelligent spectral density controller — a spectral compressor that builds a long-term EMA profile of the signal, detects excess energy via local contrast analysis with psychoacoustic weighting, and applies per-bin gain reduction with bidirectional frequency smoothing and per-bin attack/release. It is designed for transparent spectral balancing, resonance suppression, and tonal shaping.</p>
+
+    <p><strong>FFT Engine:</strong> Uses a 2048-point FFT with 512-sample hop size (4× overlap) and Hann windowing, providing 1025 frequency bins with WOLA (Weighted Overlap-Add) reconstruction. The FFT processes linked-mid stereo (average of L and R magnitudes per bin) for spectral analysis but applies per-channel gain independently. Plugin delay compensation is reported as 2048 samples.</p>
+
+    <p><strong>EMA Spectral Profile:</strong> A per-bin exponential moving average tracks the long-term spectral envelope. The <strong>Profile Down</strong> time constant (100–8000ms) controls how quickly the profile adapts when the signal level drops — slower settings create a more static "ceiling" that suppresses any excess above the learned spectrum. Profile up time is fixed at 120ms for fast tracking of level increases. The per-bin ratio of current magnitude to profile magnitude gives the <strong>excess profile</strong>, the primary detector signal.</p>
+
+    <p><strong>Local Contrast Analysis:</strong> A bidirectional frequency-smoothed floor is computed for each bin (forward-backward one-pole filter with selectivity-dependent coefficient). The ratio of current magnitude to this local floor gives the <strong>contrast excess</strong> — detecting spectral peaks that stand out from their neighbors regardless of absolute level. The final detector blends profile excess and contrast excess via <strong>Selectivity</strong> (slider 5), where 0% = pure profile tracking, 100% = pure local contrast.</p>
+
+    <p><strong>Psychoacoustic Weighting (slider 6):</strong> A perceptual weight curve based on Gaussian octave filters at 45Hz (low guard, −0.34), 280Hz (mud, +0.10), 3.3kHz (presence, +0.28), and 12.5kHz (air, −0.12). These model the ear's sensitivity to different frequency regions. <strong>Ear Weight</strong> controls the blend: at 0%, psychoacoustic weighting is flat; at 100%, the full perceptual model is applied, making the detector more sensitive to presence region excess and less sensitive to subsonic rumbles and extreme highs.</p>
+
+    <p><strong>Adaptive Threshold (slider 14):</strong> The per-bin threshold is computed as <code>threshold = (1.55 − 0.45 × sensitivity) × freq_bias</code>, where <code>freq_bias</code> further adjusts based on psychoacoustic weight. <strong>Threshold (%)</strong> shifts the base threshold: 100% = nominal, 0% = much more sensitive (more reduction), 200% = much less sensitive (less reduction). Only bins exceeding their threshold trigger gain reduction, and the excess depth is normalized into a 0–12 range for consistent GR behavior across different signal levels.</p>
+
+    <p><strong>Spectral Gain Computation:</strong> Per-bin gain reduction is computed as <code>GR = −depth × (norm / (norm + knee))²</code>, giving a soft-knee response where the <code>knee</code> is fixed at 0.5. <strong>Depth</strong> (0–48dB) sets the maximum reduction per bin. A per-bin <strong>suppress weight</strong> from the interactive HP/LP/Bell filters additionally scales the gain reduction — bins outside the passband or in the bell boost/cut region get modified suppression.</p>
+
+    <p><strong>Bidirectional Smoothing:</strong> Gain is smoothed in two passes. <strong>Frequency smoothing</strong> (forward-backward one-pole filter, coefficient determined by Smoothness 0–100%) ensures neighboring bins have coherent gain, preventing spectral holes. <strong>Temporal smoothing</strong> applies per-bin attack/release, where attack (~5–200ms) and release (~50–2000ms) are both proportional to <strong>Speed</strong> (slider 9). Fast speed = quick response, slow speed = gentle, stable reduction.</p>
+
+    <p><strong>Transient Protection:</strong> A fast/slow envelope follower tracks the input peak. The transient amount (ratio of fast to slow envelope) modulates the effective depth, reducing gain reduction during transient events to preserve attack. This prevents spectral compression from dulling drum hits and percussive elements.</p>
+
+    <p><strong>Interactive GFX Display:</strong> A real-time spectrum analyzer with per-bin before (cyan) and after (green) bars, plus red gain reduction bars from the top. Frequency axis spans 20Hz–Nyquist with octave markers and 12dB vertical grid lines. Three draggable filter handles control the per-bin suppress mask — <strong>HP</strong> (high-pass, 20Hz–20kHz), <strong>LP</strong> (low-pass, 20Hz–20kHz), and <strong>Bell</strong> (peak/cut, ±12dB, Q-controlled). Double-click any handle to reset. Filter state persists across bypass/transport via gmem. Input/output metering, GR peak, detector readings, and transient percentage are displayed in the footer.</p>
+
+    <p><strong>Output Stage:</strong> After dry/wet mix, auto makeup (proportional to average GR), and output gain, a drive stage and soft-clipper provide final level control. The soft-clipper uses a cubic polynomial transition between 75% threshold and the ceiling (−12 to 0dB), with a clip indicator in the display. <strong>Clip Drive</strong> (0–100%) adds pre-clipper gain up to 1.5× for aggressive limiting.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="spyke">
+  <div class="plugin-badge"><span class="plugin-dot dot-green"></span>14 — Transient Shaper</div>
+  <div class="plugin-name">Lozengrad Spyke</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Spyke</strong> is a transient shaper with independent Attack and Sustain controls, designed for quick and effective dynamic shaping. It uses three envelope followers to detect and separate transient peaks from the sustain tail, then applies gain modulation to either emphasize or suppress each component.</p>
+
+    <p><strong>Envelope Detection:</strong> The detector works on the energy signal <code>rect = (L² + R²)/2</code> processed through three parallel envelope followers. A <strong>fast envelope</strong> (1ms attack, 50ms release) tracks the instantaneous transient peaks. A <strong>slow envelope</strong> (15ms attack, 50ms release) tracks the body or average level. A <strong>sustain envelope</strong> (15ms attack, 200ms release) tracks the lingering tail with its long release time.</p>
+
+    <p><strong>Transient Detection:</strong> The transient component is isolated as <code>att_diff = max(fast_env − slow_env, 0)</code> — when the fast envelope exceeds the slow envelope, a transient is present. This difference is normalized by the slow envelope amplitude (<code>att_env = att_diff / slow_env</code>) to ensure level-independent behavior. The <strong>Attack</strong> control (−100% to +100%) applies this normalized envelope as gain modulation: positive values boost transients at 2× aggression for emphasis, negative values reduce them for softening.</p>
+
+    <p><strong>Sustain Detection:</strong> The sustain component is <code>sus_diff = max(sustain_env − fast_env, 0)</code> — when the long-release sustain envelope exceeds the fast transient envelope, the signal is in the decay/tail portion. Normalized as <code>sus_env = sus_diff / fast_env</code>. The <strong>Sustain</strong> control (−100% to +100%) modulates this: positive values boost at 1.5× for sustain enhancement, negative values reduce at 0.5× for tightening.</p>
+
+    <p><strong>Gain Modulation:</strong> The total modulation factor is <code>mod = 1.0 + att_env · att_gain + sus_env · sus_gain</code>, clamped to a minimum of 0.05 to prevent polarity inversion. The output is <code>input × mod × output_gain</code>, followed by a safety clipper at ±0.9886 (−0.1 dBFS).</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="trafo">
+  <div class="plugin-badge"><span class="plugin-dot dot-purple"></span>15 — Transformer Saturation</div>
+  <div class="plugin-name">Lozengrad Trafo</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Trafo</strong> is a dual-path transformer saturation plugin with ADAA (Anti-Derivative Anti-Aliasing) on both paths. It splits the signal into two parallel nonlinear processors — an asymmetric <strong>Nickel</strong> path optimized for transient attack, and a symmetric <strong>Iron</strong> path with hysteresis feedback for sustain — then dynamically morphs between them based on transient content. The result is a saturator that responds to playing dynamics like a real transformer.</p>
+
+    <p><strong>Nickel Path (Asymmetric):</strong> Models the asymmetric saturation of a nickel-core transformer, where positive and negative half-cycles distort differently. The transfer function antiderivative is <code>F(x) = x²/2 + 0.05x³ − 0.0825x⁴</code>, producing a polynomial with even-order harmonics. ADAA is applied via <code>y = (F(xₙ) − F(xₙ₋₁)) / (xₙ − xₙ₋₁)</code>, with a derivative fallback when the difference is near zero. A fixed makeup gain of 1.5× ensures Nickel path audibility against the Iron path's hysteresis boost. Drive range: 0.5–8.0, clamped to ±1.5.</p>
+
+    <p><strong>Iron Path (Symmetric + Hysteresis):</strong> Models the symmetric saturation of an iron-core transformer with magnetic hysteresis. The antiderivative is <code>F(x) = x²/2 − 0.0555x⁴</code>, a purely symmetric polynomial (odd-function derivative, only odd harmonics). Hysteresis is implemented as a low-passed feedback path: <code>x_h = x_raw + 0.3 · hyst</code> where <code>hyst</code> is a 250Hz one-pole filtered version of the input. This creates a frequency-dependent phase shift and saturation memory effect — higher frequencies experience more hysteresis smearing. Drive range: 0.5–10.0, clamped to ±1.5.</p>
+
+    <p><strong>Transient-Driven Dynamic Morph:</strong> A fast envelope follower (instant attack, 10ms release) with sensitivity-gated noise floor tracks the input for transient detection. The derivative of this envelope is scaled by <code>5 + sensitivity × 15</code> to produce <code>cv_rate</code> [0,1]. A sharpening function maps this to <code>cv_sharp</code> (threshold at 0.05, saturation at 0.5), and the <strong>Morph Curve</strong> parameter (0.3–3.0) applies <code>morph_cv = cv_sharp^(1/morph_c)</code>. Lower curve values make the morph more binary (hard switch), higher values make it more gradual. The Nickel weight is <code>sqrt(morph_cv)</code> and Iron weight is <code>sqrt(1 − morph_cv)</code>, each with independent release envelopes (~42ms) for smooth crossfading. Weights are normalized to sum to unity.</p>
+
+    <p><strong>Envelope Follower:</strong> A separate envelope follower with user-controlled <strong>Attack</strong> (0.1–20ms) and <strong>Release</strong> (10–500ms) tracks the input RMS to produce a control voltage. The CV is computed as <code>CV = min(env / (1 − sensitivity × 0.999), 1.0)</code> — higher sensitivity lowers the threshold, making the compressor-like gain reduction easier to trigger. This CV is smoothed (1ms time constant) and used in the scope display's activity boost but not in the morph itself (which uses the separate fast transient detector).</p>
+
+    <p><strong>Auto Gain & Clip:</strong> Auto Gain tracks input and output RMS with 0.9995 envelope coefficients (~2000-sample time constant) and computes a makeup gain clamped to [0.25, 4.0] (±12dB range). The Clip option applies a hard 0 dBFS limiter after output gain.</p>
+
+    <p><strong>GFX Scope:</strong> A real-time waveform oscilloscope (48,000-sample buffer, 4-sample stride = ~1 second at 48kHz) with per-pixel min/max accumulation for crisp rendering. The L channel is drawn at full opacity, R channel slightly dimmer and offset by 1 pixel. Each pixel column is colored based on the Nickel/Iron blend — <strong>cyan</strong> when Nickel dominates (transient attack), <strong>orange</strong> when Iron dominates (sustain). The color intensity (activity) scales with the envelope CV and per-path saturation level, so quieter signals appear white/grey and heavily saturated signals show full color. A HUD at the top displays all parameter values and diagnostic readings.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="hudut">
+  <div class="plugin-badge"><span class="plugin-dot dot-red"></span>16 — True Peak Limiter</div>
+  <div class="plugin-name">Lozengrad Hudut</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Hudut</strong> (Turkish: <em>border</em> / <em>limit</em>) is a true peak brickwall limiter with multi-rate polyphase oversampling, dynamic release, and a harmonic inflator stage. It detects and attenuates inter-sample peaks by operating on an oversampled signal, with up to 8× internal processing for maximum true peak accuracy.</p>
+
+    <p><strong>Oversampling (slider4):</strong> Selectable 1×, 2×, 4×, or 8× using a multi-rate polyphase cascade. Each 2× stage consists of zero-stuffing (with ×2 gain compensation for the first sample) followed by a 23-tap half-band FIR filter exploiting the half-band property (all even-indexed coefficients except <code>c0</code> are zero). The upsampling and downsampling chains are implemented as nested loops — each stage operates at its own internal rate, and downsampling uses the same HBF in reverse order, keeping only every other output sample. An HBF gain compensation factor (1.06 at 4×, 1.12 at 8×) corrects level differences across OS modes.</p>
+
+    <p><strong>Signal Flow:</strong> Input → [Optional Harmonic Inflator] → Sidechain HPF → Envelope Detection → Gain Computation → Lookahead Delay → Gain Apply → Makeup → Hard Clip → Output. The entire gain reduction chain (envelope, gain computer, delay, application) runs inside the oversampled loop so that attenuation decisions are made at the true peak resolution.</p>
+
+    <p><strong>Sidechain & Envelope:</strong> The sidechain passes through a first-order IIR HPF (20–250 Hz, slider9) to remove low-frequency content from the gain reduction detection, allowing the limiter to ignore sustained bass and react primarily to transient peaks. The envelope follower uses an attack time of 0.01–5 ms (slider8) computed as a first-order IIR: <code>att_coeff = 1 − exp(−1 / (attack_s · os_srate + 1))</code>.</p>
+
+    <p><strong>Dynamic Release:</strong> The release time is modulated by the crest factor of the sidechain signal, computed from two parallel RMS followers — fast RMS (15 ms window) and slow RMS (120 ms window). The dynamic release scales the base release (10–500 ms, slider7) by <code>0.5× to 3.0×</code> using <code>min(max(1 / crest, 0.5), 3.0)</code>. This means percussive material (high crest) gets faster release, while dense material (low crest) gets slower, more transparent release. A hold timer equal to the lookahead duration holds the gain reduction at its minimum between peak detections.</p>
+
+    <p><strong>Lookahead (slider3):</strong> 0–10 ms lookahead implemented as a circular delay buffer (up to 480,000 samples). Separate write and read pointers track the delay offset, with the delay length scaled by the OS factor. The buffer is reset on playback start to prevent stale-sample clicks.</p>
+
+    <p><strong>Harmonic Inflator (slider5, slider6):</strong> An Oxford Inflator-style harmonic enhancer placed before the limiter detection. Two modes: <strong>Transparent</strong> uses a symmetric polynomial <code>x · (1 + amount · (1 − x²))</code> for even-order harmonics with minimal tonal shift; <strong>Color</strong> applies the same polynomial with a DC offset (<code>x + amount · 0.2</code>) then subtracts the DC component, producing asymmetric even harmonics with a warm, vintage character.</p>
+
+    <p><strong>Makeup & Ceiling:</strong> After gain reduction, the signal is multiplied by <code>ceiling / threshold</code> makeup gain, then hard-clipped to ±ceiling_amp. The ceiling ranges from −14 to 0 dB (slider2) and the threshold from −24 to 0 dB (slider1). Plugin Delay Compensation is reported as <code>lookahead + FIR group delay</code> (0/11/16/19 samples for 1×/2×/4×/8×).</p>
+
+    <p><strong>GFX Display:</strong> A 540×380 scrolling waveform area shows peak amplitude as a green waveform (dB scale, −60 to 0 dB with grid lines at 0, −6, −12, −18, −24, −36). Gain reduction is overlaid as a red bar graph falling from the top, with a smoothed GR readout in the bottom-right corner. Both audio and GR traces use a dual-layer rendering (wide low-opacity glow + narrow high-opacity core) for visual clarity. Data is decimated to ~250 Hz update rate and stored in 600-bin ring buffers.</p>
+  </div>
+</section>
+
+<!-- DOWNLOAD BANNER -->
+<section style="padding: 48px 64px; border-top: 1px solid var(--border);">
+  <div class="jsfx-banner" style="margin: 0;">
+    <div class="jsfx-left">
+      <div class="plugin-badge" style="margin-bottom: 10px;"><span class="plugin-dot dot-red"></span>REAPER Plugin Pack</div>
+      <div class="jsfx-title">Saranta Soundworks JSFX Pack</div>
+      <div class="jsfx-desc">
+        All Lozengrad plugins are available as a single download. Drop into your REAPER Effects folder and start using instantly. Free, open source, MIT licensed.
+      </div>
+    </div>
+    <div class="jsfx-right">
+      <a href="https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack" target="_blank" rel="noopener noreferrer" class="btn btn-external">View on GitHub ↗</a>
+      <a href="https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack/archive/refs/heads/main.zip" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download ZIP ↓</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">Saranta<em>_</em>Soundworks</div>
+  <div class="foot-copy">© 2026 Burak Balta — All rights reserved</div>
+  <div class="foot-links">
+    <a href="index.html#about">About</a>
+    <a href="index.html#music">Music</a>
+    <a href="tips.html">Tips</a>
+    <a href="tools.html">Tools</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</footer>
+
+</div><!-- /page-container -->
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  function closeMobile() { hamburger.classList.remove('open'); mobileMenu.classList.remove('open'); }
+  hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
+</script>
+
+<script>
+(function() {
+  var html = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var stored = localStorage.getItem('saranta-theme');
+  if (stored === 'light') { html.setAttribute('data-theme', 'light'); }
+  if (toggle) {
+    toggle.addEventListener('click', function() {
+      var isLight = html.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        html.removeAttribute('data-theme');
+        localStorage.setItem('saranta-theme', 'dark');
+      } else {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem('saranta-theme', 'light');
+      }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

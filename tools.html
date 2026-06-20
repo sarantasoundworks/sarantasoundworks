@@ -75,6 +75,21 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+@media (max-width: 1200px) {
+  .page-container { border: none; max-width: 100%; }
 }
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--bg2); }
@@ -300,6 +315,8 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </head>
 <body>
 
+<div class="page-container">
+
 <nav>
   <a href="index.html" class="nav-logo">Saranta<em>/</em>Soundworks</a>
   <ul class="nav-links">
@@ -392,23 +409,18 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
       </div>
     </a>
 
-  </div>
-</section>
-
-<!-- JSFX PACK BANNER -->
-<section class="tools-section" style="padding-top: 0;">
-  <div class="jsfx-banner">
-    <div class="jsfx-left">
-      <div class="tool-badge" style="margin-bottom: 10px;"><span class="tool-dot dot-red"></span>REAPER Plugin Pack</div>
-      <div class="jsfx-title">Saranta Soundworks JSFX Pack</div>
-      <div class="jsfx-desc">
-        A collection of custom JSFX plugins for REAPER. Built for heavy music production — includes compressors, EQ utilities, metering tools, and more. Free and open source. Download the full pack from GitHub.
+    <!-- JSFX PACK -->
+    <a href="lozengrad.html" class="tool-card">
+      <div class="tool-badge"><span class="tool-dot dot-red"></span>REAPER Plugin Pack</div>
+      <div class="tool-title">JSFX Pack</div>
+      <div class="tool-desc">
+        A collection of custom JSFX plugins for REAPER. Built for heavy music production — includes compressors, EQ utilities, metering tools, and more. Free and open source. View all plugins with detailed descriptions.
       </div>
-    </div>
-    <div class="jsfx-right">
-      <a href="https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack" target="_blank" rel="noopener noreferrer" class="btn btn-external">View on GitHub ↗</a>
-      <a href="https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack/archive/refs/heads/main.zip" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download ZIP ↓</a>
-    </div>
+      <div class="tool-actions">
+        <span class="btn btn-primary">Open Lozengrad ↗</span>
+      </div>
+    </a>
+
   </div>
 </section>
 
@@ -424,6 +436,8 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
     <a href="index.html#contact">Contact</a>
   </div>
 </footer>
+
+</div><!-- /page-container -->
 
 <script>
   const hamburger = document.getElementById('hamburger');
