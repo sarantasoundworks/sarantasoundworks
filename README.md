@@ -70,7 +70,7 @@ The **Lozengrad** series is a collection of 16 free, open-source JSFX plugins fo
 | 15 | **Lozengrad Pedal** | 7-mode guitar distortion pedal simulation with pre/post EQ and tone response display |
 | 16 | **Lozengrad Hudut** | True peak brickwall limiter with polyphase oversampling, dynamic release, harmonic inflator |
 
-All plugins are available as a single download from the site or via the [GitHub repository](https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack). MIT licensed.
+All plugins are available as a single download from the site or via the [GitHub repository](https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack). JSFX pack is licensed separately (see its own LICENSE file).
 
 ---
 
@@ -172,7 +172,9 @@ The `functions/` directory is automatically picked up by Cloudflare Functions.
 
 ## License
 
-This project is licensed under the **MIT License** — do whatever you want with it. See [LICENSE](LICENSE) for details.
+**Website code, design and content** is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**. See [LICENSE](LICENSE) for details.
+
+**Lozengrad JSFX Pack** is licensed separately (see its own LICENSE file in the JSFX repository).
 
 ---
 

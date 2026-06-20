@@ -115,6 +115,6 @@ All browser tools are built with vanilla HTML/CSS/JS and the Web Audio API. No f
 
 ## License
 
-All projects are licensed under the MIT License unless otherwise stated.
+The website code, design and content is licensed under CC BY-NC-SA 4.0. The Lozengrad JSFX Pack is licensed separately.
 
 *© 2026 Burak Balta — Saranta Soundworks*
