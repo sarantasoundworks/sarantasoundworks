@@ -369,35 +369,37 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 <nav class="section-topbar" id="plugin-topbar">
   <a href="#amfi" class="topbar-item"><span class="tb-num">01</span> Amfi</a>
   <span class="topbar-sep">/</span>
-  <a href="#balans-eq" class="topbar-item"><span class="tb-num">02</span> Balans EQ</a>
+  <a href="#bas-amfi" class="topbar-item"><span class="tb-num">02</span> Bas Amfi</a>
   <span class="topbar-sep">/</span>
-  <a href="#equinox" class="topbar-item"><span class="tb-num">03</span> EQuinox</a>
+  <a href="#balans-eq" class="topbar-item"><span class="tb-num">03</span> Balans EQ</a>
   <span class="topbar-sep">/</span>
-  <a href="#feeltre" class="topbar-item"><span class="tb-num">04</span> Feeltre</a>
+  <a href="#equinox" class="topbar-item"><span class="tb-num">04</span> EQuinox</a>
   <span class="topbar-sep">/</span>
-  <a href="#kompresor-v2" class="topbar-item"><span class="tb-num">05</span> Kompresor V2</a>
+  <a href="#feeltre" class="topbar-item"><span class="tb-num">05</span> Feeltre</a>
   <span class="topbar-sep">/</span>
-  <a href="#kompresor" class="topbar-item"><span class="tb-num">06</span> Kompresor</a>
+  <a href="#kompresor-v2" class="topbar-item"><span class="tb-num">06</span> Kompresor V2</a>
   <span class="topbar-sep">/</span>
-  <a href="#mb-saturasyon-v2" class="topbar-item"><span class="tb-num">07</span> MB Sat V2</a>
+  <a href="#kompresor" class="topbar-item"><span class="tb-num">07</span> Kompresor</a>
   <span class="topbar-sep">/</span>
-  <a href="#mb-saturasyon" class="topbar-item"><span class="tb-num">08</span> MB Sat</a>
+  <a href="#mb-saturasyon-v2" class="topbar-item"><span class="tb-num">08</span> MB Sat V2</a>
   <span class="topbar-sep">/</span>
-  <a href="#klip" class="topbar-item"><span class="tb-num">09</span> Klip</a>
+  <a href="#mb-saturasyon" class="topbar-item"><span class="tb-num">09</span> MB Sat</a>
   <span class="topbar-sep">/</span>
-  <a href="#microdelay" class="topbar-item"><span class="tb-num">10</span> MicroDelay</a>
+  <a href="#klip" class="topbar-item"><span class="tb-num">10</span> Klip</a>
   <span class="topbar-sep">/</span>
-  <a href="#pedal" class="topbar-item"><span class="tb-num">11</span> Pedal</a>
+  <a href="#microdelay" class="topbar-item"><span class="tb-num">11</span> MicroDelay</a>
   <span class="topbar-sep">/</span>
-  <a href="#retrospec" class="topbar-item"><span class="tb-num">12</span> RetroSpec</a>
+  <a href="#pedal" class="topbar-item"><span class="tb-num">12</span> Pedal</a>
   <span class="topbar-sep">/</span>
-  <a href="#spektra" class="topbar-item"><span class="tb-num">13</span> Spektra</a>
+  <a href="#retrospec" class="topbar-item"><span class="tb-num">13</span> RetroSpec</a>
   <span class="topbar-sep">/</span>
-  <a href="#spyke" class="topbar-item"><span class="tb-num">14</span> Spyke</a>
+  <a href="#spektra" class="topbar-item"><span class="tb-num">14</span> Spektra</a>
   <span class="topbar-sep">/</span>
-  <a href="#trafo" class="topbar-item"><span class="tb-num">15</span> Trafo</a>
+  <a href="#spyke" class="topbar-item"><span class="tb-num">15</span> Spyke</a>
   <span class="topbar-sep">/</span>
-  <a href="#hudut" class="topbar-item"><span class="tb-num">16</span> Hudut</a>
+  <a href="#trafo" class="topbar-item"><span class="tb-num">16</span> Trafo</a>
+  <span class="topbar-sep">/</span>
+  <a href="#hudut" class="topbar-item"><span class="tb-num">17</span> Hudut</a>
 </nav>
 
 <!-- PLUGINS -->
@@ -429,8 +431,34 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
   </div>
 </section>
 
+<section class="plugin-section" id="bas-amfi">
+  <div class="plugin-badge"><span class="plugin-dot dot-green"></span>02 — Bass Amp Sim</div>
+  <div class="plugin-name">Lozengrad Bas Amfi</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Bas Amfi</strong> is a split-band bass amplifier simulation that splits the signal into Low and High bands via an LR4 crossover (80–2000 Hz, sweepable), processes each band independently, then blends them through a cabinet simulator. Its architecture is designed to preserve low-end clarity while adding grind and presence to the upper register — the fundamental challenge of bass distortion.</p>
+
+    <p><strong>Signal Flow:</strong> Input Gain (×4 hidden boost) → Noise Gate → LR4 Crossover → <strong>Low Band</strong> (Bass Focus peaking @ 80Hz + Saturation) + <strong>High Band</strong> (Pre-HPF @ 400Hz → Pre-Emphasis high-shelf → Multi-stage hard clip ×3 → Auto Gain → Post-LPF → Tilt EQ) → Blend → Cab Sim → Output Gain (×0.25 hidden cut) → DC Blocker.</p>
+
+    <p><strong>Low Channel:</strong> The low band passes through a peaking filter at 80 Hz (Q=0.7, 0 to +6 dB via Bass Focus slider5) for low-end body, followed by a gentle tanh saturation (0–100%, slider4) with pre-gain (1× to 5×) and automatic makeup compensation. The saturation is subtle — designed to thicken rather than distort the low end.</p>
+
+    <p><strong>High Channel:</strong> A dedicated distortion chain for the high band. A pre-HPF at 400 Hz prevents low-mid fizz. A pre-emphasis high-shelf at 1500 Hz (+8 to +22 dB, scaling with Character slider12) ensures the high band has enough energy to saturate. The Attack Pre-EQ (slider6) shapes the high-band response with an 800 Hz+ high-shelf and a 3.5 kHz peaking boost (0–8 dB each, scaled by 0–100%). Three cascaded hard-clipping stages follow: asymmetric (positive +1 / negative −0.3 to −0.9, Character-dependent) → symmetric ×2 → symmetric ×2, creating a progressively saturated distortion curve. A post-LPF (3–6.5 kHz, Character-dependent) tames digital fizz. Drive auto-gain with 0.9-pole envelope smoothing keeps output consistent across all Drive settings (0–100%, slider7).</p>
+
+    <p><strong>Tilt EQ (slider8):</strong> A true tilt filter with a ~1 kHz pivot point, implemented as opposition peaking filters at 60 Hz and 3 kHz (−6 to +6 dB, Q=0.5). Negative values boost lows and cut highs (dark); positive values cut lows and boost highs (bright).</p>
+
+    <p><strong>Character (slider12):</strong> A macro control (0–100%) that simultaneously adjusts the pre-emphasis shelf gain (8–22 dB), the negative clipping threshold (−0.3 to −0.9, increasing asymmetry), the blend of tanh vs hard clip (0–100%), and the post-LPF cutoff (3–6.5 kHz). Lower values = warm/round, higher values = aggressive/grindy.</p>
+
+    <p><strong>Cabinet Simulator (slider10):</strong> Three biquad-based cab models. <strong>Classic 8×10</strong> — HPF 3×50Hz + LPF 3×8kHz, low bump @70Hz (+3 dB), deep scoop @300Hz (−8 dB) + @400Hz (−10 dB), presence @2.5kHz (+4 dB). <strong>Modern 8×10</strong> — HPF 3×40Hz + LPF 3×10kHz, low bump @60Hz (+3 dB), scoop @300Hz (−8 dB) + @500Hz (−10 dB), presence @3kHz (+5 dB). <strong>Dark 1×15</strong> — HPF 3×35Hz + LPF 3×4kHz, low bump @70Hz (+2 dB), softer scoop @300Hz (−5 dB) + @350Hz (−6 dB), presence @2.5kHz (+3 dB). All cabs use 36 dB/oct slopes via triple cascaded biquads.</p>
+
+    <p><strong>Noise Gate (slider2):</strong> Envelope follower with instantaneous attack and 50 ms decay, hysteresis (6 dB below threshold to close), and smooth ramp (0.5 ms time constant). Default −120 dB = bypass.</p>
+
+    <p><strong>Blend (slider9):</strong> Crossfades between dry (unprocessed) and wet (processed) signals, enabling parallel-style blending without external routing.</p>
+
+    <p><strong>Hidden Gain Staging:</strong> The input has a +12 dB boost (×4) to push pickups and passive basses into the distortion sweet spot. The output has a −12 dB cut (×0.25) to compensate, with the Output Gain slider (slider11, ±24 dB) providing final level control. All slider transitions are smoothed with a 10 ms IIR coefficient to prevent zipper noise.</p>
+  </div>
+</section>
+
 <section class="plugin-section" id="balans-eq">
-  <div class="plugin-badge"><span class="plugin-dot dot-blue"></span>02 — Parametric EQ</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-blue"></span>03 — Parametric EQ</div>
   <div class="plugin-name">Lozengrad Balans EQ</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad Balans EQ</strong> is an 8-band parametric equalizer with HPF, LPF, Low Shelf, High Shelf, and Bell filter types per band, built-in FFT spectrum analysis, and a real-time combined EQ curve overlay. Each band uses standard RBJ biquad filters in Direct Form I topology with stability clamping, cascaded in series for the full 8-band response.</p>
@@ -450,7 +478,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="equinox">
-  <div class="plugin-badge"><span class="plugin-dot dot-blue"></span>03 — Tone EQ</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-blue"></span>04 — Tone EQ</div>
   <div class="plugin-name">Lozengrad EQuinox</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad EQuinox</strong> is a simple tone-shaping EQ with adjustable low and high frequency bands, a built-in FFT spectrum analyzer, and a real-time EQ curve overlay. It provides straightforward bass and treble control with selectable frequency points, designed for quick tonal adjustments without the complexity of a full parametric EQ.</p>
@@ -468,7 +496,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="feeltre">
-  <div class="plugin-badge"><span class="plugin-dot dot-blue"></span>04 — Multi-Mode Filter</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-blue"></span>05 — Multi-Mode Filter</div>
   <div class="plugin-name">Lozengrad Feeltre</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad Feeltre</strong> is a multi-mode filter with eight selectable filter types — LPF, HPF, BPF, APF, Tilt EQ, Low Shelf, High Shelf, and Tilt Shelf — with continuous frequency, Q, and gain control, plus a built-in FFT spectrum analyzer with real-time EQ curve overlay.</p>
@@ -488,7 +516,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="kompresor-v2">
-  <div class="plugin-badge"><span class="plugin-dot dot-red"></span>05 — Compressor / Limiter</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-red"></span>06 — Compressor / Limiter</div>
   <div class="plugin-name">Lozengrad Kompresor V2</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad Kompresor V2</strong> is a VCA-style compressor/limiter engineered for aggressive music production. Its advanced detector architecture, program-dependent release, dynamic saturation engine, and transient restoration make it equally capable of transparent bus compression and character-driven drum smashing.</p>
@@ -514,7 +542,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="kompresor">
-  <div class="plugin-badge"><span class="plugin-dot dot-red"></span>06 — Compressor / Limiter</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-red"></span>07 — Compressor / Limiter</div>
   <div class="plugin-name">Lozengrad Kompresor</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad Kompresor</strong> (the original, V1) is a VCA-style compressor/limiter with feedforward/feedback detection, a selectable high-pass sidechain filter (Thrust), dual-stage program-dependent release, a soft knee with three widths, and a subtle analog output stage saturation. It covers the full range from transparent bus compression to aggressive drum limiting.</p>
@@ -540,7 +568,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="mb-saturasyon-v2">
-  <div class="plugin-badge"><span class="plugin-dot dot-purple"></span>07 — Multiband Saturation</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-purple"></span>08 — Multiband Saturation</div>
   <div class="plugin-name">Lozengrad MB Saturasyon V2</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad MB Saturasyon V2</strong> is a complete rewrite of the original multiband saturator, featuring real oversampling, LR4 Linkwitz-Riley crossovers, four physically-inspired saturation models per band, a Character macro, and a hybrid auto gain system. It processes Low, Mid, and High bands independently with per-band mode, drive, and character controls, then sums them through a selectable output stage.</p>
@@ -564,7 +592,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="mb-saturasyon">
-  <div class="plugin-badge"><span class="plugin-dot dot-purple"></span>08 — Multiband Saturation</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-purple"></span>09 — Multiband Saturation</div>
   <div class="plugin-name">Lozengrad MB Saturasyon</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad MB Saturasyon</strong> (the original, V1) is a 3-band multiband saturator that splits the signal with Linkwitz-Riley 4th-order (24 dB/oct) crossovers, applies one of four saturation modes to all bands with independent drive and gain control, and recombines them. It features selectable oversampling (2× or 4×), per-band RMS auto gain, solo listen modes, and dry/wet mix.</p>
@@ -584,7 +612,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="klip">
-  <div class="plugin-badge"><span class="plugin-dot dot-orange"></span>09 — Clipper / Limiter</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-orange"></span>10 — Clipper / Limiter</div>
   <div class="plugin-name">Lozengrad Klip</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad Klip</strong> is a precision clipper/limiter built for transparent peak control and aggressive saturation alike. Four distinct clipping modes, selectable oversampling, harmonic tilt shaping, and frequency-weighted clipping make it suitable for everything from mastering ceiling control to drum bus destruction.</p>
@@ -604,7 +632,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="microdelay">
-  <div class="plugin-badge"><span class="plugin-dot dot-cyan"></span>10 — Stereo Width / Depth</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-cyan"></span>11 — Stereo Width / Depth</div>
   <div class="plugin-name">Lozengrad MicroDelay</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad MicroDelay</strong> is a procedural micro-delay modulation engine for stereo width and depth enhancement. Instead of conventional LFO-based chorus or delay, it uses a discretized Mackey-Glass delay differential equation (DDE) to generate deterministic chaotic modulation — producing organic, non-repeating stereo expansion that avoids the periodic "seasickness" of traditional LFO modulation.</p>
@@ -624,7 +652,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="pedal">
-  <div class="plugin-badge"><span class="plugin-dot dot-orange"></span>11 — Multi-Pedal Distortion</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-orange"></span>12 — Multi-Pedal Distortion</div>
   <div class="plugin-name">Lozengrad Pedal</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad Pedal</strong> is a multi-pedal distortion plugin that models 7 distinct guitar pedal circuits, each with its own clipping topology, tone shaping network, and component-level EQ. It integrates a shared pre-processing stage and a global post-EQ (Low/Mid/High) that works across all modes.</p>
@@ -652,7 +680,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="retrospec">
-  <div class="plugin-badge"><span class="plugin-dot dot-pink"></span>12 — FFT Visualizer</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-pink"></span>13 — FFT Visualizer</div>
   <div class="plugin-name">Lozengrad RetroSpec</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad RetroSpec</strong> is a purely cosmetic FFT spectrum visualizer with 11 absurd visual styles and 12 color themes. It does absolutely nothing to your audio — it passes through untouched while displaying your music as ASCII art, hex dumps, Chinese characters, or even a smiley face. Made for fun, not for mixing. <code>ext_tail_size = -1</code> ensures REAPER knows this plugin adds zero latency and zero processing.</p>
@@ -668,7 +696,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="spektra">
-  <div class="plugin-badge"><span class="plugin-dot dot-blue"></span>13 — Spectral Density Controller</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-blue"></span>14 — Spectral Density Controller</div>
   <div class="plugin-name">Lozengrad Spektra</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad Spektra</strong> is an FFT-based intelligent spectral density controller — a spectral compressor that builds a long-term EMA profile of the signal, detects excess energy via local contrast analysis with psychoacoustic weighting, and applies per-bin gain reduction with bidirectional frequency smoothing and per-bin attack/release. It is designed for transparent spectral balancing, resonance suppression, and tonal shaping.</p>
@@ -696,7 +724,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="spyke">
-  <div class="plugin-badge"><span class="plugin-dot dot-green"></span>14 — Transient Shaper</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-green"></span>15 — Transient Shaper</div>
   <div class="plugin-name">Lozengrad Spyke</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad Spyke</strong> is a transient shaper with independent Attack and Sustain controls, designed for quick and effective dynamic shaping. It uses three envelope followers to detect and separate transient peaks from the sustain tail, then applies gain modulation to either emphasize or suppress each component.</p>
@@ -712,7 +740,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="trafo">
-  <div class="plugin-badge"><span class="plugin-dot dot-purple"></span>15 — Transformer Saturation</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-purple"></span>16 — Transformer Saturation</div>
   <div class="plugin-name">Lozengrad Trafo</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad Trafo</strong> is a dual-path transformer saturation plugin with ADAA (Anti-Derivative Anti-Aliasing) on both paths. It splits the signal into two parallel nonlinear processors — an asymmetric <strong>Nickel</strong> path optimized for transient attack, and a symmetric <strong>Iron</strong> path with hysteresis feedback for sustain — then dynamically morphs between them based on transient content. The result is a saturator that responds to playing dynamics like a real transformer.</p>
@@ -732,7 +760,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 </section>
 
 <section class="plugin-section" id="hudut">
-  <div class="plugin-badge"><span class="plugin-dot dot-red"></span>16 — True Peak Limiter</div>
+  <div class="plugin-badge"><span class="plugin-dot dot-red"></span>17 — True Peak Limiter</div>
   <div class="plugin-name">Lozengrad Hudut</div>
   <div class="plugin-desc">
     <p><strong>Lozengrad Hudut</strong> (Turkish: <em>border</em> / <em>limit</em>) is a true peak brickwall limiter with multi-rate polyphase oversampling, dynamic release, and a harmonic inflator stage. It detects and attenuates inter-sample peaks by operating on an oversampled signal, with up to 8× internal processing for maximum true peak accuracy.</p>

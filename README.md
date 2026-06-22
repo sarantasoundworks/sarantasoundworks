@@ -49,26 +49,27 @@ A structured mixing guide based on the Saranta Method — covering drums, bass, 
 
 ## REAPER JSFX Plugins (`lozengrad.html`)
 
-The **Lozengrad** series is a collection of 16 free, open-source JSFX plugins for REAPER, designed for heavy music production. Detailed documentation with signal flow analysis, parameter descriptions, and algorithm explanations is available on the site.
+The **Lozengrad** series is a collection of 17 free, open-source JSFX plugins for REAPER, designed for heavy music production. Detailed documentation with signal flow analysis, parameter descriptions, and algorithm explanations is available on the site.
 
 | # | Plugin | Type |
 |---|---|---|
 | 01 | **Lozengrad Amfi** | Guitar amp sim with noise gate, 3-stage cascading distortion, 3 cab IRs, mid spice, bus comp |
-| 02 | **Lozengrad Balans EQ** | 8-band parametric EQ with RBJ biquads, save-on-switch band management, FFT + EQ curve overlay |
-| 03 | **Lozengrad EQuinox** | 2-band tone EQ with asymmetric filter pairing for smile curve shaping |
-| 04 | **Lozengrad Feeltre** | 8-mode filter (LPF/HPF/BPF/APF/Tilt EQ/Low Shelf/High Shelf/Tilt Shelf) with custom log frequency mapping |
-| 05 | **Lozengrad Spyke** | Transient shaper with 3-envelope detection (fast/slow/sustain), level-normalized gain modulation |
-| 06 | **Lozengrad Kompresor** | VCA compressor with dual-stage release, detector thrust HPF, feedforward/feedback modes, analog output saturation |
-| 07 | **Lozengrad Kompresor V2** | VCA compressor with dynamic saturation, punch compensation, dual-stage release, auto makeup, feedforward/feedback |
-| 08 | **Lozengrad MB Saturasyon** | 3-band multiband saturation with LR4 crossovers, 4 saturation modes, per-band auto gain, oversampling |
-| 09 | **Lozengrad MB Saturasyon V2** | 3-band multiband saturation with LR4 crossovers, 4 saturation modes per band, character macro, 4 output stage models, AUTO oversampling |
-| 10 | **Lozengrad Klip** | 4-mode clipper (Hard/Soft/Tube/Tape) with harmonic tilt, frequency weight, half-band FIR oversampling |
-| 11 | **Lozengrad MicroDelay** | M/S stereo width modulator using Mackey-Glass chaotic DDE, hybrid Lagrange/Thiran interpolation |
-| 12 | **Lozengrad RetroSpec** | FFT spectrum visualizer with 11 visual styles and 13 color themes — purely cosmetic, zero latency |
-| 13 | **Lozengrad Spektra** | FFT spectral density controller with EMA profile, local contrast analysis, psychoacoustic weighting |
-| 14 | **Lozengrad Trafo** | Dual-path transformer saturator (Nickel asymmetric + Iron symmetric w/ hysteresis) with ADAA |
-| 15 | **Lozengrad Pedal** | 7-mode guitar distortion pedal simulation with pre/post EQ and tone response display |
-| 16 | **Lozengrad Hudut** | True peak brickwall limiter with polyphase oversampling, dynamic release, harmonic inflator |
+| 02 | **Lozengrad Bas Amfi** | Split-band bass amp sim with LR4 crossover, independent low/high processing, 3 cab sims, tilt EQ, character control |
+| 03 | **Lozengrad Balans EQ** | 8-band parametric EQ with RBJ biquads, save-on-switch band management, FFT + EQ curve overlay |
+| 04 | **Lozengrad EQuinox** | 2-band tone EQ with asymmetric filter pairing for smile curve shaping |
+| 05 | **Lozengrad Feeltre** | 8-mode filter (LPF/HPF/BPF/APF/Tilt EQ/Low Shelf/High Shelf/Tilt Shelf) with custom log frequency mapping |
+| 06 | **Lozengrad Spyke** | Transient shaper with 3-envelope detection (fast/slow/sustain), level-normalized gain modulation |
+| 07 | **Lozengrad Kompresor** | VCA compressor with dual-stage release, detector thrust HPF, feedforward/feedback modes, analog output saturation |
+| 08 | **Lozengrad Kompresor V2** | VCA compressor with dynamic saturation, punch compensation, dual-stage release, auto makeup, feedforward/feedback |
+| 09 | **Lozengrad MB Saturasyon** | 3-band multiband saturation with LR4 crossovers, 4 saturation modes, per-band auto gain, oversampling |
+| 10 | **Lozengrad MB Saturasyon V2** | 3-band multiband saturation with LR4 crossovers, 4 saturation modes per band, character macro, 4 output stage models, AUTO oversampling |
+| 11 | **Lozengrad Klip** | 4-mode clipper (Hard/Soft/Tube/Tape) with harmonic tilt, frequency weight, half-band FIR oversampling |
+| 12 | **Lozengrad MicroDelay** | M/S stereo width modulator using Mackey-Glass chaotic DDE, hybrid Lagrange/Thiran interpolation |
+| 13 | **Lozengrad RetroSpec** | FFT spectrum visualizer with 11 visual styles and 13 color themes — purely cosmetic, zero latency |
+| 14 | **Lozengrad Spektra** | FFT spectral density controller with EMA profile, local contrast analysis, psychoacoustic weighting |
+| 15 | **Lozengrad Trafo** | Dual-path transformer saturator (Nickel asymmetric + Iron symmetric w/ hysteresis) with ADAA |
+| 16 | **Lozengrad Pedal** | 7-mode guitar distortion pedal simulation with pre/post EQ and tone response display |
+| 17 | **Lozengrad Hudut** | True peak brickwall limiter with polyphase oversampling, dynamic release, harmonic inflator |
 
 All plugins are available as a single download from the site or via the [GitHub repository](https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack). JSFX pack is licensed separately (see its own LICENSE file).
 
@@ -154,7 +155,7 @@ The `functions/` directory is automatically picked up by Cloudflare Functions.
 - **Real-time DSP** — all processing happens client-side in the browser
 - **Genre-specific Auto EQ** — reference curves for metal and heavy music genres
 - **ITU-R BS.1770-4 LUFS** — broadcast-compliant loudness measurement
-- **Lozengrad JSFX Series** — 16 free, open-source REAPER plugins with detailed documentation
+- **Lozengrad JSFX Series** — 17 free, open-source REAPER plugins with detailed documentation
 - **Mobile responsive** — works on phones and tablets
 - **Free and open source**
 
