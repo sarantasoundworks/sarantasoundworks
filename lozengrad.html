@@ -227,7 +227,27 @@ html[data-theme="light"] .grid-bg::after {
 }
 .plugin-desc {
   font-size: 12px; color: var(--dim); line-height: 2; max-width: 720px;
+  max-height: 5.4em; overflow: hidden; position: relative;
+  transition: max-height 0.4s ease;
 }
+.plugin-desc.expanded { max-height: none; }
+.plugin-desc::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2.4em;
+  background: linear-gradient(transparent 0%, var(--bg) 100%);
+  pointer-events: none; transition: opacity 0.3s ease;
+}
+html[data-theme="light"] .plugin-desc::after {
+  background: linear-gradient(transparent 0%, var(--bg) 100%);
+}
+.plugin-desc.expanded::after { opacity: 0; }
+.plugin-expand-btn {
+  font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; background: transparent; border: 1px solid var(--border2);
+  color: var(--accent3); cursor: pointer; padding: 8px 16px; border-radius: 2px;
+  margin-top: 10px; transition: all 0.15s; display: inline-block;
+}
+.plugin-expand-btn:hover { background: rgba(var(--accent3-rgb),0.1); border-color: var(--accent3); }
 
 /* BANNER */
 .jsfx-banner {
@@ -373,6 +393,8 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
   <span class="topbar-sep">/</span>
   <a href="#bas-amfi" class="topbar-item"><span class="tb-num">03</span> Bas Amfi</a>
   <span class="topbar-sep">/</span>
+  <a href="#bas-amfi-legacy" class="topbar-item">Legacy</a>
+  <span class="topbar-sep">/</span>
   <a href="#balans-eq" class="topbar-item"><span class="tb-num">04</span> Balans EQ</a>
   <span class="topbar-sep">/</span>
   <a href="#equinox" class="topbar-item"><span class="tb-num">05</span> EQuinox</a>
@@ -402,6 +424,10 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
   <a href="#trafo" class="topbar-item"><span class="tb-num">17</span> Trafo</a>
   <span class="topbar-sep">/</span>
   <a href="#hudut" class="topbar-item"><span class="tb-num">18</span> Hudut</a>
+  <span class="topbar-sep">/</span>
+  <a href="#guitarbus" class="topbar-item"><span class="tb-num">19</span> Guitarbus</a>
+  <span class="topbar-sep">/</span>
+  <a href="#drumbus" class="topbar-item"><span class="tb-num">20</span> Drumbus</a>
 </nav>
 
 <!-- PLUGINS -->
@@ -481,25 +507,55 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
   <div class="plugin-badge"><span class="plugin-dot dot-green"></span>03 — Bass Amp Sim</div>
   <div class="plugin-name">Lozengrad Bas Amfi</div>
   <div class="plugin-desc">
-    <p><strong>Lozengrad Bas Amfi</strong> is a split-band bass amplifier simulation that splits the signal into Low and High bands via an LR4 crossover (80–2000 Hz, sweepable), processes each band independently, then blends them through a cabinet simulator. Its architecture is designed to preserve low-end clarity while adding grind and presence to the upper register — the fundamental challenge of bass distortion.</p>
+    <p><strong>Lozengrad Bas Amfi</strong> is a split-band bass amplifier simulation featuring a multi-stage preamp, power amplifier stage, transformer saturation, and an enhanced Speaker Coloration Engine. It splits the signal via an LR4 crossover, processes Low and High bands independently through compression, saturation, and multi-stage distortion, then passes through a power amp and a comprehensive cabinet simulator.</p>
 
-    <p><strong>Signal Flow:</strong> Input Gain (×4 hidden boost) → Noise Gate → LR4 Crossover → <strong>Low Band</strong> (Bass Focus peaking @ 80Hz + Saturation) + <strong>High Band</strong> (Pre-HPF @ 400Hz → Pre-Emphasis high-shelf → Multi-stage hard clip ×3 → Auto Gain → Post-LPF → Tilt EQ) → Blend → Cab Sim → Output Gain (×0.25 hidden cut) → DC Blocker.</p>
+    <p><strong>Signal Flow:</strong> Input Gain (×4 hidden boost) → Noise Gate → LR4 Crossover → <strong>Low Band</strong> (Mono Sum → Bass Focus peaking @ 80Hz → Compressor → Dynamic Saturation) + <strong>High Band</strong> (Pre-HPF @ 400Hz → Pre-Emphasis high-shelf → Pre-Dist EQ → Compressor → Frequency-Dependent Drive Modulation → Multi-Stage Distortion ×6 → Post-Dist EQ → Post-LPF → Tilt EQ) → Blend → RMS Auto-Gain → Power Amp (Comp → Low Damping HPF → Transformer Saturation → Soft Limiter) → Speaker Coloration Engine → Output Gain (×0.25 hidden cut) → DC Blocker.</p>
 
-    <p><strong>Low Channel:</strong> The low band passes through a peaking filter at 80 Hz (Q=0.7, 0 to +6 dB via Bass Focus slider5) for low-end body, followed by a gentle tanh saturation (0–100%, slider4) with pre-gain (1× to 5×) and automatic makeup compensation. The saturation is subtle — designed to thicken rather than distort the low end.</p>
+    <p><strong>Character Macro (slider12):</strong> A macro control interpolating across 14 DSP parameters with 5 breakpoints (Vintage/SansAmp/GK/Darkglass/Modern). Controls preamp drive (2.5–14×), compressor threshold (−22 to −8dB) and ratio (3:1–10:1), saturation depth, transformer blend, cabinet resonance frequency and Q, low damping, presence boost, asymmetry, post-LPF cutoff (4–8kHz), pre-emphasis (6–22dB), clip blend, and dynamic response. One knob morphs the entire amplifier character.</p>
 
-    <p><strong>High Channel:</strong> A dedicated distortion chain for the high band. A pre-HPF at 400 Hz prevents low-mid fizz. A pre-emphasis high-shelf at 1500 Hz (+8 to +22 dB, scaling with Character slider12) ensures the high band has enough energy to saturate. The Attack Pre-EQ (slider6) shapes the high-band response with an 800 Hz+ high-shelf and a 3.5 kHz peaking boost (0–8 dB each, scaled by 0–100%). Three cascaded hard-clipping stages follow: asymmetric (positive +1 / negative −0.3 to −0.9, Character-dependent) → symmetric ×2 → symmetric ×2, creating a progressively saturated distortion curve. A post-LPF (3–6.5 kHz, Character-dependent) tames digital fizz. Drive auto-gain with 0.9-pole envelope smoothing keeps output consistent across all Drive settings (0–100%, slider7).</p>
+    <p><strong>Multi-Stage Preamp (slider7):</strong> A 6-stage cascaded distortion replacing the original single-stage clip. <strong>Stage 1</strong> — gentle asymmetric tube preamp with dry blend. <strong>Stage 2</strong> — polynomial soft clip (cubic Taylor approximation). <strong>Stage 3</strong> — asymmetric DC bias for analog-style asymmetry. <strong>Stage 4</strong> — moderate soft clip. <strong>Stage 5</strong> — tanh glue stage. <strong>Stage 6</strong> — asymmetry shaping with hard clip blend. Each stage is progressively saturated, creating a smooth, musical distortion curve that cleans up on lighter playing.</p>
 
-    <p><strong>Tilt EQ (slider8):</strong> A true tilt filter with a ~1 kHz pivot point, implemented as opposition peaking filters at 60 Hz and 3 kHz (−6 to +6 dB, Q=0.5). Negative values boost lows and cut highs (dark); positive values cut lows and boost highs (bright).</p>
+    <p><strong>Frequency-Dependent Drive:</strong> A bandpass filter at ~1.2kHz (Q=1.5) measures mid-band energy and modulates the preamp drive depth in real time. When the mids are dominant (e.g., picked notes), the drive increases for harmonic richness. When the full spectrum is hot, the drive is naturally tamed — preventing fizz while maintaining grind.</p>
 
-    <p><strong>Character (slider12):</strong> A macro control (0–100%) that simultaneously adjusts the pre-emphasis shelf gain (8–22 dB), the negative clipping threshold (−0.3 to −0.9, increasing asymmetry), the blend of tanh vs hard clip (0–100%), and the post-LPF cutoff (3–6.5 kHz). Lower values = warm/round, higher values = aggressive/grindy.</p>
+    <p><strong>Low Channel:</strong> The low band is mono-summed for low-end clarity. Bass Focus (slider5, 0–100%) provides a peaking filter at 80Hz (Q=0.5, up to +6dB). A character-driven compressor with soft knee and program-dependent release (3ms attack, 80ms release base) controls low-end dynamics. Dynamic low saturation (slider4, 0–100%) uses RMS/peak ratio to apply more saturation to sustain and less to transients, keeping the attack clean while adding harmonics to the tail.</p>
 
-    <p><strong>Cabinet Simulator (slider10):</strong> Three biquad-based cab models. <strong>Classic 8×10</strong> — HPF 3×50Hz + LPF 3×8kHz, low bump @70Hz (+3 dB), deep scoop @300Hz (−8 dB) + @400Hz (−10 dB), presence @2.5kHz (+4 dB). <strong>Modern 8×10</strong> — HPF 3×40Hz + LPF 3×10kHz, low bump @60Hz (+3 dB), scoop @300Hz (−8 dB) + @500Hz (−10 dB), presence @3kHz (+5 dB). <strong>Dark 1×15</strong> — HPF 3×35Hz + LPF 3×4kHz, low bump @70Hz (+2 dB), softer scoop @300Hz (−5 dB) + @350Hz (−6 dB), presence @2.5kHz (+3 dB). All cabs use 36 dB/oct slopes via triple cascaded biquads.</p>
+    <p><strong>High Channel:</strong> Pre-HPF at 400Hz strips low-mud before the distortion chain. Pre-emphasis high-shelf at 1.5kHz (6–22dB) ensures saturation energy. Pre-distortion EQ carves a deep scoop (100Hz −6dB, 350Hz −8dB) with an 800Hz+ shelf and 3.5kHz peak boost — both Attack-scaled (slider6). A character-driven compressor (0.5ms attack, 50ms release) tightens the high band before saturation. The 6-stage preamp follows, then post-distortion cleanup (mud cuts at 200Hz and 500Hz, de-hiss at 3kHz) and a character-dependent LPF (4–8kHz).</p>
 
-    <p><strong>Noise Gate (slider2):</strong> Envelope follower with instantaneous attack and 50 ms decay, hysteresis (6 dB below threshold to close), and smooth ramp (0.5 ms time constant). Default −120 dB = bypass.</p>
+    <p><strong>Tilt EQ (slider8):</strong> Opposition peaking filters at 60Hz and 3kHz (−6 to +6dB, Q=0.5). Negative = dark (boost lows, cut highs), positive = bright (cut lows, boost highs).</p>
 
-    <p><strong>Blend (slider9):</strong> Crossfades between dry (unprocessed) and wet (processed) signals, enabling parallel-style blending without external routing.</p>
+    <p><strong>Power Amplifier Stage:</strong> Post-blend processing before the cabinet. Gentle compression (2:1 ratio, 6dB knee, 10ms attack, 100ms release) provides power amp sag. A character-dependent low-damping HPF (48–80Hz) tightens the low end. Transformer saturation blends iron (cubic nonlinearity) and nickel (asymmetric polynomial) cores with character-dependent weighting. A soft output limiter catches peaks.</p>
 
-    <p><strong>Hidden Gain Staging:</strong> The input has a +12 dB boost (×4) to push pickups and passive basses into the distortion sweet spot. The output has a −12 dB cut (×0.25) to compensate, with the Output Gain slider (slider11, ±24 dB) providing final level control. All slider transitions are smoothed with a 10 ms IIR coefficient to prevent zipper noise.</p>
+    <p><strong>Speaker Coloration Engine (slider10):</strong> A 10-stage biquad cabinet simulator with distinctive per-cabinet EQ signatures. <strong>Classic 8×10</strong> — HPF 3×50Hz + LPF 2×5.5/5.3kHz, low-mid resonances (70Hz +3dB, 180Hz −1.5dB, 850Hz +1dB), mid scoop notch at 400Hz (−8dB), high-mid peaks/notches for cone breakup (2.5–5.6kHz), high-shelf presence, air shelf at 9kHz (−10dB), high-end saturation with speaker damping, 2 all-pass filters for minimum-phase emulation, and a character-dependent resonance peak. <strong>Modern 8×10</strong> — wider bandwidth with extended low-end and high-end response, different resonance and scoop points. <strong>Dark 1×15</strong> — lower cutoff with softer mids and reduced high end for a warm, vintage character. Each cabinet uses 20+ biquad filters designed to emulate the complex electro-acoustic response of real bass enclosures.</p>
+
+    <p><strong>Noise Gate (slider2):</strong> Envelope follower with peak detection, 6dB hysteresis threshold, and smooth ramp (0.5ms time constant). Default −120dB = bypass.</p>
+
+    <p><strong>Blend (slider9):</strong> Crossfades between dry and wet signals for parallel-style blending.</p>
+
+    <p><strong>Auto Oversampling:</strong> Internal processing adapts to sample rate — 4× oversampling at ≤48kHz, 2× at ≤96kHz, bypassed at higher rates. Anti-alias filters protect the multi-stage distortion from foldback artifacts.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="bas-amfi-legacy">
+  <div class="plugin-badge"><span class="plugin-dot dot-green"></span>— Bass Amp Sim (Legacy)</div>
+  <div class="plugin-name">Lozengrad Bas Amfi Legacy</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Bas Amfi Legacy</strong> is the original single-stage version of the bass amplifier, now maintained as a separate plugin. It uses the same split-band architecture with a simpler 3-stage hard clip distortion, basic cabinet simulation, and straightforward controls — for users who prefer the original voicing.</p>
+
+    <p><strong>Signal Flow:</strong> Input Gain (×4 hidden boost) → Noise Gate → LR4 Crossover → <strong>Low Band</strong> (Bass Focus peaking @ 80Hz + Gentle tanh saturation) + <strong>High Band</strong> (Pre-HPF @ 400Hz → Pre-Emphasis high-shelf → Pre-Dist EQ → Asymmetric hard clip → Symmetric hard clip ×2 → Auto Gain → Post-LPF → Tilt EQ) → Blend → Cab Sim (3×HPF + 3×LPF + 4-band EQ) → Output Gain (×0.25 hidden cut) → DC Blocker.</p>
+
+    <p><strong>Low Channel:</strong> Bass Focus peaking filter at 80Hz (Q=0.7, 0 to +6dB via slider5), followed by gentle tanh saturation (0–100%, slider4) with pre-gain (1× to 5×) and makeup compensation. Designed to thicken rather than distort the low end.</p>
+
+    <p><strong>High Channel:</strong> Pre-HPF at 400Hz, pre-emphasis high-shelf at 1500Hz (+8 to +22dB via Character). Attack Pre-EQ (slider6) shapes response with 800Hz+ high-shelf and 3.5kHz peaking boost (0–8dB each). Three cascaded hard-clipping stages: asymmetric (+1 / −0.3 to −0.9) → symmetric ×2 → symmetric ×2. Post-LPF (3–6.5kHz) tames fizz. Drive auto-gain with 0.9-pole envelope smoothing.</p>
+
+    <p><strong>Tilt EQ (slider8):</strong> Opposition peaking filters at 60Hz and 3kHz (−6 to +6dB, Q=0.5).</p>
+
+    <p><strong>Character (slider12):</strong> Adjusts pre-emphasis (8–22dB), negative clip threshold (−0.3 to −0.9), hard clip blend, and post-LPF cutoff (3–6.5kHz). Lower = warm/round, higher = aggressive/grindy.</p>
+
+    <p><strong>Cabinet Simulator (slider10):</strong> Classic 8×10 (HPF 3×50Hz + LPF 3×8kHz, low bump @70Hz +3dB, scoop @300Hz −8dB + @400Hz −10dB, presence @2.5kHz +4dB), Modern 8×10 (wider bandwidth, deeper scoop), Dark 1×15 (softer, darker voicing). All cabs use 36dB/oct slopes via triple cascaded biquads.</p>
+
+    <p><strong>Noise Gate (slider2):</strong> Peak envelope follower with hysteresis, default −120dB = bypass.</p>
+
+    <p><strong>Blend (slider9):</strong> Dry/wet crossfade for parallel processing.</p>
   </div>
 </section>
 
@@ -829,6 +885,60 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
   </div>
 </section>
 
+<section class="plugin-section" id="guitarbus">
+  <div class="plugin-badge"><span class="plugin-dot dot-green"></span>19 — Adaptive Guitar Bus</div>
+  <div class="plugin-name">Lozengrad Guitarbus One</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Guitarbus One</strong> is an adaptive guitar bus processor with a single Intensity knob. Everything else — compression, saturation, EQ, multiband compression, harshness control, limiting — is continuously derived from real-time signal analysis of chug density, palm mute ratio, pick attack harshness, sustain/staccato ratio, and body energy. The result is a plugin that mirrors the behavior of a full guitar bus processing chain, adapting to every riff and chord change.</p>
+
+    <p><strong>Signal Flow:</strong> Input → Analysis → Decision Engine → HPF → Adaptive Mud Suppression (200–400Hz dynamic cut) → API 2500-Style Feedback Compressor → Mid-Only Tube Saturation (300–800Hz) → Precision EQ (7-band, evolving from transparent to shaped) → 4-Band Multiband Compressor (LR4 crossover: chug/body/presence/pick) → Dynamic Harshness Control (4–7kHz de-esser) → Safety Limiter → Auto Gain → Stereo Widen (bass mono) → Output.</p>
+
+    <p><strong>One-Knob Architecture:</strong> The single Intensity slider (0–100%) nonlinearly activates each processing stage with staggered onset curves — Mud Suppression activates first (~15%), followed by the API compressor (~30%), mid saturation (~25%), EQ (linear, 0–100%), multiband compressor (~40%), harshness control (~50%), and limiter (~80%). Each module's activation is further modulated by real-time analysis modifiers (crest factor, band energy ratios, transient density) and a confidence metric derived from crest factor stability. This creates an adaptive response that behaves differently on palm-muted chugs vs open chords vs lead lines, all from a single knob.</p>
+
+    <p><strong>Mud Suppression:</strong> A dynamic 200–400Hz cut driven by an envelope follower on the band energy. As chug density increases, the cut deepens (up to 4 dB), keeping the low-mid range clean and tight even during heavy palm-muted passages.</p>
+
+    <p><strong>API 2500 Compressor:</strong> A feedback-style VCA compressor with RMS detection, soft knee, and program-dependent release. Threshold and ratio are both derived from the adaptive engine — at higher intensity settings, threshold drops and ratio increases for more aggressive glue compression. Side and Mid channels get independent threshold offsets.</p>
+
+    <p><strong>Mid Saturation:</strong> A tube-style saturator applied only to the 300–800Hz band, targeting the core body of the guitar tone. Drive increases with intensity, adding harmonic richness to the midrange where guitars live, while leaving the lows and highs clean.</p>
+
+    <p><strong>Precision EQ:</strong> A 7-band biquad EQ that morphs from a transparent pass (10Hz HPF, flat mids, 20kHz LPF) to a guitar-specific shaping curve (60Hz HPF, scooped mids at 160Hz and 2.3kHz, presence at 2.8kHz, air cut at 3.5kHz, 9kHz LPF) as intensity increases.</p>
+
+    <p><strong>4-Band Multiband Compressor:</strong> LR4 crossover splits the signal into Chug (&lt;200Hz), Body (200–800Hz), Presence (800–2500Hz), and Pick (&gt;2500Hz) bands, each with independent compression parameters derived from the adaptive engine. Thresholds drop and ratios increase with intensity, providing per-band dynamic control that targets the specific spectral regions of guitar playing.</p>
+
+    <p><strong>Dynamic Harshness Control:</strong> A de-esser style processor targeting the 4–7kHz range. An envelope follower on the harshness band drives a dynamic cut of up to 6 dB at full intensity, taming excessive pick noise and fret buzz without dulling the overall tone.</p>
+
+    <p><strong>GFX Display:</strong> A central intensity knob with a 34-dot LED ring (showing current value), input/output level metering, gain reduction readout, auto gain trim visualization via knob halo color (warm/cool), and a clip indicator. The knob supports click-drag, double-click-to-reset (50%), and mouse wheel. Two smaller knobs for input and output gain flank the main knob, with an auto gain toggle switch between them.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="drumbus">
+  <div class="plugin-badge"><span class="plugin-dot dot-red"></span>20 — Adaptive Drum Bus</div>
+  <div class="plugin-name">Lozengrad Drumbus One</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Drumbus One</strong> is an adaptive drum bus processor with a single Intensity knob. Like its guitar counterpart, it continuously analyzes the input signal — low-end energy, low-mid buildup, presence harshness, air content, crest factor, transient density, and stereo width — and derives per-module processing parameters in real time. The result is a drum bus that adapts to every kick hit, snare crack, and cymbal wash.</p>
+
+    <p><strong>Signal Flow:</strong> Input → Analysis → Decision Engine → Adaptive Cleanup EQ → Adaptive Transient Shaper → Adaptive Compressor → Adaptive Saturation (tube/tape/console blend) → DC Blockers → Adaptive Tone EQ → Adaptive Clipper → Adaptive Limiter → Auto Gain → Stereo Widen (bass mono) → Output. All processing is done in Mid/Side.</p>
+
+    <p><strong>One-Knob Architecture:</strong> The single Intensity slider (0–100%) activates each processing stage with staggered onset — Cleanup EQ activates earliest (~10%), followed by Transient Shaper (~30%), Compressor (~50%), Saturation (~45%), Clipper (~70%), and Limiter (~90%). Each module's activation is modulated by analysis-derived modifiers — crest factor, RMS level, band energy ratios, transient density, and stereo width — creating a response that adjusts to the material in real time.</p>
+
+    <p><strong>Adaptive Cleanup EQ:</strong> Subtle corrective EQ using one-pole band-splitting filters. Four bands (low &lt;120Hz, low-mid 150–350Hz, presence 3–6kHz, air 10–15kHz) receive gentle gain corrections based on how excessive each band is relative to the overall spectrum. Side channel gets half the correction to preserve stereo width.</p>
+
+    <p><strong>Adaptive Transient Shaper:</strong> A fast/slow envelope follower pair detects transients. Attack mode boosts transient peaks (up to 35%), sustain mode reduces the body (down to –20%) — both scaled by the adaptive weight. This provides dynamic transient enhancement that automatically adjusts to the drum program.</p>
+
+    <p><strong>Adaptive Compressor:</strong> A feed-forward glue compressor with RMS detection. Ratio ranges from 1:1 (bypassed) to 4:1, attack from 20ms to 8ms, release from 120ms to 60ms, and threshold from –12dB to –26dB — all proportional to the adaptive weight. The compressor tightens the drum bus naturally without manual threshold hunting.</p>
+
+    <p><strong>Adaptive Saturation:</strong> A three-mode saturator (tube/tape/console) with frequency bias. When the low end is dominant, saturation is biased toward high frequencies to add presence without muddying the lows. Drive and high bias are both derived from the analysis.</p>
+
+    <p><strong>Adaptive Tone EQ:</strong> Corrects the tonal shift introduced by saturation. A presence dip (2–5kHz) and air shelf (9kHz+) are applied based on the current saturation drive, maintaining clarity and air even at high saturation levels.</p>
+
+    <p><strong>Adaptive Clipper &amp; Limiter:</strong> A soft clipper with an adaptive threshold that follows the current peak envelope, and a transparent limiter that provides final ceiling control. Both scale with the adaptive weight, providing peak protection that tightens automatically as the drum bus gets hotter.</p>
+
+    <p><strong>Smart Auto Gain:</strong> Toggleable RMS-based loudness matching (200ms window) that compares input and output levels and applies up to ±6dB of trim gain, ensuring consistent perceived loudness regardless of how much processing is applied.</p>
+
+    <p><strong>GFX Display:</strong> Identical layout to Guitarbus One — a central intensity knob with 34-dot LED ring, input/output metering, gain reduction readout, auto gain trim visualization via knob halo color, and a clip indicator. Two smaller knobs for input and output gain flank the main knob, with an auto gain toggle switch between them.</p>
+  </div>
+</section>
+
 <!-- DOWNLOAD BANNER -->
 <section style="padding: 48px 64px; border-top: 1px solid var(--border);">
   <div class="jsfx-banner" style="margin: 0;">
@@ -912,6 +1022,21 @@ sections.forEach(sec => observer.observe(sec));
     });
   }
 })();
+</script>
+
+<script>
+document.querySelectorAll('.plugin-desc').forEach(function(desc) {
+  var parent = desc.parentNode;
+  var btn = document.createElement('button');
+  btn.className = 'plugin-expand-btn';
+  btn.textContent = 'Read More';
+  parent.insertBefore(btn, desc.nextSibling);
+
+  btn.addEventListener('click', function() {
+    var isExpanded = desc.classList.toggle('expanded');
+    btn.textContent = isExpanded ? 'Show Less' : 'Read More';
+  });
+});
 </script>
 
 </body>
