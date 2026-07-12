@@ -20,6 +20,7 @@ All browser tools are built with vanilla HTML/CSS/JS and the Web Audio API. No f
 | BeatMaster | `/beatmaster.html` | 16-step sequencer and rhythm game |
 | MasterMind | `/mastermind.html` | One-click automated mastering pipeline |
 | Mixing Tips | `/tips.html` | The Saranta Method — structured mixing guide for heavy music |
+| Lozengrad JSFX Docs | `/lozengrad.html` | Documentation for 23 free REAPER JSFX plugins |
 | Privacy | `/privacy.html` | Privacy policy |
 
 ---
@@ -53,7 +54,7 @@ All browser tools are built with vanilla HTML/CSS/JS and the Web Audio API. No f
 - **URL:** `https://sarantasoundworks.com/mastermind.html`
 - **Type:** WebApplication (Web Audio API)
 - One-click automated mastering pipeline. Upload any audio file and get a broadcast-standard -14 LUFS master in seconds.
-- **Signal chain:** Auto-Gain → Saturation → HPF → Mastering EQ → 3-Band Multiband Comp → Manley Massive Passive EQ → SSL 4000G Bus Comp → Stereo Width → LUFS Normalization → True Peak Limiter
+- **Signal chain:** Auto-Gain → Saturation → HPF → Mastering EQ → 3-Band Multiband Comp → Passive EQ → Bus Comp → Stereo Width → LUFS Normalization → True Peak Limiter
 - Includes A/B monitoring with original/mastered toggle and a 3-band fine-tune EQ for final adjustments.
 
 ---
@@ -62,7 +63,8 @@ All browser tools are built with vanilla HTML/CSS/JS and the Web Audio API. No f
 
 ### Saranta Soundworks JSFX Pack
 - **Repository:** `https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack`
-- A collection of custom JSFX plugins for REAPER, built for heavy music production. Includes compressors, EQ utilities, metering tools, and more. Free and open source.
+- **URL:** `https://sarantasoundworks.com/lozengrad.html`
+- A collection of 23 custom JSFX plugins for REAPER, built for heavy music production. Includes guitar/bass amp sims, adaptive bus processors (Guitarbus, Drumbus, Bassbus, Masterbus, Synthbus), compressors, EQ utilities, multiband saturation, clippers, transient shapers, transformer saturators, metering tools, and more. Free and open source.
 - Direct download: `https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack/archive/refs/heads/main.zip`
 
 ---

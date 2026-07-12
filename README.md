@@ -28,7 +28,7 @@ A full mastering-grade signal chain that runs entirely in the browser. Drag-and-
 
 One-click automated mastering pipeline. Upload any audio file and get a -14 LUFS broadcast-standard master in seconds.
 
-**Signal chain:** Auto-Gain → Saturation → HPF → Mastering EQ → 3-Band Multiband Comp → Manley Massive Passive EQ → SSL 4000G Bus Comp → Stereo Width → LUFS Normalization → True Peak Limiter
+**Signal chain:** Auto-Gain → Saturation → HPF → Mastering EQ → 3-Band Multiband Comp → Passive EQ → Bus Comp → Stereo Width → LUFS Normalization → True Peak Limiter
 
 Includes A/B monitoring with original/mastered toggle and a 3-band fine-tune EQ for final adjustments.
 
@@ -49,13 +49,14 @@ A structured mixing guide based on the Saranta Method — covering drums, bass, 
 
 ## REAPER JSFX Plugins (`lozengrad.html`)
 
-The **Lozengrad** series is a collection of 18 free, open-source JSFX plugins for REAPER, designed for heavy music production. Detailed documentation with signal flow analysis, parameter descriptions, and algorithm explanations is available on the site.
+The **Lozengrad** series is a collection of 23 free, open-source JSFX plugins for REAPER, designed for heavy music production. Detailed documentation with signal flow analysis, parameter descriptions, and algorithm explanations is available on the site.
 
 | # | Plugin | Type |
 |---|---|---|
 | 01 | **Lozengrad Amfi** | Guitar amp sim with noise gate, 3-stage cascading distortion, 3 cab IRs, mid spice, bus comp |
 | 02 | **Lozengrad Amfi V2** | Guitar amp sim with V3 noise gate (2ms lookahead, hysteresis, 4:1 expander), Classic/Hard amp modes, interactive tone stack, power amp sag/presence/resonance, transient enhancer, harmonic exciter |
-| 03 | **Lozengrad Bas Amfi** | Split-band bass amp sim with LR4 crossover, independent low/high processing, 3 cab sims, tilt EQ, character control |
+| 03 | **Lozengrad Bas Amfi** | Split-band bass amp sim v1.2 — multi-stage preamp (6-stage), power amp with transformer saturation, Speaker Coloration Engine (10-stage cab sim), frequency-dependent drive, auto oversampling |
+| — | **Lozengrad Bas Amfi Legacy** | Original single-stage bass amp sim maintained as separate plugin — simpler 3-stage hard clip, basic cab sim |
 | 04 | **Lozengrad Balans EQ** | 8-band parametric EQ with RBJ biquads, save-on-switch band management, FFT + EQ curve overlay |
 | 05 | **Lozengrad EQuinox** | 2-band tone EQ with asymmetric filter pairing for smile curve shaping |
 | 06 | **Lozengrad Feeltre** | 8-mode filter (LPF/HPF/BPF/APF/Tilt EQ/Low Shelf/High Shelf/Tilt Shelf) with custom log frequency mapping |
@@ -71,6 +72,11 @@ The **Lozengrad** series is a collection of 18 free, open-source JSFX plugins fo
 | 16 | **Lozengrad Spyke** | Transient shaper with 3-envelope detection (fast/slow/sustain), level-normalized gain modulation |
 | 17 | **Lozengrad Trafo** | Dual-path transformer saturator (Nickel asymmetric + Iron symmetric w/ hysteresis) with ADAA |
 | 18 | **Lozengrad Hudut** | True peak brickwall limiter with polyphase oversampling, dynamic release, harmonic inflator |
+| 19 | **Lozengrad Guitarbus One** | Adaptive guitar bus — single-knob continuous analysis of chug density, palm mute ratio, pick attack; drives mud suppression, bus compressor, mid saturation, precision EQ, 4-band MB comp, harshness control |
+| 20 | **Lozengrad Drumbus One** | Adaptive drum bus — single-knob analysis of low/mid/presence/air bands, crest factor, transient density; drives cleanup EQ, transient shaper, compressor, saturation, tone EQ, clipper, limiter |
+| 21 | **Lozengrad Masterbus One** | Adaptive mastering bus — tape saturation, passive tube EQ, soft clipper, bus compressor, precision mastering EQ (static + dynamic bands), true peak limiter |
+| 22 | **Lozengrad Synthbus One** | Adaptive synth bus — sub anchor, resonance tamer, glue compressor, ensemble widener, harmonic warmth, precision EQ, 4-band MB comp |
+| 23 | **Lozengrad Bassbus One** | Adaptive bass bus — dual-zone intensity (0-50 clean, 50-100 grit+slam), mud suppression, feedback bass comp, sub weight enhancer, harmonic saturation, string noise control, parallel slam comp |
 
 All plugins are available as a single download from the site or via the [GitHub repository](https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack). JSFX pack is licensed separately (see its own LICENSE file).
 
@@ -156,8 +162,7 @@ The `functions/` directory is automatically picked up by Cloudflare Functions.
 - **Real-time DSP** — all processing happens client-side in the browser
 - **Genre-specific Auto EQ** — reference curves for metal and heavy music genres
 - **ITU-R BS.1770-4 LUFS** — broadcast-compliant loudness measurement
-- **Lozengrad JSFX Series** — 17 free, open-source REAPER plugins with detailed documentation
-- **Mobile responsive** — works on phones and tablets
+- **Lozengrad JSFX Series** — 23 free, open-source REAPER plugins with detailed documentation
 - **Free and open source**
 
 ---

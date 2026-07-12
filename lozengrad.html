@@ -428,6 +428,12 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
   <a href="#guitarbus" class="topbar-item"><span class="tb-num">19</span> Guitarbus</a>
   <span class="topbar-sep">/</span>
   <a href="#drumbus" class="topbar-item"><span class="tb-num">20</span> Drumbus</a>
+  <span class="topbar-sep">/</span>
+  <a href="#masterbus" class="topbar-item"><span class="tb-num">21</span> Masterbus</a>
+  <span class="topbar-sep">/</span>
+  <a href="#synthbus" class="topbar-item"><span class="tb-num">22</span> Synthbus</a>
+  <span class="topbar-sep">/</span>
+  <a href="#bassbus" class="topbar-item"><span class="tb-num">23</span> Bassbus</a>
 </nav>
 
 <!-- PLUGINS -->
@@ -453,7 +459,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 
     <p><strong>Mid Spice (slider10):</strong> A parallel saturation processor that applies a bandpass filter at 500 Hz (Q=0.8), drives the filtered signal with 0–24 dB of gain, applies soft clipping via the cubic Taylor approximation <code>x − x³/6</code> (modeling the first term of a sine wave clipping characteristic), and blends the saturated mid band back into the dry signal. An output gain compensator <code>1 / (1 + (drive − 1) · 0.5)</code> prevents level jump.</p>
 
-    <p><strong>Bus Compressor (slider11, slider12, slider13):</strong> An API 2500-style bus compressor at the end of the chain. Uses RMS detection (10 ms window) with a soft knee (6 dB), 4:1 ratio, 10 ms attack, and 100 ms release. Slider13 displays the metered gain reduction in dB (read-only). When disabled, the compressor is fully bypassed with unity gain.</p>
+    <p><strong>Bus Compressor (slider11, slider12, slider13):</strong> A feedback bus compressor at the end of the chain. Uses RMS detection (10 ms window) with a soft knee (6 dB), 4:1 ratio, 10 ms attack, and 100 ms release. Slider13 displays the metered gain reduction in dB (read-only). When disabled, the compressor is fully bypassed with unity gain.</p>
 
     <p><strong>Master Volume (slider8):</strong> Final output level with −24 to +24 dB range, scaled by 0.355 to prevent digital clipping through the full signal chain.</p>
   </div>
@@ -511,7 +517,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 
     <p><strong>Signal Flow:</strong> Input Gain (×4 hidden boost) → Noise Gate → LR4 Crossover → <strong>Low Band</strong> (Mono Sum → Bass Focus peaking @ 80Hz → Compressor → Dynamic Saturation) + <strong>High Band</strong> (Pre-HPF @ 400Hz → Pre-Emphasis high-shelf → Pre-Dist EQ → Compressor → Frequency-Dependent Drive Modulation → Multi-Stage Distortion ×6 → Post-Dist EQ → Post-LPF → Tilt EQ) → Blend → RMS Auto-Gain → Power Amp (Comp → Low Damping HPF → Transformer Saturation → Soft Limiter) → Speaker Coloration Engine → Output Gain (×0.25 hidden cut) → DC Blocker.</p>
 
-    <p><strong>Character Macro (slider12):</strong> A macro control interpolating across 14 DSP parameters with 5 breakpoints (Vintage/SansAmp/GK/Darkglass/Modern). Controls preamp drive (2.5–14×), compressor threshold (−22 to −8dB) and ratio (3:1–10:1), saturation depth, transformer blend, cabinet resonance frequency and Q, low damping, presence boost, asymmetry, post-LPF cutoff (4–8kHz), pre-emphasis (6–22dB), clip blend, and dynamic response. One knob morphs the entire amplifier character.</p>
+    <p><strong>Character Macro (slider12):</strong> A macro control interpolating across 14 DSP parameters with 5 breakpoints (Vintage/Warm/Punch/Aggressive/Modern). Controls preamp drive (2.5–14×), compressor threshold (−22 to −8dB) and ratio (3:1–10:1), saturation depth, transformer blend, cabinet resonance frequency and Q, low damping, presence boost, asymmetry, post-LPF cutoff (4–8kHz), pre-emphasis (6–22dB), clip blend, and dynamic response. One knob morphs the entire amplifier character.</p>
 
     <p><strong>Multi-Stage Preamp (slider7):</strong> A 6-stage cascaded distortion replacing the original single-stage clip. <strong>Stage 1</strong> — gentle asymmetric tube preamp with dry blend. <strong>Stage 2</strong> — polynomial soft clip (cubic Taylor approximation). <strong>Stage 3</strong> — asymmetric DC bias for analog-style asymmetry. <strong>Stage 4</strong> — moderate soft clip. <strong>Stage 5</strong> — tanh glue stage. <strong>Stage 6</strong> — asymmetry shaping with hard clip blend. Each stage is progressively saturated, creating a smooth, musical distortion curve that cleans up on lighter playing.</p>
 
@@ -877,7 +883,7 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
 
     <p><strong>Lookahead (slider3):</strong> 0–10 ms lookahead implemented as a circular delay buffer (up to 480,000 samples). Separate write and read pointers track the delay offset, with the delay length scaled by the OS factor. The buffer is reset on playback start to prevent stale-sample clicks.</p>
 
-    <p><strong>Harmonic Inflator (slider5, slider6):</strong> An Oxford Inflator-style harmonic enhancer placed before the limiter detection. Two modes: <strong>Transparent</strong> uses a symmetric polynomial <code>x · (1 + amount · (1 − x²))</code> for even-order harmonics with minimal tonal shift; <strong>Color</strong> applies the same polynomial with a DC offset (<code>x + amount · 0.2</code>) then subtracts the DC component, producing asymmetric even harmonics with a warm, vintage character.</p>
+    <p><strong>Harmonic Inflator (slider5, slider6):</strong> A harmonic enhancer placed before the limiter detection. Two modes: <strong>Transparent</strong> uses a symmetric polynomial <code>x · (1 + amount · (1 − x²))</code> for even-order harmonics with minimal tonal shift; <strong>Color</strong> applies the same polynomial with a DC offset (<code>x + amount · 0.2</code>) then subtracts the DC component, producing asymmetric even harmonics with a warm, vintage character.</p>
 
     <p><strong>Makeup & Ceiling:</strong> After gain reduction, the signal is multiplied by <code>ceiling / threshold</code> makeup gain, then hard-clipped to ±ceiling_amp. The ceiling ranges from −14 to 0 dB (slider2) and the threshold from −24 to 0 dB (slider1). Plugin Delay Compensation is reported as <code>lookahead + FIR group delay</code> (0/11/16/19 samples for 1×/2×/4×/8×).</p>
 
@@ -891,13 +897,13 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
   <div class="plugin-desc">
     <p><strong>Lozengrad Guitarbus One</strong> is an adaptive guitar bus processor with a single Intensity knob. Everything else — compression, saturation, EQ, multiband compression, harshness control, limiting — is continuously derived from real-time signal analysis of chug density, palm mute ratio, pick attack harshness, sustain/staccato ratio, and body energy. The result is a plugin that mirrors the behavior of a full guitar bus processing chain, adapting to every riff and chord change.</p>
 
-    <p><strong>Signal Flow:</strong> Input → Analysis → Decision Engine → HPF → Adaptive Mud Suppression (200–400Hz dynamic cut) → API 2500-Style Feedback Compressor → Mid-Only Tube Saturation (300–800Hz) → Precision EQ (7-band, evolving from transparent to shaped) → 4-Band Multiband Compressor (LR4 crossover: chug/body/presence/pick) → Dynamic Harshness Control (4–7kHz de-esser) → Safety Limiter → Auto Gain → Stereo Widen (bass mono) → Output.</p>
+    <p><strong>Signal Flow:</strong> Input → Analysis → Decision Engine → HPF → Adaptive Mud Suppression (200–400Hz dynamic cut) → Feedback Bus Compressor → Mid-Only Tube Saturation (300–800Hz) → Precision EQ (7-band, evolving from transparent to shaped) → 4-Band Multiband Compressor (LR4 crossover: chug/body/presence/pick) → Dynamic Harshness Control (4–7kHz de-esser) → Safety Limiter → Auto Gain → Stereo Widen (bass mono) → Output.</p>
 
-    <p><strong>One-Knob Architecture:</strong> The single Intensity slider (0–100%) nonlinearly activates each processing stage with staggered onset curves — Mud Suppression activates first (~15%), followed by the API compressor (~30%), mid saturation (~25%), EQ (linear, 0–100%), multiband compressor (~40%), harshness control (~50%), and limiter (~80%). Each module's activation is further modulated by real-time analysis modifiers (crest factor, band energy ratios, transient density) and a confidence metric derived from crest factor stability. This creates an adaptive response that behaves differently on palm-muted chugs vs open chords vs lead lines, all from a single knob.</p>
+    <p><strong>One-Knob Architecture:</strong> The single Intensity slider (0–100%) nonlinearly activates each processing stage with staggered onset curves — Mud Suppression activates first (~15%), followed by the bus compressor (~30%), mid saturation (~25%), EQ (linear, 0–100%), multiband compressor (~40%), harshness control (~50%), and limiter (~80%). Each module's activation is further modulated by real-time analysis modifiers (crest factor, band energy ratios, transient density) and a confidence metric derived from crest factor stability. This creates an adaptive response that behaves differently on palm-muted chugs vs open chords vs lead lines, all from a single knob.</p>
 
     <p><strong>Mud Suppression:</strong> A dynamic 200–400Hz cut driven by an envelope follower on the band energy. As chug density increases, the cut deepens (up to 4 dB), keeping the low-mid range clean and tight even during heavy palm-muted passages.</p>
 
-    <p><strong>API 2500 Compressor:</strong> A feedback-style VCA compressor with RMS detection, soft knee, and program-dependent release. Threshold and ratio are both derived from the adaptive engine — at higher intensity settings, threshold drops and ratio increases for more aggressive glue compression. Side and Mid channels get independent threshold offsets.</p>
+    <p><strong>Bus Compressor:</strong> A feedback-style VCA compressor with RMS detection, soft knee, and program-dependent release. Threshold and ratio are both derived from the adaptive engine — at higher intensity settings, threshold drops and ratio increases for more aggressive glue compression. Side and Mid channels get independent threshold offsets.</p>
 
     <p><strong>Mid Saturation:</strong> A tube-style saturator applied only to the 300–800Hz band, targeting the core body of the guitar tone. Drive increases with intensity, adding harmonic richness to the midrange where guitars live, while leaving the lows and highs clean.</p>
 
@@ -936,6 +942,84 @@ html[data-theme="light"] .theme-icon-dark { display: none; }
     <p><strong>Smart Auto Gain:</strong> Toggleable RMS-based loudness matching (200ms window) that compares input and output levels and applies up to ±6dB of trim gain, ensuring consistent perceived loudness regardless of how much processing is applied.</p>
 
     <p><strong>GFX Display:</strong> Identical layout to Guitarbus One — a central intensity knob with 34-dot LED ring, input/output metering, gain reduction readout, auto gain trim visualization via knob halo color, and a clip indicator. Two smaller knobs for input and output gain flank the main knob, with an auto gain toggle switch between them.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="masterbus">
+  <div class="plugin-badge"><span class="plugin-dot dot-red"></span>21 — Adaptive Mastering Bus</div>
+  <div class="plugin-name">Lozengrad Masterbus One</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Masterbus One</strong> is an adaptive mastering bus processor with a single Intensity knob. It analyzes the full mix — crest factor, RMS level, dynamic range, spectral balance, and transient density — and derives per-module processing parameters in real time. Designed for transparent mix bus processing that adapts to every section of the song.</p>
+
+    <p><strong>Signal Flow:</strong> Input → Analysis → Decision Engine → Tape Saturation → Passive Tube EQ → Soft Clipper → Bus Compressor → Precision Mastering EQ (static shaped + dynamic bands) → True Peak Limiter → Auto Gain → Output. All processing is pure stereo L/R (no mid/side matrix).</p>
+
+    <p><strong>One-Knob Architecture:</strong> The single Intensity slider (0–100%) activates each stage with staggered onset — Tape Saturation activates earliest (~15%), followed by Tube EQ (~25%), Soft Clipper (~40%), Bus Compressor (~50%), Mastering EQ (~60%), and Limiter (~80%). Each module's activation is modulated by crest factor, RMS level, spectral balance, and confidence metrics, creating a response that behaves differently on quiet verses vs loud choruses.</p>
+
+    <p><strong>Tape Saturation:</strong> A gentle tape-style saturator with pre-emphasis (1.5kHz high-shelf) before saturation and de-emphasis after. Uses the tanh approximation with drive normalized by <code>tanh(d) / d</code> for consistent output level. At low intensity, the saturation is nearly transparent; at higher settings, it adds subtle harmonic warmth and density to the entire mix.</p>
+
+    <p><strong>Passive Tube EQ:</strong> A two-band EQ modeled after passive tube equalizer circuits. A low shelf at 120Hz (Q=0.6) and a high shelf at 8kHz (Q=0.6), both with gain proportional to the adaptive weight. The EQ uses RBJ biquad coefficients recomputed on every parameter change, with state attenuation to prevent zipper noise. Designed for broad musical shaping rather than surgical correction.</p>
+
+    <p><strong>Soft Clipper:</strong> A gentle soft-clipping stage using a polynomial transfer curve. Provides subtle peak rounding before the compressor, reducing the workload on downstream stages. The clip threshold adapts to the current signal level, engaging more aggressively on transient peaks while leaving lower-level material untouched.</p>
+
+    <p><strong>Bus Compressor:</strong> A VCA-style bus compressor with RMS detection, soft knee, and program-dependent release. Threshold and ratio are derived from the adaptive engine, providing gentle glue compression that tightens the mix without audible pumping. The compressor includes a 60Hz sidechain high-pass filter to prevent bass from over-triggering gain reduction.</p>
+
+    <p><strong>Precision Mastering EQ:</strong> A dual-mode equalizer with static shaped bands and dynamic bands. Static bands provide a gentle mastering curve with broad shelves and presence shaping. Dynamic bands respond to the adaptive engine, providing spectral correction that adapts to the material — adding air when the mix is dull, taming harshness when the highs are aggressive.</p>
+
+    <p><strong>True Peak Limiter:</strong> A lookahead limiter with oversampled true peak detection. Provides transparent ceiling control with program-dependent release that responds to crest factor. The limiter is the final safety stage, catching intersample peaks while maintaining the dynamics shaped by the preceding stages.</p>
+
+    <p><strong>GFX Display:</strong> A central intensity knob with 34-dot LED ring, input/output metering, gain reduction readout, auto gain trim visualization, and a clip indicator. Two smaller knobs for input and output gain flank the main knob, with an auto gain toggle switch between them.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="synthbus">
+  <div class="plugin-badge"><span class="plugin-dot dot-cyan"></span>22 — Adaptive Synth Bus</div>
+  <div class="plugin-name">Lozengrad Synthbus One</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Synthbus One</strong> is an adaptive synth bus processor with a single Intensity knob. It analyzes sub energy (30–100Hz), resonance/screech energy (1.5–4.2kHz), air/digital-edge energy (6–10kHz), stereo width, crest factor, and attack density (plucks/arps vs sustained pads). The result is a bus processor that adapts to every patch — from warm pads to screeching leads to massive supersaws.</p>
+
+    <p><strong>Signal Flow:</strong> Input → Analysis → Decision Engine → Sub Anchor (mono sum + low-end weight) → Resonance Tamer (filter-screech control) → Glue Compressor → Ensemble Widener (unison/chorus thickening) → Harmonic Warmth → Precision EQ → 4-Band Multiband Compressor → Limiter → Auto Gain → Output.</p>
+
+    <p><strong>One-Knob Architecture:</strong> The single Intensity slider (0–100%) activates each stage with staggered onset — Sub Anchor activates first (~10%), followed by Resonance Tamer (~20%), Glue Compressor (~35%), Ensemble Widener (~45%), Harmonic Warmth (~50%), Precision EQ (~55%), Multiband Compressor (~65%), and Limiter (~80%). Each module's activation is modulated by synth-specific analysis metrics.</p>
+
+    <p><strong>Sub Anchor:</strong> Mono-sums the low end below a crossover point (derived from sub energy analysis) and applies a gentle low-shelf boost to anchor the synth's fundamental. Prevents low-end phase cancellation while maintaining a solid sub foundation.</p>
+
+    <p><strong>Resonance Tamer:</strong> Targets the 1.5–4.2kHz range where filter resonance, sync sweep harshness, and digital edge artifacts live. A dynamic cut driven by an envelope follower on the resonance band reduces harshness by up to 5dB without dulling the overall tone.</p>
+
+    <p><strong>Glue Compressor:</strong> A feed-forward compressor with RMS detection and program-dependent release. Threshold, ratio, attack, and release are all derived from the adaptive engine, providing compression that adapts to the synth's dynamic profile — gentle on pads, tighter on plucks and arpeggios.</p>
+
+    <p><strong>Ensemble Widener:</strong> A stereo width enhancer that simulates unison/chorus thickening. Analysis of the side-to-mid ratio drives adaptive widening — narrow patches get more width, already-wide supersaws get subtle tightening to maintain mono compatibility. A 180Hz low-pass on the side channel keeps bass centered.</p>
+
+    <p><strong>Harmonic Warmth:</strong> A tube-style saturator biased toward the low-mids (200–800Hz). Adds even-order harmonics to thin-sounding patches while leaving dense, rich patches clean. The saturation blend is modulated by the adaptive engine based on spectral balance analysis.</p>
+
+    <p><strong>Precision EQ &amp; Multiband Compressor:</strong> A 7-band precision EQ and 4-band LR4 multiband compressor adapted from the guitar bus engine, with synth-specific frequency splits and parameter ranges. The EQ provides broad spectral shaping, while the multiband comp targets per-band dynamics for sub, body, presence, and air bands.</p>
+
+    <p><strong>GFX Display:</strong> A central intensity knob with 34-dot LED ring, input/output metering, gain reduction readout, auto gain trim visualization, and a clip indicator. Two smaller knobs for input and output gain flank the main knob, with an auto gain toggle switch between them.</p>
+  </div>
+</section>
+
+<section class="plugin-section" id="bassbus">
+  <div class="plugin-badge"><span class="plugin-dot dot-green"></span>23 — Adaptive Bass Bus</div>
+  <div class="plugin-name">Lozengrad Bassbus One</div>
+  <div class="plugin-desc">
+    <p><strong>Lozengrad Bassbus One</strong> is an adaptive bass bus processor with a dual-zone single Intensity knob. It splits the intensity range into two zones: 0–50 engages the full adaptive clean processing chain, while 50–100 keeps the clean chain maxed out and introduces a Grit + Slam parallel compression layer for aggressive, coloured bus-slam character. Analysis targets low-end energy, mid-range punch, pick/string noise, sustain, crest factor, and transient density.</p>
+
+    <p><strong>Signal Flow:</strong> Input → Analysis → Decision Engine → Low-Mid Mud Suppression → Feedback Bass Compressor → Sub Weight Enhancer → Harmonic Saturation → Precision EQ → 4-Band Multiband Compressor → String Noise / Fret Buzz Control → Grit + Slam Parallel Compressor → Limiter → Auto Gain → Output.</p>
+
+    <p><strong>Dual-Zone Architecture:</strong> The Intensity knob (0–100%) is split into two operating zones. <strong>Zone 1 (0–50):</strong> the full adaptive clean chain ramps up, reaching full activation by the halfway point — providing transparent bus processing that adapts to the bass performance. <strong>Zone 2 (50–100):</strong> the clean chain stays fully engaged while a parallel Grit + Slam compression layer ramps in. This layer uses a crushed parallel compressor blend with heavy saturation, providing the aggressive bus-slam character without losing the clean foundation. The transition is seamless and continuous.</p>
+
+    <p><strong>Low-Mid Mud Suppression:</strong> A dynamic 200–400Hz cut driven by an envelope follower on the mud band. As low-mid buildup increases (common with palm-muted bass or aggressive picking), the cut deepens to maintain clarity and definition in the upper bass register.</p>
+
+    <p><strong>Feedback Bass Compressor:</strong> A feedback-style compressor with RMS detection optimized for bass. Uses a 60Hz sidechain high-pass filter to prevent sub frequencies from over-triggering. The compressor provides smooth, musical gain reduction that adapts to the bass player's dynamics — tighter on busy passages, looser on sustained notes.</p>
+
+    <p><strong>Sub Weight Enhancer:</strong> A sub-frequency processor that analyzes the 40–100Hz range and applies dynamic low-shelf boost or harmonic enhancement. When the sub energy is low, the enhancer adds weight through gentle saturation; when the sub is already prominent, it provides subtle tightening to prevent muddiness.</p>
+
+    <p><strong>Harmonic Saturation:</strong> A tube/tape blend saturator targeting the upper bass and low-mid range (100–800Hz). Adds presence and grind to the bass tone, helping it cut through the mix without excessive high-frequency content. The saturation blend adapts to the playing style — cleaner on fingerstyle, more aggressive on picked or slapped bass.</p>
+
+    <p><strong>String Noise / Fret Buzz Control:</strong> A de-esser style processor targeting the 2–5kHz range where string noise, fret buzz, and finger squeaks live. A dynamic cut of up to 4dB tames unwanted mechanical noise while preserving the attack and presence of the bass.</p>
+
+    <p><strong>Grit + Slam Parallel Compressor:</strong> Active in Zone 2 (50–100% intensity). A parallel compression bus with heavy ratio (8:1+), fast attack, and aggressive saturation. The crushed signal is blended with the clean chain, with the blend amount proportional to the intensity above 50%. At full intensity, the parallel bus adds significant density and aggression while maintaining the fundamental low-end clarity from the clean chain.</p>
+
+    <p><strong>GFX Display:</strong> A central intensity knob with 34-dot LED ring, input/output metering, gain reduction readout, auto gain trim visualization, and a clip indicator. Two smaller knobs for input and output gain flank the main knob, with an auto gain toggle switch between them.</p>
   </div>
 </section>
 
