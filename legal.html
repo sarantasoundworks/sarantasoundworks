@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal — Saranta Soundworks</title>
+<meta name="description" content="Legal information for Saranta Soundworks — Terms of Use, Plugin License, Privacy Policy, Cookie Policy, Trademark Policy, and Disclaimer.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://sarantasoundworks.com/legal.html">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sarantasoundworks.com/legal.html">
+<meta property="og:title" content="Legal — Saranta Soundworks">
+<meta property="og:description" content="Terms of Use, Plugin License, Privacy Policy, and more for Saranta Soundworks.">
+<meta property="og:image" content="https://sarantasoundworks.com/og-image.jpg">
+<meta property="og:site_name" content="Saranta Soundworks">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Legal — Saranta Soundworks">
+<meta name="twitter:description" content="Terms of Use, Plugin License, Privacy Policy, and more.">
+<meta name="twitter:image" content="https://sarantasoundworks.com/og-image.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #07070d;
+  --bg2:     #0c0c14;
+  --bg3:     #111118;
+  --bg4:     #1a1a28;
+  --border:  #1e1e2e;
+  --border2: #2a2a3a;
+  --accent:  #00ff88;
+  --accent3: #4488ff;
+  --accent4: #ff9900;
+  --accent5: #ff4466;
+  --text:    #e8e8f0;
+  --dim:     #666680;
+  --dim2:    #2a2a3a;
+  --mono:    'Space Mono', monospace;
+  --disp:    'Syne', sans-serif;
+  --bg-rgb: 7,7,13;
+  --accent-rgb: 0,255,136;
+  --accent3-rgb: 68,136,255;
+}
+html[data-theme="light"] {
+  --bg: #f5f5f7;
+  --bg2: #ffffff;
+  --bg3: #f0f0f2;
+  --bg4: #e8e8ec;
+  --border: #d8d8de;
+  --border2: #c8c8d0;
+  --accent: #00cc6a;
+  --accent3: #3366cc;
+  --accent4: #cc7a00;
+  --accent5: #cc3355;
+  --text: #1a1a2e;
+  --dim: #555566;
+  --dim2: #9999aa;
+  --bg-rgb: 245,245,247;
+  --accent-rgb: 0,180,100;
+  --accent3-rgb: 51,102,204;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  position: relative;
+}
+@media (max-width: 1200px) {
+  .page-container { border: none; max-width: 100%; }
+}
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 48px;
+  background: rgba(var(--bg-rgb),0.96);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+.nav-logo { font-family: var(--disp); font-weight: 800; font-size: 13px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; text-decoration: none; }
+.nav-logo em { color: var(--accent3); font-style: normal; }
+.nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+.nav-links a {
+  font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--dim); text-decoration: none; padding: 5px 12px; border-radius: 2px; border: 1px solid transparent;
+  transition: all 0.15s;
+}
+.nav-links a:hover { color: var(--text); border-color: var(--border2); background: var(--bg4); }
+.nav-tool-btn {
+  font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  background: rgba(var(--accent-rgb),0.08); border: 1px solid var(--accent); color: var(--accent);
+  text-decoration: none; padding: 6px 16px; border-radius: 2px; transition: background 0.15s;
+}
+.nav-tool-btn:hover { background: rgba(var(--accent-rgb),0.18); }
+
+/* HERO */
+.hero {
+  min-height: 28vh; display: flex; flex-direction: column; justify-content: flex-start;
+  padding: 120px 64px 48px; position: relative; overflow: hidden;
+}
+.grid-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(var(--accent-rgb),0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--accent-rgb),0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.grid-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 55% 45% at 8% 88%, rgba(var(--accent-rgb),0.08) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 30% at 85% 15%, rgba(var(--accent3-rgb),0.06) 0%, transparent 65%);
+}
+html[data-theme="light"] .grid-bg {
+  background-image:
+    linear-gradient(rgba(var(--accent-rgb),0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--accent-rgb),0.06) 1px, transparent 1px);
+}
+html[data-theme="light"] .grid-bg::after {
+  background:
+    radial-gradient(ellipse 55% 45% at 8% 88%, rgba(var(--accent-rgb),0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 30% at 85% 15%, rgba(var(--accent3-rgb),0.08) 0%, transparent 65%);
+}
+.hero-eyebrow {
+  position: relative; display: flex; align-items: center; gap: 10px;
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
+}
+.hero-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--accent); opacity: 0.5; }
+.hero-title {
+  font-family: var(--disp); font-size: clamp(36px, 6vw, 80px); font-weight: 800;
+  line-height: 0.95; letter-spacing: -0.02em; text-transform: uppercase; color: var(--text);
+  position: relative; margin-bottom: 20px;
+}
+.hero-title .hl { color: var(--accent); text-shadow: 0 0 40px rgba(var(--accent-rgb),0.2); }
+.hero-sub { max-width: 560px; color: var(--dim); font-size: 12px; line-height: 2; position: relative; }
+
+/* SECTION TOPBAR (like tips & lozengrad) */
+.section-topbar {
+  position: sticky; top: 48px; z-index: 100;
+  background: rgba(var(--bg-rgb),0.97); border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; gap: 0;
+  padding: 0 64px;
+  overflow-x: auto;
+}
+.section-topbar::-webkit-scrollbar { display: none; }
+.topbar-item {
+  font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--dim); text-decoration: none;
+  padding: 14px 18px; border-bottom: 2px solid transparent;
+  transition: all 0.15s; white-space: nowrap; display: flex; align-items: center; gap: 8px;
+}
+.topbar-item:hover { color: var(--text); border-bottom-color: var(--border2); }
+.topbar-item.active { color: var(--accent); border-bottom-color: var(--accent); }
+.topbar-item .tb-num { font-size: 8px; color: var(--dim2); font-weight: 400; }
+.topbar-sep { color: var(--dim2); font-size: 11px; flex-shrink: 0; padding: 0 4px; }
+
+/* CONTENT */
+.content-section {
+  padding: 64px 64px;
+  border-bottom: 1px solid var(--border);
+}
+.content-section:last-of-type { border-bottom: none; }
+
+.content-section h2 {
+  font-family: var(--disp);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+.content-section h3 {
+  font-family: var(--disp);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--accent3);
+  margin-top: 28px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.content-section p {
+  font-size: 13px;
+  color: var(--dim);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+.content-section ul { padding-left: 20px; margin-bottom: 12px; }
+.content-section li {
+  font-size: 12px;
+  color: var(--dim);
+  line-height: 1.8;
+  margin-bottom: 4px;
+}
+.content-section a { color: var(--accent); text-decoration: none; }
+.content-section a:hover { text-decoration: underline; }
+.content-section strong { color: var(--text); }
+.content-section .val-green { color: var(--accent); }
+.content-section .val-red { color: var(--accent5); }
+.content-section .date { font-size: 11px; opacity: 0.5; margin-bottom: 24px; display: block; }
+
+.content-section h2 .hl { color: var(--text); }
+
+/* FAQ accordion */
+.faq-list { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; }
+.faq-item {
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  background: var(--bg3);
+  overflow: hidden;
+}
+.faq-q {
+  font-family: var(--disp); font-size: 0.85rem; font-weight: 600;
+  color: var(--text); padding: 16px 24px; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.15s; user-select: none;
+}
+.faq-q:hover { background: var(--bg4); }
+.faq-q .faq-arrow {
+  font-size: 10px; color: var(--dim2); transition: transform 0.2s;
+  flex-shrink: 0; margin-left: 12px;
+}
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+.faq-a {
+  max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 24px; font-size: 12px; color: var(--dim); line-height: 1.8;
+}
+.faq-item.open .faq-a {
+  max-height: 200px; padding: 0 24px 16px;
+}
+.faq-a strong { font-weight: 700; font-size: 13px; }
+.faq-a strong.yes { color: var(--accent); }
+.faq-a strong.no { color: var(--accent5); }
+
+/* FOOTER */
+footer {
+  padding: 22px 64px; border-top: 1px solid var(--border);
+  background: var(--bg2); display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+}
+.foot-logo { font-family: var(--disp); font-weight: 800; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); }
+.foot-logo em { color: var(--accent3); font-style: normal; }
+.foot-copy { font-size: 9px; color: var(--dim2); letter-spacing: 1px; }
+.foot-links { display: flex; gap: 16px; }
+.foot-links a { font-family: var(--disp); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.15s; }
+.foot-links a:hover { color: var(--accent); }
+
+/* HAMBURGER */
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+.hamburger span { display: block; width: 22px; height: 1.5px; background: var(--dim); transition: all 0.2s; }
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--accent); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--accent); }
+.mobile-menu {
+  display: none; position: fixed; top: 48px; left: 0; right: 0;
+  background: rgba(var(--bg-rgb),0.98); border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px); z-index: 199; padding: 16px 24px;
+  flex-direction: column; gap: 4px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: var(--disp); font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--dim); text-decoration: none;
+  padding: 10px 0; border-bottom: 1px solid var(--border); transition: color 0.15s;
+}
+.mobile-menu a:last-child { border-bottom: none; color: var(--accent); }
+.mobile-menu a:hover { color: var(--text); }
+
+/* THEME TOGGLE */
+.theme-toggle {
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 3px;
+  background: transparent; border: 1px solid var(--border2);
+  color: var(--dim); cursor: pointer; font-size: 14px; line-height: 1;
+  transition: all 0.15s; padding: 0; margin-left: 8px;
+}
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.theme-icon-light { display: none; }
+.theme-icon-dark { display: inline; }
+html[data-theme="light"] .theme-icon-light { display: inline; }
+html[data-theme="light"] .theme-icon-dark { display: none; }
+
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 24px 40px; }
+  .section-topbar { padding: 0 20px; }
+  .content-section { padding: 40px 24px; }
+  footer { padding: 24px; flex-direction: column; gap: 12px; }
+  .hamburger { display: flex; }
+  .theme-toggle { margin-left: auto; margin-right: 8px; }
+}
+@media (max-width: 600px) {
+  .hero-title { font-size: 2.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-container">
+
+<nav>
+  <a href="index.html" class="nav-logo">Saranta<em>/</em>Soundworks</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#music">Music</a></li>
+    <li><a href="tips.html">Tips</a></li>
+    <li><a href="tools.html">Tools</a></li>
+    <li><a href="legal.html" style="color:var(--accent);">Legal</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="mastering-suite.html" class="nav-tool-btn nav-tool-desktop">Launch Mastering Suite ↗</a>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+    <span class="theme-icon-light">☀</span>
+    <span class="theme-icon-dark">☾</span>
+  </button>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#about" onclick="closeMobile()">About</a>
+  <a href="index.html#music" onclick="closeMobile()">Music</a>
+  <a href="tips.html">Tips</a>
+  <a href="tools.html">Tools</a>
+  <a href="legal.html" style="color:var(--accent);">Legal</a>
+  <a href="index.html#contact" onclick="closeMobile()">Contact</a>
+  <a href="mastering-suite.html">Launch Mastering Suite ↗</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="grid-bg"></div>
+  <div class="hero-eyebrow">Policies & Terms</div>
+  <h1 class="hero-title">
+    <span class="hl">Legal</span>
+  </h1>
+  <p class="hero-sub">This page covers the terms, licenses, and policies governing the use of all Saranta Soundworks websites, browser tools, and software plugins.</p>
+</section>
+
+<!-- SECTION TOPBAR (sticky, scrollable navigation like tips & lozengrad) -->
+<nav class="section-topbar" id="legal-topbar">
+  <a href="#terms" class="topbar-item active"><span class="tb-num">01</span> Terms</a>
+  <span class="topbar-sep">/</span>
+  <a href="#plugin-license" class="topbar-item"><span class="tb-num">02</span> Plugin License</a>
+  <span class="topbar-sep">/</span>
+  <a href="#preset-license" class="topbar-item"><span class="tb-num">03</span> Presets</a>
+  <span class="topbar-sep">/</span>
+  <a href="#privacy" class="topbar-item"><span class="tb-num">04</span> Privacy</a>
+  <span class="topbar-sep">/</span>
+  <a href="#cookies" class="topbar-item"><span class="tb-num">05</span> Cookies</a>
+  <span class="topbar-sep">/</span>
+  <a href="#trademark" class="topbar-item"><span class="tb-num">06</span> Trademark</a>
+  <span class="topbar-sep">/</span>
+  <a href="#ai" class="topbar-item"><span class="tb-num">07</span> AI</a>
+  <span class="topbar-sep">/</span>
+  <a href="#disclaimer" class="topbar-item"><span class="tb-num">08</span> Disclaimer</a>
+  <span class="topbar-sep">/</span>
+  <a href="#faq" class="topbar-item"><span class="tb-num">09</span> FAQ</a>
+</nav>
+
+<!-- ═══ TERMS OF USE ═══ -->
+<section class="content-section" id="terms">
+  <h2><span class="hl">01.</span> Terms of Use</h2>
+  <span class="date">By accessing or using the Saranta Soundworks website, you agree to be bound by these terms.</span>
+
+  <h3>1.1 Site Content</h3>
+  <p>All content on this website — including text, graphics, audio samples, design, and code (excluding separately licensed JSFX source code) — is the property of Burak Balta / Saranta Soundworks and is protected by applicable copyright and intellectual property laws.</p>
+
+  <h3>1.2 Use of Services</h3>
+  <p>You may use the browser-based audio tools for lawful purposes only. You may not:</p>
+  <ul>
+    <li>Reverse-engineer, decompile, or extract the source code of the web-based tools beyond normal browser operation</li>
+    <li>Use the tools to infringe upon any third-party copyright or intellectual property</li>
+    <li>Attempt to disrupt, overload, or damage the website or its underlying infrastructure</li>
+  </ul>
+
+  <h3>1.3 No Warranty</h3>
+  <p>All tools and content are provided <strong>"AS IS"</strong> without warranty of any kind, either express or implied. See the <a href="#disclaimer">Disclaimer</a> section for details.</p>
+
+  <h3>1.4 Limitation of Liability</h3>
+  <p>In no event shall Saranta Soundworks or Burak Balta be liable for any damages arising out of the use or inability to use the website, tools, or plugins.</p>
+
+  <h3>1.5 Termination</h3>
+  <p>We reserve the right to restrict or terminate access to the website or its services at any time, without notice, for violations of these terms.</p>
+
+  <h3>1.6 Changes</h3>
+  <p>These Terms of Use may be updated at any time. Continued use of the site after changes constitutes acceptance of the new terms.</p>
+</section>
+
+<!-- ═══ PLUGIN LICENSE ═══ -->
+<section class="content-section" id="plugin-license">
+  <h2><span class="hl">02.</span> Plugin License</h2>
+  <span class="date">Saranta Soundworks Free License (SSFL) v1.0</span>
+
+  <p>This license governs the use of the Lozengrad JSFX plugin pack and any other software plugins distributed by Saranta Soundworks (collectively, "the Plugins").</p>
+
+  <h3>2.1 Definitions</h3>
+  <ul>
+    <li><strong>"The Plugins"</strong> — all JSFX source files, compiled effects, and associated resources distributed under the Saranta Soundworks brand.</li>
+    <li><strong>"Commercial Use"</strong> — creating, recording, mixing, mastering, and distributing music or audio for monetary gain.</li>
+    <li><strong>"Distribution"</strong> — making the Plugins available to third parties, whether for free or for payment.</li>
+  </ul>
+
+  <h3>2.2 Permissions</h3>
+  <p>You are <strong>permitted</strong> to:</p>
+  <ul>
+    <li><span class="val-green">✔</span> Use the Plugins to create, record, mix, master, and distribute commercial music and audio productions</li>
+    <li><span class="val-green">✔</span> Upload music processed with the Plugins to streaming platforms (Spotify, Apple Music, YouTube, etc.) and monetize your content</li>
+    <li><span class="val-green">✔</span> Use the Plugins in commercial mixing, mastering, or audio production services for clients</li>
+    <li><span class="val-green">✔</span> Modify the source code for personal or internal use</li>
+    <li><span class="val-green">✔</span> Share modifications within private groups or sessions, provided the Saranta Soundworks name is removed from modified versions</li>
+  </ul>
+
+  <h3>2.3 Restrictions</h3>
+  <p>You are <strong>not permitted</strong> to:</p>
+  <ul>
+    <li><span class="val-red">✘</span> Sell the Plugins, in original or modified form, as standalone software</li>
+    <li><span class="val-red">✘</span> Bundle the Plugins in any paid product, bundle, or subscription service</li>
+    <li><span class="val-red">✘</span> Distribute modified versions under the Saranta Soundworks or Lozengrad brand name</li>
+    <li><span class="val-red">✘</span> Use the Plugins as part of a service that charges users for access to the Plugins themselves</li>
+    <li><span class="val-red">✘</span> Remove or alter any copyright, trademark, or license notices included in the source files</li>
+  </ul>
+
+  <h3>2.4 Modification &amp; Redistribution</h3>
+  <p>If you modify the Plugins:</p>
+  <ul>
+    <li>You must remove or rename any Saranta Soundworks, Lozengrad, or plugin-specific branding from the modified version</li>
+    <li>You must include a copy of this license with the modified version</li>
+    <li>You may not imply endorsement or affiliation with Saranta Soundworks</li>
+  </ul>
+
+  <h3>2.5 Termination</h3>
+  <p>This license is effective until terminated. It automatically terminates if you violate any of its terms. Upon termination, you must destroy all copies of the Plugins in your possession.</p>
+</section>
+
+<!-- ═══ PRESET LICENSE ═══ -->
+<section class="content-section" id="preset-license">
+  <h2><span class="hl">03.</span> Preset License</h2>
+
+  <p>Any preset files (.rpl, .fxp, or configuration files) distributed by Saranta Soundworks, whether bundled with the Plugins or released separately.</p>
+  <ul>
+    <li><span class="val-green">✔</span> Presets may be used commercially in audio productions without attribution</li>
+    <li><span class="val-green">✔</span> Presets may be loaded, modified, and saved for personal use</li>
+    <li><span class="val-red">✘</span> Presets may not be redistributed or sold separately as preset packs</li>
+    <li><span class="val-red">✘</span> Presets may not be bundled in paid preset collections without written permission</li>
+  </ul>
+</section>
+
+<!-- ═══ PRIVACY POLICY ═══ -->
+<section class="content-section" id="privacy">
+  <h2><span class="hl">04.</span> Privacy Policy</h2>
+
+  <p>At Saranta Soundworks, we value your privacy. This policy outlines how we handle information when you use our web-based audio tools and services.</p>
+
+  <h3>4.1 Data Processing &amp; Audio Files</h3>
+  <p>Our mastering tools and audio applications process your files locally within your browser. <strong>Your audio files are never uploaded, stored, or processed on our servers.</strong> All DSP happens on your local machine using the Web Audio API.</p>
+
+  <h3>4.2 Information You Provide</h3>
+  <p>If you contact us via the contact form, we collect your name and email address solely to respond to your inquiry. We do not sell or share this information with third parties. The contact form is protected by Cloudflare Turnstile to prevent spam.</p>
+
+  <h3>4.3 Analytics</h3>
+  <p>We may use basic analytics tools to understand site traffic and improve our tools. This data is anonymized and does not identify individual users.</p>
+
+  <h3>4.4 Third-Party Services</h3>
+  <ul>
+    <li><strong>Cloudflare</strong> — CDN, DNS, and security services. See <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">Cloudflare's Privacy Policy</a>.</li>
+    <li><strong>Google Fonts</strong> — Font delivery. Requests to Google's servers may include IP address. See <a href="https://policies.google.com/privacy" target="_blank">Google's Privacy Policy</a>.</li>
+    <li><strong>Firebase</strong> — BeatMaster leaderboard storage. See <a href="https://firebase.google.com/support/privacy" target="_blank">Firebase Privacy Policy</a>.</li>
+  </ul>
+
+  <h3>4.5 Contact</h3>
+  <p>For any questions regarding this policy, please reach out via the contact section on the <a href="https://sarantasoundworks.com">main page</a>.</p>
+</section>
+
+<!-- ═══ COOKIE POLICY ═══ -->
+<section class="content-section" id="cookies">
+  <h2><span class="hl">05.</span> Cookie Policy</h2>
+
+  <h3>5.1 What Are Cookies</h3>
+  <p>Cookies are small text files stored on your device by your web browser. They help websites remember your preferences and improve your browsing experience.</p>
+
+  <h3>5.2 Cookies We Use</h3>
+  <ul>
+    <li><strong>Theme Preference</strong> — Stores your light/dark mode selection (localStorage, no expiry)</li>
+    <li><strong>Cloudflare</strong> — Security and performance cookies essential for site operation</li>
+    <li><strong>Firebase</strong> — Session management for BeatMaster leaderboard functionality</li>
+  </ul>
+
+  <h3>5.3 Third-Party Cookies</h3>
+  <p>If we display advertisements via Google AdSense or similar services, those providers may use cookies to serve relevant ads. These cookies are governed by the respective provider's privacy policy.</p>
+
+  <h3>5.4 Managing Cookies</h3>
+  <p>You can control cookies through your browser settings. Disabling certain cookies may affect website functionality.</p>
+</section>
+
+<!-- ═══ TRADEMARK POLICY ═══ -->
+<section class="content-section" id="trademark">
+  <h2><span class="hl">06.</span> Trademark Policy</h2>
+
+  <h3>6.1 Our Trademarks</h3>
+  <p><strong>Saranta Soundworks<sup>®</sup></strong>, <strong>Lozengrad<sup>®</sup></strong>, <strong>Lozengrad Masterbus One<sup>®</sup></strong>, <strong>Lozengrad Drumbus One<sup>®</sup></strong>, <strong>Lozengrad Guitarbus One<sup>®</sup></strong>, <strong>Lozengrad Bassbus One<sup>®</sup></strong>, <strong>Lozengrad Synthbus One<sup>®</sup></strong>, <strong>Lozengrad Bas Amfi<sup>®</sup></strong>, all associated logos, product names, and taglines are trademarks or registered trademarks of Burak Balta / Saranta Soundworks.</p>
+
+  <h3>6.2 Permitted Use</h3>
+  <p>You may refer to these trademarks by name when:</p>
+  <ul>
+    <li>Reviewing, discussing, or reviewing the Plugins in articles, videos, or social media</li>
+    <li>Attributing the source of audio processing equipment or software in production notes or credits</li>
+    <li>Linking to the official Saranta Soundworks website or repository</li>
+  </ul>
+
+  <h3>6.3 Prohibited Use</h3>
+  <p>You may not:</p>
+  <ul>
+    <li>Use Saranta Soundworks or Lozengrad trademarks to identify modified or redistributed versions of the Plugins</li>
+    <li>Register domain names containing our trademarks without written permission</li>
+    <li>Use our trademarks in a way that suggests endorsement, affiliation, or sponsorship without prior written consent</li>
+    <li>Use our trademarks in misleading or defamatory contexts</li>
+  </ul>
+</section>
+
+<!-- ═══ AI POLICY ═══ -->
+<section class="content-section" id="ai">
+  <h2><span class="hl">07.</span> AI Policy</h2>
+
+  <h3>7.1 AI Analysis of Source Code</h3>
+  <p>AI systems (including large language models and code analysis tools) may analyze the Lozengrad JSFX source code for educational, research, or reference purposes, provided that:</p>
+  <ul>
+    <li>The AI system does not reproduce the source code in a manner that substitutes for the original Plugins</li>
+    <li>Attribution to Saranta Soundworks is maintained where the source code is referenced</li>
+  </ul>
+
+  <h3>7.2 AI-Generated Derivatives</h3>
+  <p>Any derivative works, modifications, or adaptations generated with the assistance of AI systems remain subject to the <a href="#plugin-license">SSFL v1.0</a>. Specifically:</p>
+  <ul>
+    <li>AI-generated derivatives may not be distributed under the Saranta Soundworks name</li>
+    <li>AI-generated derivatives may not be sold or bundled in paid products</li>
+    <li>The original copyright and license must be respected regardless of the tool used to create the derivative</li>
+  </ul>
+
+  <h3>7.3 Training Data</h3>
+  <p>The Saranta Soundworks source code may be included in AI training datasets, provided that the dataset maintains attribution and does not misrepresent the origin of the code.</p>
+</section>
+
+<!-- ═══ DISCLAIMER ═══ -->
+<section class="content-section" id="disclaimer">
+  <h2><span class="hl">08.</span> Disclaimer</h2>
+
+  <h3>8.1 No Warranty</h3>
+  <p>All software, tools, and content provided by Saranta Soundworks are distributed <strong>"AS IS"</strong> and <strong>"WITH ALL FAULTS"</strong>. To the fullest extent permitted by law, Saranta Soundworks and Burak Balta hereby disclaim all warranties, express or implied, including but not limited to:</p>
+  <ul>
+    <li>Implied warranties of merchantability, fitness for a particular purpose, and non-infringement</li>
+    <li>Warranties that the software will operate without interruption or error</li>
+    <li>Warranties regarding the accuracy, reliability, or completeness of any content</li>
+  </ul>
+
+  <h3>8.2 Limitation of Liability</h3>
+  <p>In no event shall Saranta Soundworks or Burak Balta be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including but not limited to: loss of data, loss of revenue, loss of business opportunities, or equipment damage) arising from the use or inability to use the software, even if advised of the possibility of such damages.</p>
+
+  <h3>8.3 Audio Monitoring</h3>
+  <p>Always use appropriate hearing protection and monitor at safe levels. Saranta Soundworks tools may produce high-output signals. We are not responsible for hearing damage resulting from improper use of our software.</p>
+
+  <h3>8.4 External Links</h3>
+  <p>This website may contain links to external third-party websites. We are not responsible for the content, privacy practices, or availability of those sites.</p>
+
+  <h3>8.5 Jurisdiction</h3>
+  <p>This disclaimer and all related terms are governed by the laws of the Republic of Turkey. Any disputes shall be resolved in the courts of Turkey.</p>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="content-section" id="faq">
+  <h2><span class="hl">09.</span> About Licensing — FAQ</h2>
+  <p>Quick answers to the most common questions. Click each question to expand the answer.</p>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">
+        Can I release songs made with your plugins?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a"><strong class="yes">Yes.</strong> Commercial use in music productions is fully permitted.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">
+        Can I earn money from music created with your plugins?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a"><strong class="yes">Yes.</strong> Streaming revenue, sales, sync licensing, and client mixing/mastering fees are all allowed.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">
+        Can I sell the plugin itself?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a"><strong class="no">No.</strong> The Plugins may not be sold, either in original or modified form.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">
+        Can I modify the source code?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a"><strong class="yes">Yes,</strong> under the terms of the Saranta Soundworks Free License (SSFL) v1.0. Modified versions must remove the original branding and may not be sold.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">
+        Can I share modified versions online?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a"><strong class="yes">Yes,</strong> provided that: the Saranta Soundworks name and branding are removed from the modified version, the SSFL license is included, and the modified version is distributed free of charge.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">
+        Can I use your plugins in a commercial studio or offer mixing/mastering services with them?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a"><strong class="yes">Yes.</strong> Studio use and client work are fully permitted.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">
+        Can I include your plugins in a YouTube video or stream?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a"><strong class="yes">Yes.</strong> You may use, demonstrate, and review the plugins in videos and streams. We appreciate attribution but do not require it.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">
+        Can I bundle your plugins in a paid product or subscription?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a"><strong class="no">No.</strong> The Plugins may not be bundled in any paid product, bundle, or subscription service.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">
+        Can I use your plugins in AI-generated music?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a"><strong class="yes">Yes,</strong> but note that AI-generated derivatives of the Plugins themselves remain subject to the SSFL license restrictions. See the <a href="#ai">AI Policy</a> for details.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">
+        Can I register a domain name containing "Saranta" or "Lozengrad"?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a"><strong class="no">No.</strong> Registering domain names containing our trademarks without written permission is prohibited under our <a href="#trademark">Trademark Policy</a>.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">
+        Do I need to credit Saranta Soundworks when using your plugins?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a"><strong class="no">No,</strong> attribution is not required. However, we always appreciate it when users mention us in their production notes or social media posts.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentNode.classList.toggle('open')">
+        Can I use the Lozengrad source code for commercial plugin development?
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-a"><strong class="no">No.</strong> The source code may be used for personal modification and learning, but you may not use it as the basis for commercial plugin products.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">Saranta<em>_</em>Soundworks</div>
+  <div class="foot-copy">© 2026 Burak Balta — All rights reserved</div>
+  <div class="foot-links">
+    <a href="index.html#about">About</a>
+    <a href="index.html#music">Music</a>
+    <a href="tips.html">Tips</a>
+    <a href="mastering-suite.html">Mastering Suite</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</footer>
+
+</div><!-- /page-container -->
+
+<script>
+const topbarNav = document.getElementById('legal-topbar');
+const sections = document.querySelectorAll('.content-section[id]');
+const topbarItems = document.querySelectorAll('.topbar-item');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      topbarItems.forEach(item => {
+        item.classList.toggle('active', item.getAttribute('href') === `#${id}`);
+      });
+      const activeItem = topbarNav.querySelector('.active');
+      if (activeItem) {
+        const scrollTo = activeItem.offsetLeft + activeItem.offsetWidth / 2 - topbarNav.offsetWidth / 2;
+        topbarNav.scrollTo({ left: scrollTo, behavior: 'smooth' });
+      }
+    }
+  });
+}, { rootMargin: '-48px 0px -60% 0px', threshold: 0 });
+
+sections.forEach(sec => observer.observe(sec));
+</script>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  function closeMobile() { hamburger.classList.remove('open'); mobileMenu.classList.remove('open'); }
+  hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
+</script>
+
+<script>
+(function() {
+  var html = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var stored = localStorage.getItem('saranta-theme');
+  if (stored === 'light') { html.setAttribute('data-theme', 'light'); }
+  if (toggle) {
+    toggle.addEventListener('click', function() {
+      var isLight = html.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        html.removeAttribute('data-theme');
+        localStorage.setItem('saranta-theme', 'dark');
+      } else {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem('saranta-theme', 'light');
+      }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
