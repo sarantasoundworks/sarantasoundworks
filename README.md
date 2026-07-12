@@ -179,9 +179,9 @@ The `functions/` directory is automatically picked up by Cloudflare Functions.
 
 ## License
 
-**Website code, design and content** is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**. See [LICENSE](LICENSE) for details.
+**Lozengrad JSFX Pack** is licensed under the **Saranta Soundworks Free License (SSFL) v1.0**. See the [LICENSE](LICENSE) file for the full license text and the [Legal page](legal.html#plugin-license) for terms and FAQ.
 
-**Lozengrad JSFX Pack** is licensed separately (see its own LICENSE file in the JSFX repository).
+**Website code, design and content** is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**.
 
 ---
 

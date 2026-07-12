@@ -1,16 +1,38 @@
-Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
-
+Saranta Soundworks Free License (SSFL) v1.0
 Copyright (c) 2026 Burak Balta — Saranta Soundworks
 
-This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Plugins"), to deal
+in the Plugins without restriction, including the rights to use, copy, modify,
+merge, publish, distribute, and/or sublicense the Plugins, subject to the
+following conditions:
 
-You are free to:
-- Share — copy and redistribute the material in any medium or format
-- Adapt — remix, transform, and build upon the material
+1. PERMITTED USE
+   - Commercial use in music and audio productions is fully permitted.
+   - Use in mixing, mastering, and audio production services for clients is permitted.
+   - Modification of source code for personal or internal use is permitted.
+   - Distribution of modified versions is permitted provided all conditions below are met.
 
-Under the following terms:
-- Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made.
-- NonCommercial — You may not use the material for commercial purposes.
-- ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+2. RESTRICTED USE
+   - The Plugins may not be sold, in original or modified form, as standalone software.
+   - The Plugins may not be bundled in any paid product, bundle, or subscription service.
+   - Modified versions must remove or rename any Saranta Soundworks, Lozengrad, or
+     plugin-specific branding.
+   - The Saranta Soundworks or Lozengrad name may not be used to identify modified
+     or redistributed versions.
 
-Full legal code: https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
+3. REDISTRIBUTION
+   - Modified versions must include a copy of this license.
+   - Modified versions may not imply endorsement or affiliation with Saranta Soundworks.
+   - Original copyright and license notices must not be removed or altered.
+
+4. DISCLAIMER
+   THE PLUGINS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE PLUGINS OR THE USE OR OTHER DEALINGS IN THE
+   PLUGINS.
+
+Full terms: https://sarantasoundworks.com/legal.html#plugin-license
