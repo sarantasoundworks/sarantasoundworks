@@ -49,7 +49,7 @@ A structured mixing guide based on the Saranta Method — covering drums, bass, 
 
 ## REAPER JSFX Plugins (`lozengrad.html`)
 
-The **Lozengrad** series is a collection of 23 free, open-source JSFX plugins for REAPER, designed for heavy music production. Detailed documentation with signal flow analysis, parameter descriptions, and algorithm explanations is available on the site.
+The **Lozengrad** series is a collection of 23 free JSFX plugins for REAPER, designed for heavy music production. Detailed documentation with signal flow analysis, parameter descriptions, and algorithm explanations is available on the site.
 
 | # | Plugin | Type |
 |---|---|---|
@@ -78,7 +78,7 @@ The **Lozengrad** series is a collection of 23 free, open-source JSFX plugins fo
 | 22 | **Lozengrad Synthbus One** | Adaptive synth bus — sub anchor, resonance tamer, glue compressor, ensemble widener, harmonic warmth, precision EQ, 4-band MB comp |
 | 23 | **Lozengrad Bassbus One** | Adaptive bass bus — dual-zone intensity (0-50 clean, 50-100 grit+slam), mud suppression, feedback bass comp, sub weight enhancer, harmonic saturation, string noise control, parallel slam comp |
 
-All plugins are available as a single download from the site or via the [GitHub repository](https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack). JSFX pack is licensed separately (see its own LICENSE file).
+All plugins are available as a single download from the site or via the [GitHub repository](https://github.com/sarantasoundworks/Saranta-Soundworks-JSFX-Pack). Licensed under the Saranta Soundworks Free License (SSFL) v1.0. See the [Legal page](legal.html#plugin-license) for terms.
 
 ---
 
@@ -104,6 +104,7 @@ All plugins are available as a single download from the site or via the [GitHub 
 ├── beatmaster.html         Step sequencer & rhythm game
 ├── lozengrad.html          Lozengrad JSFX Plugin Series docs
 ├── tips.html               Mixing guide
+├── legal.html              Legal (Terms, License, Privacy, Cookie, Trademark)
 ├── privacy.html            Privacy policy
 ├── autoEQ.js               Auto EQ matching algorithm (ISO 266 LTAS)
 ├── genreReferenceCurves.json  Genre-specific EQ reference curves
@@ -162,8 +163,8 @@ The `functions/` directory is automatically picked up by Cloudflare Functions.
 - **Real-time DSP** — all processing happens client-side in the browser
 - **Genre-specific Auto EQ** — reference curves for metal and heavy music genres
 - **ITU-R BS.1770-4 LUFS** — broadcast-compliant loudness measurement
-- **Lozengrad JSFX Series** — 23 free, open-source REAPER plugins with detailed documentation
-- **Free and open source**
+- **Lozengrad JSFX Series** — 23 free REAPER plugins with detailed documentation
+- **Free to use commercially**
 
 ---
 
@@ -179,9 +180,7 @@ The `functions/` directory is automatically picked up by Cloudflare Functions.
 
 ## License
 
-**Lozengrad JSFX Pack** is licensed under the **Saranta Soundworks Free License (SSFL) v1.0**. See the [LICENSE](LICENSE) file for the full license text and the [Legal page](legal.html#plugin-license) for terms and FAQ.
-
-**Website code, design and content** is licensed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**.
+All code, design, content, and plugins are licensed under the **Saranta Soundworks Free License (SSFL) v1.0**. See the [LICENSE](LICENSE) file for the full license text and the [Legal page](legal.html#plugin-license) for terms and FAQ.
 
 ---
 
