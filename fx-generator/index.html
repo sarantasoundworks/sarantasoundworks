@@ -53,6 +53,7 @@
         <button class="fx-btn small accent" id="btnMutate">MUTATE</button>
       </div>
       <div class="sidebar-slots" id="presetList"></div>
+      <div class="sidebar-slots" id="userPresetList"></div>
     </aside>
 
     <!-- WORKSPACE -->
@@ -73,10 +74,7 @@
 
           <!-- OSC 1 -->
           <div class="mod">
-            <div class="mod-h">
-              <span class="mod-arrow">+</span>
-              <span class="mod-name">OSCILLATOR 1</span>
-            </div>
+            <div class="mod-h"><span class="mod-name">OSCILLATOR 1</span></div>
             <div class="mod-body">
               <div class="prm">
                 <label>Waveform</label>
@@ -106,30 +104,9 @@
             </div>
           </div>
 
-          <!-- MODULATOR -->
-          <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">MODULATOR</span></div>
-            <div class="mod-body">
-              <div class="prm"><label>Waveform</label>
-                <div class="wave-grid" id="modWaveBtns">
-                  <button class="wave-btn active" data-v="sine">SIN</button>
-                  <button class="wave-btn" data-v="square">SQR</button>
-                  <button class="wave-btn" data-v="sawtooth">SAW</button>
-                  <button class="wave-btn" data-v="triangle">TRI</button>
-                </div>
-              </div>
-              <div class="prm"><label>Frequency <span class="prm-val" id="v-modFreq">440</span> Hz</label><input type="range" id="modFreq" min="20" max="4000" value="440"></div>
-              <div class="prm"><label>FM Amount <span class="prm-val" id="v-modAmount">0</span></label><input type="range" id="modAmount" min="0" max="2000" step="1" value="0"></div>
-              <div class="prm"><label>Ring Mod <span class="prm-val" id="v-rmAmount">0.00</span></label><input type="range" id="rmAmount" min="0" max="1" step="0.01" value="0"></div>
-            </div>
-          </div>
-
           <!-- OSC 2 -->
           <div class="mod">
-            <div class="mod-h">
-              <span class="mod-arrow">+</span>
-              <span class="mod-name">OSCILLATOR 2</span>
-            </div>
+            <div class="mod-h"><span class="mod-name">OSCILLATOR 2</span></div>
             <div class="mod-body">
               <div class="prm">
                 <label>Waveform</label>
@@ -161,10 +138,7 @@
 
           <!-- ENVELOPE -->
           <div class="mod">
-            <div class="mod-h">
-              <span class="mod-arrow">+</span>
-              <span class="mod-name">ENVELOPE</span>
-            </div>
+            <div class="mod-h"><span class="mod-name">ENVELOPE</span></div>
             <div class="mod-body">
               <div class="prm">
                 <label>Attack <span class="prm-val" id="v-attack">0.00</span> s</label>
@@ -192,12 +166,9 @@
             </div>
           </div>
 
-          <!-- PITCH -->
+          <!-- PITCH ENVELOPE -->
           <div class="mod">
-            <div class="mod-h">
-              <span class="mod-arrow">+</span>
-              <span class="mod-name">PITCH ENVELOPE</span>
-            </div>
+            <div class="mod-h"><span class="mod-name">PITCH ENVELOPE</span></div>
             <div class="mod-body">
               <div class="prm">
                 <label>Start <span class="prm-val" id="v-pitchStart">440</span> Hz</label>
@@ -220,10 +191,7 @@
 
           <!-- FILTER -->
           <div class="mod">
-            <div class="mod-h">
-              <span class="mod-arrow">+</span>
-              <span class="mod-name">FILTER</span>
-            </div>
+            <div class="mod-h"><span class="mod-name">FILTER</span></div>
             <div class="mod-body">
               <div class="prm">
                 <label>Type</label>
@@ -245,22 +213,27 @@
             </div>
           </div>
 
-          <!-- NOISE SWEEP -->
+          <!-- MODULATOR -->
           <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">NOISE SWEEP</span></div>
+            <div class="mod-h"><span class="mod-name">MODULATOR</span></div>
             <div class="mod-body">
-              <div class="prm"><label>Cutoff Start <span class="prm-val" id="v-noiseCutoffStart">20000</span> Hz</label><input type="range" id="noiseCutoffStart" min="20" max="20000" value="20000"></div>
-              <div class="prm"><label>Cutoff End <span class="prm-val" id="v-noiseCutoffEnd">20000</span> Hz</label><input type="range" id="noiseCutoffEnd" min="20" max="20000" value="20000"></div>
-              <div class="prm"><label>Resonance <span class="prm-val" id="v-noiseResonance">1.0</span></label><input type="range" id="noiseResonance" min="0.1" max="30" step="0.1" value="1"></div>
+              <div class="prm"><label>Waveform</label>
+                <div class="wave-grid" id="modWaveBtns">
+                  <button class="wave-btn active" data-v="sine">SIN</button>
+                  <button class="wave-btn" data-v="square">SQR</button>
+                  <button class="wave-btn" data-v="sawtooth">SAW</button>
+                  <button class="wave-btn" data-v="triangle">TRI</button>
+                </div>
+              </div>
+              <div class="prm"><label>Frequency <span class="prm-val" id="v-modFreq">440</span> Hz</label><input type="range" id="modFreq" min="20" max="4000" value="440"></div>
+              <div class="prm"><label>FM Amount <span class="prm-val" id="v-modAmount">0</span></label><input type="range" id="modAmount" min="0" max="2000" step="1" value="0"></div>
+              <div class="prm"><label>Ring Mod <span class="prm-val" id="v-rmAmount">0.00</span></label><input type="range" id="rmAmount" min="0" max="1" step="0.01" value="0"></div>
             </div>
           </div>
 
           <!-- LFO -->
           <div class="mod">
-            <div class="mod-h">
-              <span class="mod-arrow">+</span>
-              <span class="mod-name">LFO</span>
-            </div>
+            <div class="mod-h"><span class="mod-name">LFO</span></div>
             <div class="mod-body">
               <div class="prm">
                 <label>Waveform</label>
@@ -301,14 +274,74 @@
             </div>
           </div>
 
+          <!-- NOISE SWEEP -->
+          <div class="mod">
+            <div class="mod-h"><span class="mod-name">NOISE SWEEP</span></div>
+            <div class="mod-body">
+              <div class="prm"><label>Cutoff Start <span class="prm-val" id="v-noiseCutoffStart">20000</span> Hz</label><input type="range" id="noiseCutoffStart" min="20" max="20000" value="20000"></div>
+              <div class="prm"><label>Cutoff End <span class="prm-val" id="v-noiseCutoffEnd">20000</span> Hz</label><input type="range" id="noiseCutoffEnd" min="20" max="20000" value="20000"></div>
+              <div class="prm"><label>Resonance <span class="prm-val" id="v-noiseResonance">1.0</span></label><input type="range" id="noiseResonance" min="0.1" max="30" step="0.1" value="1"></div>
+            </div>
+          </div>
+
+          <!-- MORPH -->
+          <div class="mod">
+            <div class="mod-h"><span class="mod-name">MORPH</span></div>
+            <div class="mod-body">
+              <div class="prm"><label>Preset A</label><select id="morphA"></select></div>
+              <div class="prm"><label>Preset B</label><select id="morphB"></select></div>
+              <div class="prm"><label>Morph <span class="prm-val" id="v-morphAmt">0.50</span></label><input type="range" id="morphAmt" min="0" max="1" step="0.01" value="0.5"></div>
+              <button class="fx-btn primary" id="btnMorph" style="width:100%;margin-top:4px;">APPLY MORPH</button>
+            </div>
+          </div>
+
+          <!-- LAYERS -->
+          <div class="mod">
+            <div class="mod-h"><span class="mod-name">LAYERS</span></div>
+            <div class="mod-body">
+              <div class="layer-strip" id="layerStrip"></div>
+              <div style="display:flex;gap:4px;margin-top:4px">
+                <button class="fx-btn small" id="btnAddLayer" style="flex:1">+ ADD LAYER</button>
+                <button class="fx-btn small" id="btnPlayAll" style="flex:1">PLAY ALL</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- INTENSITY MACRO -->
+          <div class="mod mod-intense">
+            <div class="mod-h"><span class="mod-name">INTENSITY</span></div>
+            <div class="mod-body">
+              <div class="prm"><label>Macro <span class="prm-val" id="v-intensity">0.50</span></label><input type="range" id="intensity" min="0" max="1" step="0.01" value="0.5"></div>
+              <button class="fx-btn small" id="btnApplyIntensity" style="width:100%;margin-top:4px;">APPLY INTENSITY</button>
+            </div>
+          </div>
+
           <!-- WAVEFORM -->
           <div class="mod mod-wave">
-            <div class="mod-h">
-              <span class="mod-arrow">+</span>
-              <span class="mod-name">WAVEFORM</span>
-            </div>
+            <div class="mod-h"><span class="mod-name">WAVEFORM</span></div>
             <div class="mod-body">
               <canvas id="waveCanvas"></canvas>
+              <canvas id="specCanvas" style="margin-top:4px;height:60px"></canvas>
+            </div>
+          </div>
+
+          <!-- SIGNAL FLOW -->
+          <div class="mod">
+            <div class="mod-h"><span class="mod-name">SIGNAL FLOW</span></div>
+            <div class="mod-body">
+              <div class="signal-flow">
+                <span class="sf-node">OSC</span><span class="sf-arrow">→</span>
+                <span class="sf-node">ENV</span><span class="sf-arrow">→</span>
+                <span class="sf-node">MOD</span><span class="sf-arrow">→</span>
+                <span class="sf-node">FLT</span><span class="sf-arrow">→</span>
+                <span class="sf-node">EQ</span><span class="sf-arrow">→</span>
+                <span class="sf-node">COMP</span><span class="sf-arrow">→</span>
+                <span class="sf-node">DIST</span><span class="sf-arrow">→</span>
+                <span class="sf-node">BIT</span><span class="sf-arrow">→</span>
+                <span class="sf-node">FX</span><span class="sf-arrow">→</span>
+                <span class="sf-node">REV</span><span class="sf-arrow">→</span>
+                <span class="sf-node">PAN</span>
+              </div>
             </div>
           </div>
 
@@ -320,7 +353,37 @@
         <div class="modules">
 
           <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">3-BAND EQ</span></div>
+            <div class="mod-h"><span class="mod-name">PAN</span></div>
+            <div class="mod-body">
+              <div class="prm"><label>Pan <span class="prm-val" id="v-pan">0.00</span></label><input type="range" id="pan" min="-1" max="1" step="0.01" value="0"></div>
+            </div>
+          </div>
+
+          <div class="mod">
+            <div class="mod-h"><span class="mod-name">DISTORTION</span></div>
+            <div class="mod-body">
+              <div class="prm"><label>Drive <span class="prm-val" id="v-distortion">0</span></label><input type="range" id="distortion" min="0" max="100" value="0"></div>
+            </div>
+          </div>
+
+          <div class="mod">
+            <div class="mod-h"><span class="mod-name">DELAY</span></div>
+            <div class="mod-body">
+              <div class="prm"><label>Time <span class="prm-val" id="v-delayTime">0</span> ms</label><input type="range" id="delayTime" min="0" max="1000" value="0"></div>
+              <div class="prm"><label>Feedback <span class="prm-val" id="v-delayFeedback">0.00</span></label><input type="range" id="delayFeedback" min="0" max="0.9" step="0.01" value="0"></div>
+            </div>
+          </div>
+
+          <div class="mod">
+            <div class="mod-h"><span class="mod-name">REVERB</span></div>
+            <div class="mod-body">
+              <div class="prm"><label>Decay <span class="prm-val" id="v-reverbDecay">0.0</span> s</label><input type="range" id="reverbDecay" min="0" max="5" step="0.1" value="0"></div>
+              <div class="prm"><label>Mix <span class="prm-val" id="v-reverbMix">0.00</span></label><input type="range" id="reverbMix" min="0" max="1" step="0.01" value="0"></div>
+            </div>
+          </div>
+
+          <div class="mod">
+            <div class="mod-h"><span class="mod-name">3-BAND EQ</span></div>
             <div class="mod-body">
               <div class="prm"><label>Low <span class="prm-val" id="v-eqLow">0</span> dB</label><input type="range" id="eqLow" min="-12" max="12" step="0.5" value="0"></div>
               <div class="prm"><label>Mid <span class="prm-val" id="v-eqMid">0</span> dB</label><input type="range" id="eqMid" min="-12" max="12" step="0.5" value="0"></div>
@@ -329,7 +392,7 @@
           </div>
 
           <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">COMPRESSOR</span></div>
+            <div class="mod-h"><span class="mod-name">COMPRESSOR</span></div>
             <div class="mod-body">
               <div class="prm"><label>Threshold <span class="prm-val" id="v-compThreshold">-24</span> dB</label><input type="range" id="compThreshold" min="-60" max="0" step="1" value="-24"></div>
               <div class="prm"><label>Ratio <span class="prm-val" id="v-compRatio">4.0</span></label><input type="range" id="compRatio" min="1" max="20" step="0.5" value="4"></div>
@@ -338,45 +401,22 @@
           </div>
 
           <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">DISTORTION</span></div>
-            <div class="mod-body">
-              <div class="prm"><label>Drive <span class="prm-val" id="v-distortion">0</span></label><input type="range" id="distortion" min="0" max="100" value="0"></div>
-            </div>
-          </div>
-
-          <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">BITCRUSH</span></div>
+            <div class="mod-h"><span class="mod-name">BITCRUSH</span></div>
             <div class="mod-body">
               <div class="prm"><label>Bit Depth <span class="prm-val" id="v-bitcrush">0-bit</span></label><input type="range" id="bitcrush" min="0" max="16" step="1" value="0"></div>
-              <div class="prm"><label>Sample Rate <span class="prm-val" id="v-sampleReduction">48k</span></label><input type="range" id="sampleReduction" min="1" max="48" step="1" value="48"></div>
+              <div class="prm"><label>Export SR <span class="prm-val" id="v-sampleReduction">48k</span> (export only)</label><input type="range" id="sampleReduction" min="8" max="48" step="1" value="48"></div>
             </div>
           </div>
 
           <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">DESTRUCTION</span></div>
+            <div class="mod-h"><span class="mod-name">DESTRUCTION</span></div>
             <div class="mod-body">
               <div class="prm"><label>Hard Clip <span class="prm-val" id="v-hardClip">0.00</span></label><input type="range" id="hardClip" min="0" max="1" step="0.01" value="0"></div>
             </div>
           </div>
 
           <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">DELAY</span></div>
-            <div class="mod-body">
-              <div class="prm"><label>Time <span class="prm-val" id="v-delayTime">0</span> ms</label><input type="range" id="delayTime" min="0" max="1000" value="0"></div>
-              <div class="prm"><label>Feedback <span class="prm-val" id="v-delayFeedback">0.00</span></label><input type="range" id="delayFeedback" min="0" max="0.9" step="0.01" value="0"></div>
-            </div>
-          </div>
-
-          <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">REVERB</span></div>
-            <div class="mod-body">
-              <div class="prm"><label>Decay <span class="prm-val" id="v-reverbDecay">0.0</span> s</label><input type="range" id="reverbDecay" min="0" max="5" step="0.1" value="0"></div>
-              <div class="prm"><label>Mix <span class="prm-val" id="v-reverbMix">0.00</span></label><input type="range" id="reverbMix" min="0" max="1" step="0.01" value="0"></div>
-            </div>
-          </div>
-
-          <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">CHORUS</span></div>
+            <div class="mod-h"><span class="mod-name">CHORUS</span></div>
             <div class="mod-body">
               <div class="prm"><label>Rate <span class="prm-val" id="v-chorusRate">0.0</span> Hz</label><input type="range" id="chorusRate" min="0" max="10" step="0.1" value="0"></div>
               <div class="prm"><label>Depth <span class="prm-val" id="v-chorusDepth">0.0</span> ms</label><input type="range" id="chorusDepth" min="0" max="30" step="0.5" value="0"></div>
@@ -385,18 +425,11 @@
           </div>
 
           <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">PHASER</span></div>
+            <div class="mod-h"><span class="mod-name">PHASER</span></div>
             <div class="mod-body">
               <div class="prm"><label>Rate <span class="prm-val" id="v-phaserRate">0.0</span> Hz</label><input type="range" id="phaserRate" min="0" max="10" step="0.1" value="0"></div>
               <div class="prm"><label>Depth <span class="prm-val" id="v-phaserDepth">0.00</span></label><input type="range" id="phaserDepth" min="0" max="1" step="0.01" value="0"></div>
               <div class="prm"><label>Feedback <span class="prm-val" id="v-phaserFeedback">0.00</span></label><input type="range" id="phaserFeedback" min="0" max="0.9" step="0.01" value="0"></div>
-            </div>
-          </div>
-
-          <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">PAN</span></div>
-            <div class="mod-body">
-              <div class="prm"><label>Pan <span class="prm-val" id="v-pan">0.00</span></label><input type="range" id="pan" min="-1" max="1" step="0.01" value="0"></div>
             </div>
           </div>
 
@@ -408,7 +441,7 @@
         <div class="modules">
 
           <div class="mod mod-wave">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">3D TRAJECTORY</span></div>
+            <div class="mod-h"><span class="mod-name">3D TRAJECTORY</span></div>
             <div class="mod-body">
               <canvas id="trajCanvas" style="width:100%;height:180px;background:var(--bg2);border-radius:2px;cursor:crosshair;"></canvas>
               <div class="prm" style="margin-top:8px;"><label>Doppler Intensity <span class="prm-val" id="v-dopplerAmt">0.00</span></label><input type="range" id="dopplerAmt" min="0" max="1" step="0.01" value="0"></div>
@@ -418,7 +451,7 @@
           </div>
 
           <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">DISTANCE & ENV</span></div>
+            <div class="mod-h"><span class="mod-name">DISTANCE & ENV</span></div>
             <div class="mod-body">
               <div class="prm"><label>Environment</label>
                 <select id="envPreset">
@@ -441,7 +474,7 @@
         <div class="modules">
 
           <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">MATERIAL RESONATOR</span></div>
+            <div class="mod-h"><span class="mod-name">MATERIAL RESONATOR</span></div>
             <div class="mod-body">
               <div class="prm"><label>Material</label>
                 <select id="materialType">
@@ -458,7 +491,7 @@
           </div>
 
           <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">GRANULAR BUFFER</span></div>
+            <div class="mod-h"><span class="mod-name">GRANULAR BUFFER</span></div>
             <div class="mod-body">
               <div class="prm"><label>BPM <span class="prm-val" id="v-grainBPM">120</span></label><input type="range" id="grainBPM" min="60" max="240" step="1" value="120"></div>
               <div class="prm"><label>Division</label>
@@ -474,7 +507,7 @@
           </div>
 
           <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">CINEMATIC CHUG</span></div>
+            <div class="mod-h"><span class="mod-name">CINEMATIC CHUG</span></div>
             <div class="mod-body">
               <div class="prm"><label>Enable</label>
                 <select id="chugEnable">
@@ -489,7 +522,7 @@
           </div>
 
           <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">MOD MATRIX</span></div>
+            <div class="mod-h"><span class="mod-name">MOD MATRIX</span></div>
             <div class="mod-body">
               <div class="prm"><label>Source</label>
                 <select id="modSrc">
@@ -519,11 +552,26 @@
         <div class="modules">
 
           <div class="mod">
-            <div class="mod-h"><span class="mod-arrow">+</span><span class="mod-name">AUDIO ATLAS</span></div>
+            <div class="mod-h"><span class="mod-name">EXPORT SETTINGS</span></div>
+            <div class="mod-body">
+              <div class="prm"><label><input type="checkbox" id="normalize" checked> Peak Normalize (0 dB)</label></div>
+            </div>
+          </div>
+
+          <div class="mod">
+            <div class="mod-h"><span class="mod-name">AUDIO ATLAS</span></div>
             <div class="mod-body">
               <div class="prm"><label>Variations <span class="prm-val" id="v-atlasCount">10</span></label><input type="range" id="atlasCount" min="2" max="20" step="1" value="10"></div>
               <div class="prm"><label>Gap <span class="prm-val" id="v-atlasGap">0.10</span> s</label><input type="range" id="atlasGap" min="0.05" max="0.5" step="0.01" value="0.1"></div>
+              <div class="prm"><label>Sprite Format</label><select id="spriteFormat"><option value="json">Saranta JSON</option><option value="unity">Unity C#</option><option value="godot">Godot Resource</option></select></div>
               <button class="fx-btn primary" id="btnAtlas" style="width:100%;margin-top:8px;">GENERATE ATLAS + JSON</button>
+            </div>
+          </div>
+
+          <div class="mod">
+            <div class="mod-h"><span class="mod-name">BATCH EXPORT</span></div>
+            <div class="mod-body">
+              <button class="fx-btn accent" id="btnExportAll" style="width:100%;margin-top:4px;">EXPORT ALL PRESETS</button>
             </div>
           </div>
 
