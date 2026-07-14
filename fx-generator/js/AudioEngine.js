@@ -2,6 +2,8 @@ class AudioEngine {
   constructor() {
     this.ctx = null;
     this.analyser = null;
+    this.analyserB = null;
+    this._cache = {};
   }
 
   resume() {
@@ -9,6 +11,8 @@ class AudioEngine {
       this.ctx = new (window.AudioContext || window.webkitAudioContext)();
       this.analyser = this.ctx.createAnalyser();
       this.analyser.fftSize = 2048;
+      this.analyserB = this.ctx.createAnalyser();
+      this.analyserB.fftSize = 2048;
     }
     if (this.ctx.state === 'suspended') {
       this.ctx.resume();
@@ -17,6 +21,9 @@ class AudioEngine {
 
   getAnalyser() {
     return this.analyser;
+  }
+  getAnalyserB() {
+    return this.analyserB;
   }
 
   dur(s) {
@@ -48,6 +55,8 @@ class AudioEngine {
   }
 
   distCurve(amount) {
+    const key = 'dist_' + amount;
+    if (this._cache[key]) return this._cache[key];
     const n = 44100;
     const c = new Float32Array(n);
     const k = amount * 2;
@@ -55,19 +64,25 @@ class AudioEngine {
       const x = (i*2)/n - 1;
       c[i] = k > 0 ? ((3+k)*x*20*(Math.PI/180))/(Math.PI+k*Math.abs(x)) : x;
     }
+    this._cache[key] = c;
     return c;
   }
 
   bcCurve(bits) {
     if (bits <= 0) return null;
+    const key = 'bc_' + bits;
+    if (this._cache[key]) return this._cache[key];
     const lv = Math.pow(2, bits);
     const n = 44100;
     const c = new Float32Array(n);
     for (let i = 0; i < n; i++) c[i] = Math.round(((i*2)/n-1)*lv)/lv;
+    this._cache[key] = c;
     return c;
   }
 
   revIR(ctx, decay) {
+    const key = 'rev_' + decay;
+    if (this._cache[key]) return this._cache[key];
     const sr = ctx.sampleRate;
     const len = Math.floor(sr * Math.max(decay, 0.1));
     const buf = ctx.createBuffer(2, len, sr);
@@ -75,6 +90,7 @@ class AudioEngine {
       const d = buf.getChannelData(ch);
       for (let i = 0; i < len; i++) d[i] = (Math.random()*2-1) * Math.pow(1-i/len, 2.5);
     }
+    this._cache[key] = buf;
     return buf;
   }
 
@@ -100,6 +116,8 @@ class AudioEngine {
 
   // ─── Environment IR Generator ──────────────────────────────
   envIR(ctx, type) {
+    const key = 'envIR_' + type;
+    if (this._cache[key]) return this._cache[key];
     const sr = ctx.sampleRate;
     const len = Math.floor(sr * (type==='cave'?3:type==='corridor'?1.5:0.6));
     const buf = ctx.createBuffer(2, len, sr);
@@ -111,6 +129,7 @@ class AudioEngine {
         d[i] = (Math.random()*2-1 + scatter) * Math.pow(decay, i/sr*10);
       }
     }
+    this._cache[key] = buf;
     return buf;
   }
 
@@ -132,9 +151,9 @@ class AudioEngine {
     filt.Q.setValueAtTime(4 * s.damping + 0.5, t);
     // Karplus-Strong loop: delay -> filter -> feedback -> delay
     input.connect(delay); delay.connect(filt); filt.connect(fb); fb.connect(delay);
-    // Output from filter (lower volume to prevent harshness)
+    // Output from filter
     const outGain = ctx.createGain();
-    outGain.gain.setValueAtTime(0.4, t);
+    outGain.gain.setValueAtTime(0.85, t);
     filt.connect(outGain);
     // Envelope the resonator output
     const env = ctx.createGain();
@@ -173,7 +192,7 @@ class AudioEngine {
     sat.curve = c; sat.oversample = '4x';
     // Punch envelope
     const punch = ctx.createGain();
-    punch.gain.setValueAtTime(1 + s.chugPunch * 2, t);
+    punch.gain.setValueAtTime(1 + s.chugPunch * 0.8, t);
     punch.gain.exponentialRampToValueAtTime(1, t + 0.05);
     car.start(t); car.stop(t+dur);
     mod.start(t); mod.stop(t+dur);
@@ -183,7 +202,7 @@ class AudioEngine {
 
   // ─── Grain Gate (BPM Synced) ───────────────────────────────
   grainGate(ctx, s, t, dur) {
-    if (s.stutterDepth <= 0) return null;
+    if (s.stutterDepth <= 0 || s.grainBPM <= 0 || s.grainDiv <= 0) return null;
     const beatDur = 60 / s.grainBPM;
     const gateTime = beatDur / s.grainDiv;
     const gateGain = ctx.createGain();
@@ -199,10 +218,10 @@ class AudioEngine {
     return gateGain;
   }
 
-  pitchEnv(osc, s, t, dur) {
-    const st = Math.max(20, s.pitchStart);
-    const pk = Math.max(20, s.pitchPeak);
-    const en = Math.max(20, s.pitchEnd);
+  pitchEnv(osc, s, t, dur, freqScale = 1) {
+    const st = Math.max(20, s.pitchStart * freqScale);
+    const pk = Math.max(20, s.pitchPeak * freqScale);
+    const en = Math.max(20, s.pitchEnd * freqScale);
     const pt = t + dur * Math.min(Math.max(s.pitchPeakTime, 0), 1);
     const et = t + dur * 0.95;
 
@@ -235,8 +254,8 @@ class AudioEngine {
     o1.connect(o1g); o1Out.connect(mg);
     o1.start(t); o1.stop(t+dur);
 
-    // FM (legacy via osc2)
-    if (s.fmAmount > 0 && s.osc2Mix > 0) {
+    // FM (self-FM feedback modulation)
+    if (s.fmAmount > 0) {
       const fmg = ctx.createGain();
       fmg.gain.setValueAtTime(s.fmAmount, t);
       o1.connect(fmg);
@@ -249,10 +268,11 @@ class AudioEngine {
       o2g.gain.setValueAtTime(s.osc2Mix, t);
       const o2 = ctx.createOscillator();
       o2.type = s.wave2;
-      const f2 = Math.max(20, s.baseFreq * Math.pow(2, s.osc2Octave));
+      const octMul = Math.pow(2, s.osc2Octave);
+      const f2 = Math.max(20, s.baseFreq * octMul);
       o2.frequency.setValueAtTime(f2, t);
       o2.detune.setValueAtTime(s.osc2Detune, t);
-      this.pitchEnv(o2, s, t, dur);
+      this.pitchEnv(o2, s, t, dur, octMul);
       o2.connect(o2g); o2g.connect(mg);
       o2.start(t); o2.stop(t+dur);
     }
@@ -306,8 +326,8 @@ class AudioEngine {
     if (s.lfoDepth > 0 && s.lfoTarget !== 'filter') {
       const lfo = ctx.createOscillator();
       lfo.type = s.lfoWave;
-      lfo.frequency.setValueAtTime(s.lfoRate, t);
-      const lfoStop = s.lfoMode === 'oneshot' ? t + s.lfoCycles / s.lfoRate : t + dur;
+      lfo.frequency.setValueAtTime(Math.max(0.1, s.lfoRate), t);
+      const lfoStop = s.lfoMode === 'oneshot' ? t + s.lfoCycles / Math.max(0.1, s.lfoRate) : t + dur;
       const lg = ctx.createGain();
       if (s.lfoTarget === 'pitch') {
         lg.gain.setValueAtTime(s.lfoDepth * s.baseFreq * 0.5, t);
@@ -338,115 +358,43 @@ class AudioEngine {
       lfo.start(t); lfo.stop(lfoStop);
     }
 
-    // EQ
-    if (s.eqLow !== 0 || s.eqMid !== 0 || s.eqHigh !== 0) {
-      const low = ctx.createBiquadFilter(); low.type='lowshelf'; low.frequency.value=320; low.gain.setValueAtTime(s.eqLow, t);
-      const mid = ctx.createBiquadFilter(); mid.type='peaking'; mid.frequency.value=1000; mid.Q.value=1; mid.gain.setValueAtTime(s.eqMid, t);
-      const high = ctx.createBiquadFilter(); high.type='highshelf'; high.frequency.value=3200; high.gain.setValueAtTime(s.eqHigh, t);
-      node.connect(low); low.connect(mid); mid.connect(high); node = high;
-    }
+    // Create pan early so mod matrix can target it
+    const pan = ctx.createStereoPanner();
 
-    // Compressor
-    const comp = ctx.createDynamicsCompressor();
-    comp.threshold.setValueAtTime(s.compThreshold, t);
-    comp.ratio.setValueAtTime(s.compRatio, t);
-    comp.attack.setValueAtTime(0.003, t);
-    comp.release.setValueAtTime(0.25, t);
-    node.connect(comp); node = comp;
-
-    // Distortion
-    if (s.distortion > 0) {
-      const ws = ctx.createWaveShaper();
-      ws.curve = this.distCurve(s.distortion);
-      ws.oversample = '4x';
-      node.connect(ws); node = ws;
-    }
-
-    // Bitcrush
-    const bc = this.bcCurve(s.bitcrush);
-    if (bc) {
-      const bcn = ctx.createWaveShaper();
-      bcn.curve = bc;
-      node.connect(bcn); node = bcn;
-    }
-
-    // Hard Clipper (Destruction)
-    if (s.hardClip > 0) {
-      const clip = ctx.createWaveShaper();
-      const n = 44100;
-      const c = new Float32Array(n);
-      const th = 1 - s.hardClip;
-      for (let i = 0; i < n; i++) {
-        const x = (i * 2) / n - 1;
-        c[i] = x > th ? th : (x < -th ? -th : x);
+    // Mod Matrix
+    if (s.modSrc !== 'none' && s.modMatAmt > 0 && s.modDst !== 'none') {
+      const modSrc = ctx.createOscillator();
+      const srcRate = s.modSrc === 'lfo2' ? s.lfoRate * 0.5 : s.lfoRate;
+      modSrc.type = s.modSrc === 'lfo2' ? 'triangle' : s.lfoWave;
+      modSrc.frequency.setValueAtTime(Math.max(0.1, srcRate), t);
+      const modGain = ctx.createGain();
+      if (s.modDst === 'pitch') {
+        modGain.gain.setValueAtTime(s.modMatAmt * s.baseFreq * 0.5, t);
+        modSrc.connect(modGain); modGain.connect(o1.frequency);
+      } else if (s.modDst === 'filter') {
+        modGain.gain.setValueAtTime(s.modMatAmt * s.filterCutoff * 0.3, t);
+        modSrc.connect(modGain); modGain.connect(f.frequency);
+      } else if (s.modDst === 'pan') {
+        modGain.gain.setValueAtTime(s.modMatAmt, t);
+        modSrc.connect(modGain); modGain.connect(pan.pan);
       }
-      clip.curve = c;
-      clip.oversample = '4x';
-      node.connect(clip); node = clip;
+      modSrc.start(t); modSrc.stop(t + dur);
     }
 
-    // Chorus
-    if (s.chorusRate > 0 && s.chorusDepth > 0 && s.chorusMix > 0) {
-      const cd = ctx.createDelay(0.05);
-      cd.delayTime.setValueAtTime(s.chorusDepth/1000, t);
-      const clfo = ctx.createOscillator();
-      clfo.type = 'sine'; clfo.frequency.setValueAtTime(s.chorusRate, t);
-      const clg = ctx.createGain();
-      clg.gain.setValueAtTime(s.chorusDepth/2000, t);
-      clfo.connect(clg); clg.connect(cd.delayTime);
-      const dry = ctx.createGain(); dry.gain.setValueAtTime(1-s.chorusMix*0.5, t);
-      const wet = ctx.createGain(); wet.gain.setValueAtTime(s.chorusMix*0.5, t);
-      node.connect(dry); node.connect(cd); cd.connect(wet);
-      const merge = ctx.createGain();
-      dry.connect(merge); wet.connect(merge); node = merge;
-      clfo.start(t); clfo.stop(t+dur);
-    }
-
-    // Phaser
-    if (s.phaserRate > 0 && s.phaserDepth > 0) {
-      const ap = ctx.createBiquadFilter();
-      ap.type = 'allpass'; ap.frequency.setValueAtTime(1000, t); ap.Q.setValueAtTime(s.phaserDepth*10, t);
-      const plfo = ctx.createOscillator();
-      plfo.type = 'sine'; plfo.frequency.setValueAtTime(s.phaserRate, t);
-      const plg = ctx.createGain(); plg.gain.setValueAtTime(800, t);
-      plfo.connect(plg); plg.connect(ap.frequency);
-      const pdry = ctx.createGain(); pdry.gain.setValueAtTime(1, t);
-      const pwet = ctx.createGain(); pwet.gain.setValueAtTime(s.phaserFeedback, t);
-      node.connect(pdry); node.connect(ap); ap.connect(pwet);
-      const pmerge = ctx.createGain();
-      pdry.connect(pmerge); pwet.connect(pmerge); node = pmerge;
-      plfo.start(t); plfo.stop(t+dur);
-    }
-
-    // Delay
-    if (s.delayTime > 0) {
-      const d = ctx.createDelay(2);
-      d.delayTime.setValueAtTime(s.delayTime/1000, t);
-      const fb = ctx.createGain(); fb.gain.setValueAtTime(s.delayFeedback, t);
-      const dry = ctx.createGain(); dry.gain.setValueAtTime(1, t);
-      const wet = ctx.createGain(); wet.gain.setValueAtTime(0.5, t);
-      node.connect(dry); node.connect(d);
-      d.connect(fb); fb.connect(d);
-      d.connect(wet);
-      const m = ctx.createGain();
-      dry.connect(m); wet.connect(m); node = m;
-    }
-
-    // Reverb
-    if (s.reverbDecay > 0 && s.reverbMix > 0) {
-      const conv = ctx.createConvolver();
-      conv.buffer = this.revIR(ctx, s.reverbDecay);
-      const rdry = ctx.createGain(); rdry.gain.setValueAtTime(1-s.reverbMix*0.5, t);
-      const rwet = ctx.createGain(); rwet.gain.setValueAtTime(s.reverbMix*0.5, t);
-      node.connect(rdry); node.connect(conv); conv.connect(rwet);
-      const rm = ctx.createGain();
-      rdry.connect(rm); rwet.connect(rm); node = rm;
-    }
+    // Effects pipeline (refactored into helper methods)
+    node = this.applyEQ(ctx, node, s, t);
+    node = this.applyCompressor(ctx, node, s, t);
+    node = this.applyDistortion(ctx, node, s, t);
+    node = this.applyBitcrush(ctx, node, s, t);
+    node = this.applyHardClip(ctx, node, s, t);
+    node = this.applyChorus(ctx, node, s, t, dur);
+    node = this.applyPhaser(ctx, node, s, t, dur);
+    node = this.applyDelay(ctx, node, s, t);
+    node = this.applyReverb(ctx, node, s, t);
 
     // Material Resonator (Karplus-Strong)
     if (s.materialType !== 'none') {
-      const ksOut = this.ksResonator(ctx, node, s, t, dur);
-      node = ksOut;
+      node = this.ksResonator(ctx, node, s, t, dur);
     }
 
     // Cinematic Chug Engine (parallel blend)
@@ -466,42 +414,16 @@ class AudioEngine {
       node.connect(gate); node = gate;
     }
 
-    // Distance & Environment (Convolution reverb + distance filter)
-    if (s.envPreset !== 'none') {
-      const envConv = ctx.createConvolver();
-      envConv.buffer = this.envIR(ctx, s.envPreset);
-      const distFilt = ctx.createBiquadFilter();
-      distFilt.type = 'lowpass';
-      const distCutoff = 20000 * Math.pow(0.5, s.distance/50);
-      distFilt.frequency.setValueAtTime(Math.max(200, distCutoff), t);
-      const wetGain = ctx.createGain();
-      const distMix = s.distance / 100;
-      wetGain.gain.setValueAtTime(distMix, t);
-      const dryGain = ctx.createGain();
-      dryGain.gain.setValueAtTime(1-distMix*0.5, t);
-      node.connect(distFilt); distFilt.connect(envConv); envConv.connect(wetGain);
-      node.connect(dryGain);
-      const distMerge = ctx.createGain();
-      dryGain.connect(distMerge); wetGain.connect(distMerge);
-      node = distMerge;
-    }
+    // Distance & Environment
+    node = this.applyEnvDistance(ctx, node, s, t);
 
-    // Air absorption (distance high-cut)
-    if (s.airAbsorb > 0) {
-      const air = ctx.createBiquadFilter();
-      air.type = 'lowpass';
-      air.frequency.setValueAtTime(20000 * (1-s.airAbsorb*0.9), t);
-      node.connect(air); node = air;
-    }
+    // Air absorption
+    node = this.applyAirAbsorb(ctx, node, s, t);
 
-    // Trajectory Doppler shift (if trajectory points exist)
+    // Trajectory Doppler/HRTF
     if (typeof window !== 'undefined' && window.getDopplerFromTraj && window.getHRTFPosition) {
-      const dop = window.getDopplerFromTraj();
+      window.getDopplerFromTraj();
       const pos = window.getHRTFPosition();
-      if (dop !== 0) {
-        // Apply detune to all active oscillators via frequency modulation
-        // This is simplified — real implementation would need oscillator reference
-      }
       if (s.hrtfPan > 0) {
         const hrtfPan = ctx.createStereoPanner();
         hrtfPan.pan.setValueAtTime(pos.x * s.hrtfPan, t);
@@ -510,7 +432,6 @@ class AudioEngine {
     }
 
     // Pan
-    const pan = ctx.createStereoPanner();
     pan.pan.setValueAtTime(s.pan, t);
     node.connect(pan); node = pan;
 
@@ -518,12 +439,34 @@ class AudioEngine {
     node.connect(out || ctx.destination);
   }
 
+  triggerAll(layers, t, dur) {
+    this.resume();
+    this.analyser.disconnect();
+    this.analyserB.disconnect();
+    const master = this.ctx.createGain();
+    master.connect(this.analyser);
+    this.analyser.connect(this.analyserB);
+    this.analyserB.connect(this.ctx.destination);
+    let anyActive = false;
+    layers.forEach(l => {
+      if (l.mute) return;
+      const g = this.ctx.createGain();
+      g.gain.value = l.volume || 1;
+      g.connect(master);
+      this.build(this.ctx, l.state, t, dur, g);
+      anyActive = true;
+    });
+    if (!anyActive) { master.disconnect(); }
+  }
+
   triggerSound(s) {
     this.resume();
     const dur = this.dur(s);
     const t = this.ctx.currentTime + 0.01;
     this.analyser.disconnect();
-    this.analyser.connect(this.ctx.destination);
+    this.analyserB.disconnect();
+    this.analyser.connect(this.analyserB);
+    this.analyserB.connect(this.ctx.destination);
     // Apply trajectory doppler if points exist (restore after)
     let dop = 0;
     if (typeof window !== 'undefined' && window.getDopplerFromTraj) {
@@ -565,37 +508,85 @@ class AudioEngine {
       offset += (dur + gap) * sr;
     }
     const buf = await ctx.startRendering();
+    if (s.normalize) this.normalizeBuffer(buf);
     // Export WAV
     this.encodeWAV(buf, 'audio_atlas.wav');
-    // Export JSON
-    const json = JSON.stringify({atlas: 'audio_atlas.wav', sampleRate: sr, sprites}, null, 2);
-    const jBlob = new Blob([json], {type:'application/json'});
-    const jUrl = URL.createObjectURL(jBlob);
-    const ja = document.createElement('a');
-    ja.href = jUrl; ja.download = 'audio_atlas.json'; ja.click();
-    URL.revokeObjectURL(jUrl);
+    // Export sprite data in chosen format
+    const fmt = s.spriteFormat || 'json';
+    const label = `audio_atlas.wav`;
+    if (fmt === 'unity') {
+      let code = `// Saranta Audio Atlas — generated for Unity\n`;
+      code += `public static class SarantaAtlas {\n`;
+      code += `  public static readonly (string name, float start, float end)[] sprites = new (string, float, float)[] {\n`;
+      sprites.forEach(s => { code += `    ("${s.name}", ${s.start}f, ${s.end}f),\n`; });
+      code += `  };\n}\n`;
+      const blob = new Blob([code], {type:'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'SarantaAtlas.cs'; a.click();
+      URL.revokeObjectURL(url);
+    } else if (fmt === 'godot') {
+      let code = `[gd_resource type="AudioStreamRandomPitch" format=3]\n\n`;
+      code += `[resource]\n`;
+      code += `audio_stream = preload("res://${label}")\n`;
+      code += `sprites = [\n`;
+      sprites.forEach(s => { code += `  { "name": "${s.name}", "start_time": ${s.start}, "end_time": ${s.end} },\n`; });
+      code += `]\n`;
+      const blob = new Blob([code], {type:'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'audio_atlas.tres'; a.click();
+      URL.revokeObjectURL(url);
+    } else {
+      // Default: Saranta JSON
+      const json = JSON.stringify({atlas: label, sampleRate: sr, sprites}, null, 2);
+      const jBlob = new Blob([json], {type:'application/json'});
+      const jUrl = URL.createObjectURL(jBlob);
+      const ja = document.createElement('a');
+      ja.href = jUrl; ja.download = 'audio_atlas.json'; ja.click();
+      URL.revokeObjectURL(jUrl);
+    }
   }
 
-  async exportSound(s, format) {
+  async exportSound(s, format, filename) {
     const dur = this.dur(s);
     const sr = s.sampleReduction * 1000;
     const ctx = new OfflineAudioContext(1, Math.ceil(sr*(dur+0.3)), sr);
     this.build(ctx, s, 0, dur, null);
     const buf = await ctx.startRendering();
-    return this.encode(buf, format);
+    if (s.normalize) this.normalizeBuffer(buf);
+    return this.encode(buf, format, filename);
   }
 
-  encode(buf, format) {
-    if (format === 'wav') return this.encodeWAV(buf);
-    if (format === 'mp3') return this.encodeMP3(buf);
-    return this.encodeWAV(buf);
+  normalizeBuffer(buf) {
+    const ch = buf.numberOfChannels;
+    const len = buf.length;
+    let peak = 0;
+    for (let c = 0; c < ch; c++) {
+      const d = buf.getChannelData(c);
+      for (let i = 0; i < len; i++) {
+        const abs = Math.abs(d[i]);
+        if (abs > peak) peak = abs;
+      }
+    }
+    if (peak > 0 && peak < 1) {
+      const gain = 0.95 / peak;
+      for (let c = 0; c < ch; c++) {
+        const d = buf.getChannelData(c);
+        for (let i = 0; i < len; i++) d[i] *= gain;
+      }
+    }
+  }
+
+  encode(buf, format, filename) {
+    if (format === 'wav') return this.encodeWAV(buf, filename);
+    if (format === 'mp3') return this.encodeMP3(buf, filename);
+    return this.encodeWAV(buf, filename);
   }
 
   encodeWAV(buf, filename) {
     const ch = buf.numberOfChannels;
     const sr = buf.sampleRate;
     const len = buf.length;
-    const data = buf.getChannelData(0);
+    const channels = Array.from({length:ch}, (_,c)=>buf.getChannelData(c));
     const bps = 16;
     const bps2 = bps/8;
     const ba = ch * bps2;
@@ -610,8 +601,10 @@ class AudioEngine {
     ws(36, 'data'); v.setUint32(40, ds, true);
 
     for (let i=0; i<len; i++) {
-      const s = Math.max(-1, Math.min(1, data[i]));
-      v.setInt16(44+i*bps2, s<0 ? s*0x8000 : s*0x7FFF, true);
+      for (let c=0; c<ch; c++) {
+        const s = Math.max(-1, Math.min(1, channels[c][i]));
+        v.setInt16(44 + i*ba + c*bps2, s<0 ? s*0x8000 : s*0x7FFF, true);
+      }
     }
 
     const blob = new Blob([ab], {type:'audio/wav'});
@@ -622,10 +615,10 @@ class AudioEngine {
     URL.revokeObjectURL(url);
   }
 
-  encodeMP3(buf) {
+  encodeMP3(buf, filename) {
     if (typeof lamejs === 'undefined') {
       console.warn('lamejs not loaded, using WAV');
-      return this.encodeWAV(buf);
+      return this.encodeWAV(buf, filename);
     }
     const ch = buf.numberOfChannels;
     const sr = buf.sampleRate;
@@ -655,6 +648,167 @@ class AudioEngine {
     a.href = url; a.download = `saranta-${Date.now()}.mp3`;
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  // ─── Refactored effect helpers ─────────────────────────────
+
+  applyEQ(ctx, node, s, t) {
+    if (s.eqLow !== 0 || s.eqMid !== 0 || s.eqHigh !== 0) {
+      const low = ctx.createBiquadFilter(); low.type='lowshelf'; low.frequency.value=320; low.gain.setValueAtTime(s.eqLow, t);
+      const mid = ctx.createBiquadFilter(); mid.type='peaking'; mid.frequency.value=1000; mid.Q.value=1; mid.gain.setValueAtTime(s.eqMid, t);
+      const high = ctx.createBiquadFilter(); high.type='highshelf'; high.frequency.value=3200; high.gain.setValueAtTime(s.eqHigh, t);
+      node.connect(low); low.connect(mid); mid.connect(high); return high;
+    }
+    return node;
+  }
+
+  applyCompressor(ctx, node, s, t) {
+    if (s.compThreshold < 0) {
+      const comp = ctx.createDynamicsCompressor();
+      comp.threshold.setValueAtTime(s.compThreshold, t);
+      comp.ratio.setValueAtTime(s.compRatio, t);
+      comp.attack.setValueAtTime(0.003, t);
+      comp.release.setValueAtTime(0.25, t);
+      node.connect(comp); return comp;
+    }
+    return node;
+  }
+
+  applyDistortion(ctx, node, s, t) {
+    if (s.distortion > 0) {
+      const ws = ctx.createWaveShaper();
+      ws.curve = this.distCurve(s.distortion);
+      ws.oversample = '4x';
+      node.connect(ws); return ws;
+    }
+    return node;
+  }
+
+  applyBitcrush(ctx, node, s, t) {
+    const bc = this.bcCurve(s.bitcrush);
+    if (bc) {
+      const bcn = ctx.createWaveShaper();
+      bcn.curve = bc;
+      node.connect(bcn); return bcn;
+    }
+    return node;
+  }
+
+  applyHardClip(ctx, node, s, t) {
+    if (s.hardClip > 0) {
+      const clip = ctx.createWaveShaper();
+      const n = 44100;
+      const c = new Float32Array(n);
+      const th = 1 - s.hardClip;
+      for (let i = 0; i < n; i++) {
+        const x = (i * 2) / n - 1;
+        c[i] = x > th ? th : (x < -th ? -th : x);
+      }
+      clip.curve = c;
+      clip.oversample = '4x';
+      node.connect(clip); return clip;
+    }
+    return node;
+  }
+
+  applyChorus(ctx, node, s, t, dur) {
+    if (s.chorusRate > 0 && s.chorusDepth > 0 && s.chorusMix > 0) {
+      const cd = ctx.createDelay(0.05);
+      cd.delayTime.setValueAtTime(s.chorusDepth/1000, t);
+      const clfo = ctx.createOscillator();
+      clfo.type = 'sine'; clfo.frequency.setValueAtTime(s.chorusRate, t);
+      const clg = ctx.createGain();
+      clg.gain.setValueAtTime(s.chorusDepth/2000, t);
+      clfo.connect(clg); clg.connect(cd.delayTime);
+      const dry = ctx.createGain(); dry.gain.setValueAtTime(1-s.chorusMix*0.5, t);
+      const wet = ctx.createGain(); wet.gain.setValueAtTime(s.chorusMix*0.5, t);
+      node.connect(dry); node.connect(cd); cd.connect(wet);
+      const merge = ctx.createGain();
+      dry.connect(merge); wet.connect(merge);
+      clfo.start(t); clfo.stop(t+dur);
+      return merge;
+    }
+    return node;
+  }
+
+  applyPhaser(ctx, node, s, t, dur) {
+    if (s.phaserRate > 0 && s.phaserDepth > 0) {
+      const ap = ctx.createBiquadFilter();
+      ap.type = 'allpass'; ap.frequency.setValueAtTime(1000, t); ap.Q.setValueAtTime(s.phaserDepth*10, t);
+      const plfo = ctx.createOscillator();
+      plfo.type = 'sine'; plfo.frequency.setValueAtTime(s.phaserRate, t);
+      const plg = ctx.createGain(); plg.gain.setValueAtTime(800, t);
+      plfo.connect(plg); plg.connect(ap.frequency);
+      const pdry = ctx.createGain(); pdry.gain.setValueAtTime(1, t);
+      const pwet = ctx.createGain(); pwet.gain.setValueAtTime(s.phaserFeedback, t);
+      node.connect(pdry); node.connect(ap); ap.connect(pwet);
+      const pmerge = ctx.createGain();
+      pdry.connect(pmerge); pwet.connect(pmerge);
+      plfo.start(t); plfo.stop(t+dur);
+      return pmerge;
+    }
+    return node;
+  }
+
+  applyDelay(ctx, node, s, t) {
+    if (s.delayTime > 0) {
+      const d = ctx.createDelay(2);
+      d.delayTime.setValueAtTime(s.delayTime/1000, t);
+      const fb = ctx.createGain(); fb.gain.setValueAtTime(Math.min(0.95, s.delayFeedback), t);
+      const dry = ctx.createGain(); dry.gain.setValueAtTime(1, t);
+      const wet = ctx.createGain(); wet.gain.setValueAtTime(0.5, t);
+      node.connect(dry); node.connect(d);
+      d.connect(fb); fb.connect(d);
+      d.connect(wet);
+      const m = ctx.createGain();
+      dry.connect(m); wet.connect(m); return m;
+    }
+    return node;
+  }
+
+  applyReverb(ctx, node, s, t) {
+    if (s.reverbDecay > 0 && s.reverbMix > 0) {
+      const conv = ctx.createConvolver();
+      conv.buffer = this.revIR(ctx, s.reverbDecay);
+      const rdry = ctx.createGain(); rdry.gain.setValueAtTime(1-s.reverbMix*0.5, t);
+      const rwet = ctx.createGain(); rwet.gain.setValueAtTime(s.reverbMix*0.5, t);
+      node.connect(rdry); node.connect(conv); conv.connect(rwet);
+      const rm = ctx.createGain();
+      rdry.connect(rm); rwet.connect(rm); return rm;
+    }
+    return node;
+  }
+
+  applyEnvDistance(ctx, node, s, t) {
+    if (s.envPreset !== 'none') {
+      const envConv = ctx.createConvolver();
+      envConv.buffer = this.envIR(ctx, s.envPreset);
+      const distFilt = ctx.createBiquadFilter();
+      distFilt.type = 'lowpass';
+      const distCutoff = 20000 * Math.pow(0.5, s.distance/50);
+      distFilt.frequency.setValueAtTime(Math.max(200, distCutoff), t);
+      const wetGain = ctx.createGain();
+      const distMix = s.distance / 100;
+      wetGain.gain.setValueAtTime(distMix, t);
+      const dryGain = ctx.createGain();
+      dryGain.gain.setValueAtTime(1-distMix*0.5, t);
+      node.connect(distFilt); distFilt.connect(envConv); envConv.connect(wetGain);
+      node.connect(dryGain);
+      const distMerge = ctx.createGain();
+      dryGain.connect(distMerge); wetGain.connect(distMerge);
+      return distMerge;
+    }
+    return node;
+  }
+
+  applyAirAbsorb(ctx, node, s, t) {
+    if (s.airAbsorb > 0) {
+      const air = ctx.createBiquadFilter();
+      air.type = 'lowpass';
+      air.frequency.setValueAtTime(20000 * (1-s.airAbsorb*0.9), t);
+      node.connect(air); return air;
+    }
+    return node;
   }
 }
 
